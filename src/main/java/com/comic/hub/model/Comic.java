@@ -1,5 +1,13 @@
 package com.comic.hub.model;
 
-public class Comic {
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor
+@Setter
+@Getter
+// yonose
+public class Comic {
+	
 }
