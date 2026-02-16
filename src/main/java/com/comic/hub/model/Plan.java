@@ -7,14 +7,14 @@ import lombok.Setter;
 
 
 
-@Entity
-@Table(name = "tb_plan")
 
 //Lombook
 @Getter
 @Setter
 @NoArgsConstructor
 
+@Entity
+@Table(name = "tb_plan")
 public class Plan {
 	
 	
