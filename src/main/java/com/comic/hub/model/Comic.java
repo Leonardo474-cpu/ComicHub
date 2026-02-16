@@ -1,5 +1,6 @@
 package com.comic.hub.model;
 
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Comic {
 
-	
 	
 	@Id
 	@GeneratedValue(strategy =   GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class Comic {
 	
 	@ManyToOne
     @JoinColumn(name = "id_categoria")
-	private Integer idCategoria;
-	
+	private Categoria Categoria;
 	
 }
+
