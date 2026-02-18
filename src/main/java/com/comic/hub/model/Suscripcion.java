@@ -1,5 +1,7 @@
 package com.comic.hub.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,16 +16,27 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name = "tb_rol")
-public class Rol {
+@Table(name = "tb_suscripcion")
+public class Suscripcion {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_rol")
-	private int codRol;
+	@Column(name = "id_suscripcion")
+	private int id_suscripcion;
 	
-	@Column(name = "nombre")
-	private String nombreRol;
+	@Column(name = "fecha_inicio")
+	private LocalDate fecha_inicio;
 	
+	@Column(name = "fecha_fin")
+	private LocalDate fecha_fin;
 	
+	@Column(name = "estado")
+	private String estado;
+	
+	@Column(name = "id_usuario")
+	private int id_usuario;
+	
+	@Column(name = "id_plan")
+	private int id_plan;
+
 }
