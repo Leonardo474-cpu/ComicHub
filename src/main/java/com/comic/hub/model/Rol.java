@@ -24,6 +24,25 @@ public class Rol {
 	
 	@Column(name = "nombre")
 	private String nombreRol;
+
+	public Rol() {}
+
+	public int getCodRol() {
+		return codRol;
+	}
+
+	public void setCodRol(int codRol) {
+		this.codRol = codRol;
+	}
+
+	public String getNombreRol() {
+		return nombreRol;
+	}
+
+	public void setNombreRol(String nombreRol) {
+		this.nombreRol = nombreRol;
+	}
+	
 	
 	
 }

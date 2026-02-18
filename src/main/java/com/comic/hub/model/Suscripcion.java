@@ -39,4 +39,54 @@ public class Suscripcion {
 	@Column(name = "id_plan")
 	private int id_plan;
 
+	public Suscripcion() {}
+
+	public int getId_suscripcion() {
+		return id_suscripcion;
+	}
+
+	public void setId_suscripcion(int id_suscripcion) {
+		this.id_suscripcion = id_suscripcion;
+	}
+
+	public LocalDate getFecha_inicio() {
+		return fecha_inicio;
+	}
+
+	public void setFecha_inicio(LocalDate fecha_inicio) {
+		this.fecha_inicio = fecha_inicio;
+	}
+
+	public LocalDate getFecha_fin() {
+		return fecha_fin;
+	}
+
+	public void setFecha_fin(LocalDate fecha_fin) {
+		this.fecha_fin = fecha_fin;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public int getId_usuario() {
+		return id_usuario;
+	}
+
+	public void setId_usuario(int id_usuario) {
+		this.id_usuario = id_usuario;
+	}
+
+	public int getId_plan() {
+		return id_plan;
+	}
+
+	public void setId_plan(int id_plan) {
+		this.id_plan = id_plan;
+	}
+
 }

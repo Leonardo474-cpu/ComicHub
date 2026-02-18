@@ -5,10 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-
-
-//Lombook
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,4 +28,39 @@ public class Plan {
 	@Column(name = " dias_duracion")
 	private Integer diasDuracion;
 
+	public Plan() {}
+
+	public Integer getIdPlan() {
+		return idPlan;
+	}
+
+	public void setIdPlan(Integer idPlan) {
+		this.idPlan = idPlan;
+	}
+
+	public String getNombrePlan() {
+		return nombrePlan;
+	}
+
+	public void setNombrePlan(String nombrePlan) {
+		this.nombrePlan = nombrePlan;
+	}
+
+	public Double getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(Double precio) {
+		this.precio = precio;
+	}
+
+	public Integer getDiasDuracion() {
+		return diasDuracion;
+	}
+
+	public void setDiasDuracion(Integer diasDuracion) {
+		this.diasDuracion = diasDuracion;
+	}
+
+	
 }
