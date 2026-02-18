@@ -8,9 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter; 
 
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
 @Table(name = "tb_usuario")
 public class Usuario {
@@ -37,6 +34,49 @@ public class Usuario {
     @JoinColumn(name = "id_rol")
     @NotNull(message = "Debe seleccionar un rol")
     private Rol rol;
+    
+    public Usuario() {
+    	
+    }
 
+	public Integer getId() {
+		return id;
+	}
 
+	public String getNombreCompleto() {
+		return nombreCompleto;
+	}
+
+	public String getCorreo() {
+		return correo;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public Rol getRol() {
+		return rol;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setNombreCompleto(String nombreCompleto) {
+		this.nombreCompleto = nombreCompleto;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
+    
 }

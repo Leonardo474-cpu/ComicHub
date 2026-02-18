@@ -10,9 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@Setter
-@Getter
 @Entity
 @Table(name = "tb_rol")
 public class Rol {
@@ -25,5 +22,23 @@ public class Rol {
 	@Column(name = "nombre")
 	private String nombreRol;
 	
+	public Rol() {
+	}
+
+	public int getCodRol() {
+		return codRol;
+	}
+
+	public String getNombreRol() {
+		return nombreRol;
+	}
+
+	public void setCodRol(int codRol) {
+		this.codRol = codRol;
+	}
+
+	public void setNombreRol(String nombreRol) {
+		this.nombreRol = nombreRol;
+	}
 	
 }

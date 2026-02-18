@@ -1,31 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Formulario Usuario</title>
 </head>
+
 <body>
 
-	<form th:action="@{/usuarios/guardar}" th:object="${usuario}"
-		method="post">
+	<h2 th:text="${usuario.id == null ? 'Registrar Usuario' : 'Editar Usuario'}"></h2>
 
-		<input type="hidden" th:field="*{id}"> <label>Nombre:</label>
-		<input type="text" th:field="*{nombreCompleto}"> <small
-			th:if="${#fields.hasErrors('nombreCompleto')}"
-			th:errors="*{nombreCompleto}"></small> <label>Correo:</label> <input
-			type="email" th:field="*{correo}"> <small
-			th:errors="*{correo}"></small> <label>Contraseña:</label> <input
-			type="password" th:field="*{password}"> <small
-			th:errors="*{password}"></small> <label>Rol:</label> <select
-			th:field="*{rol}">
+	<form th:action="@{/usuarios/guardar}"
+	      th:object="${usuario}"
+	      method="post">
+
+		<input type="hidden" th:field="*{id}" />
+
+		<label>Nombre:</label>
+		<input type="text" th:field="*{nombreCompleto}" />
+		<small th:errors="*{nombreCompleto}"></small>
+		<br><br>
+
+		<label>Correo:</label>
+		<input type="email" th:field="*{correo}" />
+		<small th:errors="*{correo}"></small>
+		<br><br>
+
+		<label>Rol:</label>
+		<select th:field="*{rol}">
 			<option value="">-- Seleccione --</option>
-			<option th:each="r : ${roles}" th:value="${r}" th:text="${r.nombre}">
+			<option th:each="r : ${roles}"
+			        th:value="${r.codRol}"
+			        th:text="${r.nombreRol}">
 			</option>
-		</select> <small th:errors="*{rol}"></small>
+		</select>
+		<small th:errors="*{rol}"></small>
+		<br><br>
 
 		<button type="submit">Guardar</button>
-	</form>
 
+		<a th:href="@{/usuarios/listar}">
+			<button type="button">Volver al listado</button>
+		</a>
+
+	</form>
 
 </body>
 </html>
