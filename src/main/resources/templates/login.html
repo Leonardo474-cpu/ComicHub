@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login ComicHub</title>
+    <style>
+        /* Fondo y tipografía */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Contenedor del formulario */
+        .login-container {
+            background: rgba(0,0,0,0.6);
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: #ffd700;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 12px 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 6px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input[type="email"]:focus, input[type="password"]:focus {
+            box-shadow: 0 0 5px #ffd700;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: #ffd700;
+            color: #000;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #ffec8b;
+        }
+
+        p[th\\:if] {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #ff4c4c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Iniciar Sesión</h2>
+
+    <form th:action="@{/login}" method="post">
+        <label>Correo:</label>
+        <input type="email" name="correo" placeholder="tu correo" required>
+
+        <label>Contraseña:</label>
+        <input type="password" name="password" placeholder="tu contraseña" required>
+
+        <button type="submit">Ingresar</button>
+    </form>
+
+    <p th:if="${error}" th:text="${error}"></p>
+</div>
+
+</body>
+</html>

@@ -32,4 +32,6 @@ public class Plan {
 	@Column(name = " dias_duracion")
 	private Integer diasDuracion;
 
+	
+	
 }
