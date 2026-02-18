@@ -1,31 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Registro ComicHub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1f1c2c, #928dab);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background: rgba(0,0,0,0.6);
+            padding: 40px 50px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: #ffd700;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 12px 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 6px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+            box-shadow: 0 0 5px #ffd700;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: #ffd700;
+            color: #000;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #ffec8b;
+        }
+
+        small {
+            color: #ff4c4c;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .login-link {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 
-	<form th:action="@{/usuarios/guardar}" th:object="${usuario}"
-		method="post">
+<div class="form-container">
+    <h2>Registro Usuario</h2>
 
-		<input type="hidden" th:field="*{id}"> <label>Nombre:</label>
-		<input type="text" th:field="*{nombreCompleto}"> <small
-			th:if="${#fields.hasErrors('nombreCompleto')}"
-			th:errors="*{nombreCompleto}"></small> <label>Correo:</label> <input
-			type="email" th:field="*{correo}"> <small
-			th:errors="*{correo}"></small> <label>Contraseña:</label> <input
-			type="password" th:field="*{password}"> <small
-			th:errors="*{password}"></small> <label>Rol:</label> <select
-			th:field="*{rol}">
-			<option value="">-- Seleccione --</option>
-			<option th:each="r : ${roles}" th:value="${r}" th:text="${r.nombre}">
-			</option>
-		</select> <small th:errors="*{rol}"></small>
+    <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post">
 
-		<button type="submit">Guardar</button>
-	</form>
+        <input type="hidden" th:field="*{id}">
 
+        <label>Nombre Completo:</label>
+        <input type="text" th:field="*{nombreCompleto}" placeholder="Tu nombre completo">
+        <small th:if="${#fields.hasErrors('nombreCompleto')}" th:errors="*{nombreCompleto}"></small>
+
+        <label>Correo:</label>
+        <input type="email" th:field="*{correo}" placeholder="Tu correo">
+        <small th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></small>
+
+        <label>Contraseña:</label>
+        <input type="password" th:field="*{password}" placeholder="Tu contraseña">
+        <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+
+        <button type="submit">Registrarse</button>
+    </form>
+
+    <div class="login-link">
+        ¿Ya tienes cuenta? <a th:href="@{/login}">Inicia sesión</a>
+    </div>
+</div>
 
 </body>
 </html>
