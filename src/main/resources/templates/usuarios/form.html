@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<form th:action="@{/usuarios/guardar}" th:object="${usuario}"
+		method="post">
+
+		<input type="hidden" th:field="*{id}"> <label>Nombre:</label>
+		<input type="text" th:field="*{nombreCompleto}"> <small
+			th:if="${#fields.hasErrors('nombreCompleto')}"
+			th:errors="*{nombreCompleto}"></small> <label>Correo:</label> <input
+			type="email" th:field="*{correo}"> <small
+			th:errors="*{correo}"></small> <label>Contraseña:</label> <input
+			type="password" th:field="*{password}"> <small
+			th:errors="*{password}"></small> <label>Rol:</label> <select
+			th:field="*{rol}">
+			<option value="">-- Seleccione --</option>
+			<option th:each="r : ${roles}" th:value="${r}" th:text="${r.nombre}">
+			</option>
+		</select> <small th:errors="*{rol}"></small>
+
+		<button type="submit">Guardar</button>
+	</form>
+
+
+</body>
+</html>

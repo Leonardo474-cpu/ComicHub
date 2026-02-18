@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>Nombre</th>
+			<th>Correo</th>
+			<th>Rol</th>
+			<th>Acciones</th>
+		</tr>
+
+		<tr th:each="u : ${usuarios}">
+			<td th:text="${u.nombreCompleto}"></td>
+			<td th:text="${u.correo}"></td>
+			<td th:text="${u.rol.nombre}"></td>
+
+			<td><a th:href="@{/usuarios/editar/{id}(id=${u.id})}"
+				sec:authorize="hasRole('ADMIN')">Editar</a> <a href="#"
+				sec:authorize="hasRole('ADMIN')"
+				th:onclick="'confirmar('+${u.id}+')'">Eliminar</a></td>
+		</tr>
+	</table>
+
+	<script>
+		function confirmar(id) {
+			if (confirm("¿Está seguro de eliminar el usuario?")) {
+				window.location = "/usuarios/eliminar/" + id;
+			}
+		}
+	</script>
+</body>
+</html>
