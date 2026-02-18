@@ -19,6 +19,11 @@ public class UsuarioService {
     }
 
     public Usuario guardar(Usuario usuario) {
+        if (usuario.getId() != null) {
+            Usuario existente = repo.findById(usuario.getId()).orElse(null);
+
+            usuario.setPassword(existente.getPassword());
+        }
         return repo.save(usuario);
     }
 

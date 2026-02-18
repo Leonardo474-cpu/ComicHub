@@ -26,7 +26,6 @@ public class Usuario {
     @Column(name = "correo", unique = true)
     private String correo;
 
-    @NotBlank(message = "La contraseña es obligatoria")
     @Column(name = "password")
     private String password;
 
