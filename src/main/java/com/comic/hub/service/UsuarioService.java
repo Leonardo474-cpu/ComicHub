@@ -32,7 +32,7 @@ public class UsuarioService {
     }
 
     public void eliminar(Integer id) {
-        repo.deleteById(id);
+        repo.deleteById(id); 
     }
     
     
