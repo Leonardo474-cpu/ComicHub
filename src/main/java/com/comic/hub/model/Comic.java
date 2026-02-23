@@ -2,16 +2,10 @@ package com.comic.hub.model;
 
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "tb_comic")
 
-@Getter
-@Setter
-@NoArgsConstructor
 public class Comic {
 
 	

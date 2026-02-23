@@ -6,10 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Entity
 @Table(name = "tb_rol")
 public class Rol {
@@ -34,26 +30,6 @@ public class Rol {
 
 	public String getNombreRol() {
 		return nombreRol;
-	}
-
-	public void setNombreRol(String nombreRol) {
-		this.nombreRol = nombreRol;
-	}
-	
-	
-	public Rol() {
-	}
-
-	public int getCodRol() {
-		return codRol;
-	}
-
-	public String getNombreRol() {
-		return nombreRol;
-	}
-
-	public void setCodRol(int codRol) {
-		this.codRol = codRol;
 	}
 
 	public void setNombreRol(String nombreRol) {
