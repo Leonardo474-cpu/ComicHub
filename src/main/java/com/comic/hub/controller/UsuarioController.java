@@ -35,8 +35,19 @@ public class UsuarioController {
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("usuario", new Usuario());
-        model.addAttribute("roles", rolRepo.findAll());
-        return "usuarios/form";
+        return "usuarios/nuevo";
+    }
+    
+    @PostMapping("/registrar")
+    public String registrar(@Valid @ModelAttribute Usuario usuario,
+                            BindingResult br) {
+
+        if (br.hasErrors()) {
+            return "usuarios/nuevo";
+        }
+
+        usuarioService.registrar(usuario);
+        return "redirect:/login"; 
     }
 
     @PostMapping("/guardar")
@@ -52,6 +63,7 @@ public class UsuarioController {
         usuarioService.guardar(usuario);
         return "redirect:/usuarios/listar";
     }
+    
 
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Integer id, Model model) {
