@@ -4,10 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter; 
-
 @Entity
 @Table(name = "tb_usuario")
 public class Usuario {
@@ -24,7 +20,7 @@ public class Usuario {
     @Email(message = "Correo inválido")
     @NotBlank(message = "El correo es obligatorio")
     @Column(name = "correo", unique = true)
-    private String correo;
+	private String correo;
 
     @Column(name = "password")
     private String password;
@@ -40,6 +36,7 @@ public class Usuario {
 
 	public Integer getId() {
 		return id;
+
 	}
 
 	public String getNombreCompleto() {

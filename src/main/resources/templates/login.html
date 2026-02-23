@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Registro ComicHub</title>
+    <title>Login ComicHub</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -14,8 +14,7 @@
             height: 100vh;
             margin: 0;
         }
-
-        .form-container {
+        .login-container {
             background: rgba(0,0,0,0.6);
             padding: 40px 50px;
             border-radius: 12px;
@@ -23,21 +22,18 @@
             width: 350px;
             text-align: center;
         }
-
         h2 {
             margin-bottom: 30px;
             font-size: 28px;
             color: #ffd700;
             text-shadow: 1px 1px 2px #000;
         }
-
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
         }
-
-        input[type="text"], input[type="email"], input[type="password"] {
+        input[type="email"], input[type="password"] {
             width: 100%;
             padding: 12px 10px;
             margin-bottom: 20px;
@@ -46,11 +42,9 @@
             outline: none;
             font-size: 14px;
         }
-
-        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+        input[type="email"]:focus, input[type="password"]:focus {
             box-shadow: 0 0 5px #ffd700;
         }
-
         button {
             width: 100%;
             padding: 12px;
@@ -63,60 +57,41 @@
             cursor: pointer;
             transition: 0.3s;
         }
-
         button:hover {
             background-color: #ffec8b;
         }
-
-        small {
-            color: #ff4c4c;
-            display: block;
-            margin-bottom: 10px;
-        }
-
-        .login-link {
+        p[th\\:if] {
             margin-top: 15px;
-            font-size: 14px;
+            font-weight: bold;
+            color: #ff4c4c;
         }
-
-        .login-link a {
+        .register-link {
+            margin-top: 15px;
+            display: block;
             color: #ffd700;
             text-decoration: none;
         }
-
-        .login-link a:hover {
+        .register-link:hover {
             text-decoration: underline;
         }
     </style>
 </head>
-
 <body>
-
-<div class="form-container">
-    <h2>Registro Usuario</h2>
-
-    <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post">
-
-        <input type="hidden" th:field="*{id}">
-
-        <label>Nombre Completo:</label>
-        <input type="text" th:field="*{nombreCompleto}" placeholder="Tu nombre completo">
-        <small th:if="${#fields.hasErrors('nombreCompleto')}" th:errors="*{nombreCompleto}"></small>
-
+<div class="login-container">
+    <h2>Iniciar Sesión</h2>
+    <form th:action="@{/login}" method="post">
         <label>Correo:</label>
-        <input type="email" th:field="*{correo}" placeholder="Tu correo">
-        <small th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></small>
+        <input type="email" name="correo" placeholder="tu correo" required>
 
         <label>Contraseña:</label>
-        <input type="password" th:field="*{password}" placeholder="Tu contraseña">
-        <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+        <input type="password" name="password" placeholder="tu contraseña" required>
 
-        <button type="submit">Registrarse</button>
+        <button type="submit">Ingresar</button>
     </form>
 
-    <div class="login-link">
-        ¿Ya tienes cuenta? <a th:href="@{/login}">Inicia sesión</a>
-    </div>
+    <p th:if="${error}" th:text="${error}"></p>
+
+    <a class="register-link" th:href="@{/usuarios/nuevo}">¿No tienes cuenta? Regístrate aquí</a>
 </div>
 </body>
 </html>

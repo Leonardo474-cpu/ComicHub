@@ -1,13 +1,8 @@
 package com.comic.hub.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
+
 @Entity
 @Table(name = "tb_categoria")
 public class Categoria {
@@ -20,4 +15,26 @@ public class Categoria {
     @Column(name = "descripcion", length = 50, nullable = false)
     private String descripcion;
 
+	public Categoria() {}
+
+	public Integer getIdCategoria() {
+		return idCategoria;
+	}
+
+	public void setIdCategoria(Integer idCategoria) {
+		this.idCategoria = idCategoria;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+	
+	
+
+    
+    
 }
