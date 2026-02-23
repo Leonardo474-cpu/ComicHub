@@ -15,7 +15,7 @@ public class LoginController {
     private UsuarioService usuarioService;
 
     // =========================
-    // 🔹 MOSTRAR LOGIN
+    //  MOSTRAR LOGIN
     // =========================
     @GetMapping("/login")
     public String mostrarLogin() {
@@ -23,7 +23,7 @@ public class LoginController {
     }
 
     // =========================
-    // 🔹 PROCESAR LOGIN
+    //  PROCESAR LOGIN
     // =========================
     @PostMapping("/login")
     public String procesarLogin(@RequestParam String correo,
@@ -34,7 +34,7 @@ public class LoginController {
 
             Usuario usuario = usuarioService.login(correo, password);
 
-            // 🔥 Redirección por rol
+            //  Redirección por rol
             if (usuario.getRol().getNombreRol().equals("ADMIN")) {
                 return "redirect:/usuarios/listar";
             } else {
@@ -48,3 +48,12 @@ public class LoginController {
         }
     }
 }
+
+
+
+
+
+
+
+
+
