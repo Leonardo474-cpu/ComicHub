@@ -24,7 +24,7 @@ public class Usuario {
     @Email(message = "Correo inválido")
     @NotBlank(message = "El correo es obligatorio")
     @Column(name = "correo", unique = true)
-    private String correo;
+	private String correo;
 
     @Column(name = "password")
     private String password;
@@ -40,6 +40,7 @@ public class Usuario {
 
 	public Integer getId() {
 		return id;
+
 	}
 
 	public String getNombreCompleto() {
