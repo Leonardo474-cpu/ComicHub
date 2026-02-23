@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.comic.hub.model.Rol;
 import com.comic.hub.model.Usuario;
+import com.comic.hub.repository.RolRepository;
 import com.comic.hub.repository.UsuarioRepository;
 
 @Service
@@ -13,6 +15,9 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository repo;
+    
+    @Autowired
+    private RolRepository rolRepo;
 
     public List<Usuario> listarTodos() {
         return repo.findAll();
@@ -36,20 +41,13 @@ public class UsuarioService {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
  // =========================
     // 🔥 MÉTODO AGREGADO PARA LOGIN 
     // =========================
     public Usuario login(String correo, String password) {
 
         // Busca usuario por correo
-        Usuario usuario = repo.findByCorreo(correo) //el repo.find viene del   @Autowired que le asigna el nombre de repo por eso no va UsuarioRepository
+        Usuario usuario = repo.findByCorreo(correo) 
                 .orElseThrow(() -> new RuntimeException("Correo incorrecto"));
 
         // Valida contraseña
@@ -61,6 +59,14 @@ public class UsuarioService {
         return usuario;
     }
     
+    
+    // ✅ REGISTRO (PUBLICO)
+    public void registrar(Usuario usuario) {
+        Rol rolCliente = rolRepo.findByNombreRol("CLIENTE");
+        usuario.setRol(rolCliente);
+
+        repo.save(usuario);
+    }
     
     
 }

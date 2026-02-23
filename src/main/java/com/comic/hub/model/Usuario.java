@@ -3,7 +3,6 @@ package com.comic.hub.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "tb_usuario")
 public class Usuario {
@@ -27,7 +26,6 @@ public class Usuario {
 
     @ManyToOne
     @JoinColumn(name = "id_rol")
-    @NotNull(message = "Debe seleccionar un rol")
     private Rol rol;
     
     public Usuario() {

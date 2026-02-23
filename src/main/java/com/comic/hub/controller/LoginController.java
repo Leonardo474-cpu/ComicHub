@@ -36,7 +36,7 @@ public class LoginController {
 
             // 🔥 Redirección por rol
             if (usuario.getRol().getNombreRol().equals("ADMIN")) {
-                return "redirect:/admin";
+                return "redirect:/usuarios/listar";
             } else {
                 return "redirect:/home";
             }
