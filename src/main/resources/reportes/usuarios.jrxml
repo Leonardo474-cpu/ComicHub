@@ -1,0 +1,52 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="usuarios" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fa1284f3-3268-478e-aeea-a804e082dd77">
+	<query language="sql"><![CDATA[]]></query>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="nombreCompleto" class="java.lang.String"/>
+	<field name="correo" class="java.lang.String"/>
+	<field name="rol.getNombreRol" class="java.lang.String"/>
+	<background splitType="Stretch"/>
+	<title height="79" splitType="Stretch">
+		<element kind="textField" uuid="124f349e-833d-46cf-80fd-7fa79520c195" x="140" y="0" width="300" height="50" fontSize="29.0">
+			<expression><![CDATA["Reporte de Usuarios "]]></expression>
+		</element>
+	</title>
+	<columnHeader height="31" splitType="Stretch">
+		<element kind="staticText" uuid="cc80d56e-2bbe-49f0-94b7-4501547601d2" x="0" y="0" width="100" height="30">
+			<text><![CDATA[id]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="523da662-83dd-4a6d-8f4f-98eaa8a34e80"/>
+		</element>
+		<element kind="staticText" uuid="6b5adb37-e672-4aa8-bc97-1bdffa54efb7" x="110" y="0" width="100" height="30">
+			<text><![CDATA[nombreCompleto]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d432aa70-48f0-4b1c-b295-6cd68e385a55"/>
+		</element>
+		<element kind="staticText" uuid="91f77924-8c50-4982-88bb-577b068210ee" x="220" y="1" width="100" height="30">
+			<text><![CDATA[correo]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1d054efa-6c03-4b62-b9a7-429b25c87518"/>
+		</element>
+		<element kind="staticText" uuid="f7dc675b-093c-4862-9050-269f69226fed" x="407" y="0" width="100" height="30">
+			<text><![CDATA[rol.getNombreRol]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="103b78ca-7c84-40e0-afe8-5da28537e8cc"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<element kind="textField" uuid="051e5d47-74f0-4026-b39c-061209e4e770" x="0" y="6" width="100" height="30">
+				<expression><![CDATA[$F{id}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="523da662-83dd-4a6d-8f4f-98eaa8a34e80"/>
+			</element>
+			<element kind="textField" uuid="5fe417d9-9a91-47c3-acd5-9e4a0bee2889" x="110" y="6" width="100" height="30">
+				<expression><![CDATA[$F{nombreCompleto}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d432aa70-48f0-4b1c-b295-6cd68e385a55"/>
+			</element>
+			<element kind="textField" uuid="5c7809a9-f328-4c6f-b180-366eeee3f1af" x="220" y="5" width="100" height="30">
+				<expression><![CDATA[$F{correo}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1d054efa-6c03-4b62-b9a7-429b25c87518"/>
+			</element>
+			<element kind="textField" uuid="cce13ea7-6da6-464c-ba44-d54054f72caf" x="330" y="6" width="100" height="30">
+				<expression><![CDATA[$F{rol.getNombreRol}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="103b78ca-7c84-40e0-afe8-5da28537e8cc"/>
+			</element>
+		</band>
+	</detail>
+</jasperReport>
