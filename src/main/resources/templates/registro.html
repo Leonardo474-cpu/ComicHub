@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - ComicHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+<div class="relative isolate min-h-screen overflow-hidden px-6 py-10">
+    <div class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,_rgba(14,165,233,0.25),transparent_45%),radial-gradient(circle_at_bottom_left,_rgba(16,185,129,0.2),transparent_40%),linear-gradient(to_bottom,_#020617,_#0f172a)]"></div>
+
+    <div class="mx-auto max-w-2xl">
+        <header class="mb-8">
+            <h1 class="text-3xl font-semibold tracking-tight">Registro de Usuario</h1>
+            <p class="mt-2 text-sm text-slate-400">Crea tu cuenta para ingresar a ComicHub.</p>
+        </header>
+
+        <div class="rounded-2xl border border-white/10 bg-slate-900/60 p-6 shadow-2xl shadow-slate-950/40 sm:p-8">
+            <form th:action="@{/registro}" th:object="${usuario}" method="post" class="space-y-5">
+                <div th:replace="~{usuarios/components/usuario-form-fields :: campos(true, false)}"></div>
+
+                <div class="flex flex-wrap items-center gap-3 pt-2">
+                    <button type="submit"
+                            class="rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400">
+                        Registrar
+                    </button>
+                    <a th:href="@{/login}"
+                       class="rounded-xl border border-slate-700 px-5 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-slate-500 hover:bg-slate-800">
+                        Volver a login
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

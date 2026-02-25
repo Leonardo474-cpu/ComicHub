@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/components/layout :: layout('Dashboard - Admin', 'Dashboard', 'Resumen general de administración.', 'dashboard', ~{::section})}">
+<section>
+    <div class="grid gap-6 lg:grid-cols-3">
+        <article class="lg:col-span-2 rounded-2xl border border-cyan-400/20 bg-gradient-to-br from-cyan-500/20 to-slate-900/70 p-6 shadow-2xl shadow-slate-950/40">
+            <p class="text-xs font-semibold uppercase tracking-widest text-cyan-200">Bienvenido</p>
+            <h2 class="mt-3 text-3xl font-bold tracking-tight text-white">
+                <span th:text="${nombre}">Nombre</span>
+                <span th:text="${apellido}">Apellido</span>
+            </h2>
+            <p class="mt-3 text-sm text-slate-300">Sesión activa como administrador de ComicHub.</p>
+        </article>
+
+        <article class="rounded-2xl border border-white/10 bg-slate-900/60 p-6 shadow-2xl shadow-slate-950/40">
+            <p class="text-xs font-semibold uppercase tracking-widest text-slate-400">Cuenta</p>
+            <p class="mt-3 text-lg font-semibold text-white" th:text="${nombreCompleto}">Administrador</p>
+            <p class="mt-2 text-sm text-slate-400">Usa el menú lateral para gestionar usuarios.</p>
+        </article>
+    </div>
+</section>
+</html>

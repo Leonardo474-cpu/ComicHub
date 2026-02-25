@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/components/layout :: layout('Formulario de Usuario - Admin', ${usuario.id == null ? 'Registrar Usuario' : 'Editar Usuario'}, 'Gestiona información general y rol del usuario.', 'usuarios', ~{::section})}">
+<section>
+    <div class="mx-auto max-w-2xl rounded-2xl border border-white/10 bg-slate-900/60 p-6 shadow-2xl shadow-slate-950/40 sm:p-8">
+        <form th:action="@{/admin/usuarios/guardar}" th:object="${usuario}" method="post" class="space-y-5">
+            <input type="hidden" th:field="*{id}">
+
+            <div th:replace="~{usuarios/components/usuario-form-fields :: campos(false, true)}"></div>
+
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+                <button type="submit"
+                        class="rounded-xl bg-cyan-500 px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400">
+                    Guardar
+                </button>
+                <a th:href="@{/admin/usuarios}"
+                   class="rounded-xl border border-slate-700 px-5 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-slate-500 hover:bg-slate-800">
+                    Volver al listado
+                </a>
+            </div>
+        </form>
+    </div>
+</section>
+</html>

@@ -1,18 +1,24 @@
 package com.comic.hub.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.comic.hub.model.Usuario;
 import com.comic.hub.service.UsuarioService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class LoginController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
+
+    public LoginController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
 
     // =========================
     //  MOSTRAR LOGIN
@@ -28,15 +34,17 @@ public class LoginController {
     @PostMapping("/login")
     public String procesarLogin(@RequestParam String correo,
                                 @RequestParam String password,
-                                Model model) {
+                                Model model,
+                                HttpSession session) {
 
         try {
 
             Usuario usuario = usuarioService.login(correo, password);
+            session.setAttribute("usuarioLogueado", usuario);
 
             //  Redirección por rol
             if (usuario.getRol().getNombreRol().equals("ADMIN")) {
-                return "redirect:/usuarios/listar";
+                return "redirect:/admin";
             } else {
                 return "redirect:/home";
             }
@@ -48,11 +56,6 @@ public class LoginController {
         }
     }
 }
-
-
-
-
-
 
 
 

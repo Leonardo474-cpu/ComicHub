@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="campos(mostrarPassword, mostrarRol)">
+    <div>
+        <label for="nombreCompleto" class="mb-2 block text-sm font-medium text-slate-200">Nombre completo</label>
+        <input id="nombreCompleto" type="text" th:field="*{nombreCompleto}"
+               class="w-full rounded-xl border border-slate-700 bg-slate-900/70 px-4 py-2.5 text-slate-100 placeholder-slate-500 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring"
+               placeholder="Ej. Peter Parker">
+        <p class="mt-1 text-sm text-rose-300" th:if="${#fields.hasErrors('nombreCompleto')}" th:errors="*{nombreCompleto}"></p>
+    </div>
+
+    <div>
+        <label for="correo" class="mb-2 block text-sm font-medium text-slate-200">Correo</label>
+        <input id="correo" type="email" th:field="*{correo}"
+               class="w-full rounded-xl border border-slate-700 bg-slate-900/70 px-4 py-2.5 text-slate-100 placeholder-slate-500 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring"
+               placeholder="usuario@correo.com">
+        <p class="mt-1 text-sm text-rose-300" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></p>
+    </div>
+
+    <div th:if="${mostrarPassword}">
+        <label for="password" class="mb-2 block text-sm font-medium text-slate-200">Contraseña</label>
+        <input id="password" type="password" th:field="*{password}"
+               class="w-full rounded-xl border border-slate-700 bg-slate-900/70 px-4 py-2.5 text-slate-100 placeholder-slate-500 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring"
+               placeholder="••••••••">
+        <p class="mt-1 text-sm text-rose-300" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+    </div>
+
+    <div th:if="${mostrarRol}">
+        <label for="rol" class="mb-2 block text-sm font-medium text-slate-200">Rol</label>
+        <select id="rol" th:field="*{rolId}"
+                class="w-full rounded-xl border border-slate-700 bg-slate-900/70 px-4 py-2.5 text-slate-100 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring">
+            <option value="">-- Seleccione --</option>
+            <option th:each="r : ${roles}" th:value="${r.codRol}" th:text="${r.nombreRol}"></option>
+        </select>
+        <p class="mt-1 text-sm text-rose-300" th:if="${#fields.hasErrors('rolId')}" th:errors="*{rolId}"></p>
+    </div>
+</div>
+</body>
+</html>
