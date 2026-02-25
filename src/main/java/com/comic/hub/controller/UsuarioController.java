@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.comic.hub.model.Usuario;
+import com.comic.hub.dto.request.UsuarioAdminRequestDto;
+import com.comic.hub.dto.request.UsuarioRegistroRequestDto;
 import com.comic.hub.repository.RolRepository;
 import com.comic.hub.service.UsuarioService;
 
@@ -21,90 +21,91 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/usuarios")
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
+    private final RolRepository rolRepo;
 
-    @Autowired
-    private RolRepository rolRepo;
+    public UsuarioController(UsuarioService usuarioService, RolRepository rolRepo) {
+        this.usuarioService = usuarioService;
+        this.rolRepo = rolRepo;
+    }
 
-    @GetMapping("/listar")
+    @GetMapping("/admin/usuarios")
     public String listar(Model model) {
         model.addAttribute("usuarios", usuarioService.listarTodos());
-        return "usuarios/listar";
+        return "admin/usuarios";
     }
 
-    @GetMapping("/nuevo")
+    @GetMapping("/registro")
     public String nuevo(Model model) {
-        model.addAttribute("usuario", new Usuario());
-        return "usuarios/nuevo";
+        model.addAttribute("usuario", new UsuarioRegistroRequestDto());
+        return "registro";
     }
     
-    @PostMapping("/registrar")
-    public String registrar(@Valid @ModelAttribute Usuario usuario,
+    @PostMapping("/registro")
+    public String registrar(@Valid @ModelAttribute("usuario") UsuarioRegistroRequestDto usuario,
                             BindingResult br) {
 
         if (br.hasErrors()) {
-            return "usuarios/nuevo";
+            return "registro";
         }
 
         usuarioService.registrar(usuario);
         return "redirect:/login"; 
     }
 
-    @PostMapping("/guardar")
-    public String guardar(@Valid @ModelAttribute Usuario usuario,
+    @PostMapping("/admin/usuarios/guardar")
+    public String guardar(@Valid @ModelAttribute("usuario") UsuarioAdminRequestDto usuario,
                           BindingResult br,
                           Model model) {
 
         if (br.hasErrors()) {
             model.addAttribute("roles", rolRepo.findAll());
-            return "usuarios/form";
+            return "admin/usuarios-form";
         }
 
-        usuarioService.guardar(usuario);
-        return "redirect:/usuarios/listar";
+        usuarioService.guardarDesdeAdmin(usuario);
+        return "redirect:/admin/usuarios";
     }
     
 
-    @GetMapping("/editar/{id}")
+    @GetMapping("/admin/usuarios/editar/{id}")
     public String editar(@PathVariable Integer id, Model model) {
-        model.addAttribute("usuario", usuarioService.buscarPorId(id));
+        model.addAttribute("usuario", usuarioService.buscarPorIdParaEdicion(id));
         model.addAttribute("roles", rolRepo.findAll());
-        return "usuarios/form";
+        return "admin/usuarios-form";
     }
     
-    @GetMapping("/usuarios/pdf")
-    public void exportPDF(HttpServletResponse response) throws Exception{
-    	//Tipo de archivo
-    	response.setContentType("application/pdf");
-    	response.setHeader("Content-Disposition","inline;filename=usuarios.pdf");
-    	
-    	//Obtener la lista desde JPA de Spring
-    	List<Usuario> lista = usuarioService.listar();
-    	
-    	//Cargar JRXML desde Resources
-    	InputStream inputStream = getClass().getResourceAsStream("/reportes/usuarios.jrxml");
-    	
-    	//Compilar el .JRXML a .JASPER
-    	JasperReport jasperreport = JasperCompileManager.compileReport(inputStream);
-    	
-    	//Convertir la lista a Datasource
-    	JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lista);
-    	
-    	//Llenar pdf
-    	JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport,null, dataSource);
-    	
-    	//Exportar pdf
-    	JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
-    	
-    }
+//    @GetMapping("/usuarios/pdf")
+//    public void exportPDF(HttpServletResponse response) throws Exception{
+//    	//Tipo de archivo
+//    	response.setContentType("application/pdf");
+//    	response.setHeader("Content-Disposition","inline;filename=usuarios.pdf");
+//    	
+//    	//Obtener la lista desde JPA de Spring
+//    	List<Usuario> lista = usuarioService.listar();
+//    	
+//    	//Cargar JRXML desde Resources
+//    	InputStream inputStream = getClass().getResourceAsStream("/reportes/usuarios.jrxml");
+//    	
+//    	//Compilar el .JRXML a .JASPER
+//    	JasperReport jasperreport = JasperCompileManager.compileReport(inputStream);
+//    	
+//    	//Convertir la lista a Datasource
+//    	JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lista);
+//    	
+//    	//Llenar pdf
+//    	JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport,null, dataSource);
+//    	
+//    	//Exportar pdf
+//    	JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+//    	
+//    }
 
-    @GetMapping("/eliminar/{id}")
+    @GetMapping("/admin/usuarios/eliminar/{id}")
     public String eliminar(@PathVariable Integer id) {
         usuarioService.eliminar(id);
-        return "redirect:/usuarios/listar";
+        return "redirect:/admin/usuarios";
     }
 }

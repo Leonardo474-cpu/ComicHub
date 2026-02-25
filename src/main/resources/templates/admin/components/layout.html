@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(pageTitle, pageHeading, pageDescription, activeSection, content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}">ComicHub Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+<div class="flex min-h-screen">
+    <aside class="w-72 border-r border-white/10 bg-slate-900/80 backdrop-blur">
+        <div class="px-6 py-6">
+            <a th:href="@{/admin}" class="text-xl font-bold tracking-wide text-cyan-300">ComicHub Admin</a>
+            <p class="mt-1 text-xs text-slate-400">Panel de administración</p>
+        </div>
+
+        <nav class="space-y-2 px-4 pb-6">
+            <a th:href="@{/admin}"
+               class="flex items-center rounded-xl px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-cyan-500/15 hover:text-cyan-200"
+               th:classappend="${activeSection == 'dashboard'} ? ' bg-cyan-500/20 text-cyan-200'">
+                Dashboard
+            </a>
+            <a th:href="@{/admin/usuarios}"
+               class="flex items-center rounded-xl px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-cyan-500/15 hover:text-cyan-200"
+               th:classappend="${activeSection == 'usuarios'} ? ' bg-cyan-500/20 text-cyan-200'">
+                Usuarios
+            </a>
+        </nav>
+    </aside>
+
+    <main class="flex-1 px-6 py-8 sm:px-10">
+        <header class="mb-8">
+            <h1 class="text-3xl font-semibold tracking-tight" th:text="${pageHeading}">Usuarios</h1>
+            <p class="mt-2 text-sm text-slate-400" th:text="${pageDescription}">Administración</p>
+        </header>
+
+        <section th:replace="${content}"></section>
+    </main>
+</div>
+</body>
+</html>

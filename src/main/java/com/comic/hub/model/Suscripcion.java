@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,11 +29,13 @@ public class Suscripcion {
 	@Column(name = "estado")
 	private String estado;
 	
-	@Column(name = "id_usuario")
-	private int id_usuario;
+	@ManyToOne
+	@JoinColumn(name = "id_usuario", nullable = false)
+	private Usuario usuario;
 	
-	@Column(name = "id_plan")
-	private int id_plan;
+	@ManyToOne
+	@JoinColumn(name = "id_plan", nullable = false)
+	private Plan plan;
 
 	public Suscripcion() {}
 
@@ -67,20 +71,20 @@ public class Suscripcion {
 		this.estado = estado;
 	}
 
-	public int getId_usuario() {
-		return id_usuario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setId_usuario(int id_usuario) {
-		this.id_usuario = id_usuario;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
-	public int getId_plan() {
-		return id_plan;
+	public Plan getPlan() {
+		return plan;
 	}
 
-	public void setId_plan(int id_plan) {
-		this.id_plan = id_plan;
+	public void setPlan(Plan plan) {
+		this.plan = plan;
 	}
 
 }

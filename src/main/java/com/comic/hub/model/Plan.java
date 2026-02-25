@@ -54,6 +54,5 @@ public class Plan {
 	public void setDiasDuracion(Integer diasDuracion) {
 		this.diasDuracion = diasDuracion;
 	}
-
 	
 }
