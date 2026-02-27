@@ -1,5 +1,9 @@
 package com.comic.hub.controller;
 
+import java.io.InputStream;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +20,7 @@ import com.comic.hub.dto.response.UsuarioListResponseDto;
 import com.comic.hub.repository.RolRepository;
 import com.comic.hub.service.UsuarioService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 
@@ -106,6 +111,32 @@ public class UsuarioController {
         model.addAttribute("roles", rolRepo.findAll());
         return "admin/usuarios-form";
     }
+    
+//    @GetMapping("/usuarios/pdf")
+//    public void exportPDF(HttpServletResponse response) throws Exception{
+//    	//Tipo de archivo
+//    	response.setContentType("application/pdf");
+//    	response.setHeader("Content-Disposition","inline;filename=usuarios.pdf");
+//    	
+//    	//Obtener la lista desde JPA de Spring
+//    	List<Usuario> lista = usuarioService.listar();
+//    	
+//    	//Cargar JRXML desde Resources
+//    	InputStream inputStream = getClass().getResourceAsStream("/reportes/usuarios.jrxml");
+//    	
+//    	//Compilar el .JRXML a .JASPER
+//    	JasperReport jasperreport = JasperCompileManager.compileReport(inputStream);
+//    	
+//    	//Convertir la lista a Datasource
+//    	JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lista);
+//    	
+//    	//Llenar pdf
+//    	JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport,null, dataSource);
+//    	
+//    	//Exportar pdf
+//    	JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
+//    	
+//    }
 
     @GetMapping("/admin/usuarios/estado/{id}")
     public String cambiarEstado(@PathVariable Integer id) {
