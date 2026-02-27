@@ -13,7 +13,7 @@ public interface UsuarioService {
 
     UsuarioAdminRequestDto buscarPorIdParaEdicion(Integer id);
 
-    void eliminar(Integer id);
+    void cambiarEstado(Integer id);
 
     Usuario login(String correo, String password);
 

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/components/layout :: layout('Formulario de Categoria - Admin', ${categoria.idCategoria == null ? 'Registrar Categoria' : 'Editar Categoria'}, 'Gestiona la descripcion de la categoria.', 'categorias', ~{::section})}">
+<section>
+    <div class="mx-auto max-w-2xl rounded-2xl border border-white/10 bg-slate-900/60 p-6 shadow-2xl shadow-slate-950/40 sm:p-8">
+        <form th:action="@{/admin/categorias/guardar}" th:object="${categoria}" method="post" class="space-y-5">
+            <input type="hidden" th:field="*{idCategoria}">
+
+            <p th:if="${error}" th:text="${error}"
+               class="rounded-xl border border-rose-400/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-200"></p>
+
+            <div>
+                <label for="descripcion" class="mb-2 block text-sm font-medium text-slate-200">Descripcion</label>
+                <input id="descripcion" type="text" th:field="*{descripcion}"
+                       class="w-full rounded-xl border border-slate-700 bg-slate-900/70 px-4 py-2.5 text-slate-100 placeholder-slate-500 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring"
+                       placeholder="Ej. Shonen">
+                <p class="mt-1 text-sm text-rose-300" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+                <button type="submit"
+                        class="rounded-xl bg-cyan-500 px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400">
+                    Guardar
+                </button>
+                <a th:href="@{/admin/categorias}"
+                   class="rounded-xl border border-slate-700 px-5 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-slate-500 hover:bg-slate-800">
+                    Volver al listado
+                </a>
+            </div>
+        </form>
+    </div>
+</section>
+</html>

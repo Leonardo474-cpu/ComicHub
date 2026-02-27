@@ -1,6 +1,9 @@
 package com.comic.hub.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+import com.comic.hub.model.converter.BooleanToIntegerConverter;
 
 @Entity
 @Table(name = "tb_plan")
@@ -8,18 +11,28 @@ public class Plan {
 	
 	
 	@Id
-	@GeneratedValue(strategy =   GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_plan")
 	private Integer idPlan;
-	
-	@Column(name = " nombre_plan")
+
+	@Column(name = "nombre_plan")
 	private String nombrePlan;
-	
-	@Column(name = " precio")
+
+	@Column(name = "precio")
 	private Double precio;
-	
-	@Column(name = " dias_duracion")
+
+	@Column(name = "dias_duracion", nullable = false)
 	private Integer diasDuracion;
+
+    @Column(name = "descripcion", length = 150)
+    private String descripcion;
+
+    @Column(name = "activo", nullable = false)
+    @Convert(converter = BooleanToIntegerConverter.class)
+    private boolean activo = true;
+
+    @Column(name = "fecha_registro", insertable = false, updatable = false)
+    private LocalDateTime fechaRegistro;
 
 	public Plan() {}
 
@@ -54,5 +67,29 @@ public class Plan {
 	public void setDiasDuracion(Integer diasDuracion) {
 		this.diasDuracion = diasDuracion;
 	}
-	
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    public LocalDateTime getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
 }

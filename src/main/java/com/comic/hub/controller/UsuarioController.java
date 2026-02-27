@@ -40,13 +40,19 @@ public class UsuarioController {
     
     @PostMapping("/registro")
     public String registrar(@Valid @ModelAttribute("usuario") UsuarioRegistroRequestDto usuario,
-                            BindingResult br) {
+                            BindingResult br,
+                            Model model) {
 
         if (br.hasErrors()) {
             return "registro";
         }
 
-        usuarioService.registrar(usuario);
+        try {
+            usuarioService.registrar(usuario);
+        } catch (RuntimeException ex) {
+            model.addAttribute("error", ex.getMessage());
+            return "registro";
+        }
         return "redirect:/login"; 
     }
 
@@ -60,7 +66,13 @@ public class UsuarioController {
             return "admin/usuarios-form";
         }
 
-        usuarioService.guardarDesdeAdmin(usuario);
+        try {
+            usuarioService.guardarDesdeAdmin(usuario);
+        } catch (RuntimeException ex) {
+            model.addAttribute("roles", rolRepo.findAll());
+            model.addAttribute("error", ex.getMessage());
+            return "admin/usuarios-form";
+        }
         return "redirect:/admin/usuarios";
     }
     
@@ -72,9 +84,9 @@ public class UsuarioController {
         return "admin/usuarios-form";
     }
 
-    @GetMapping("/admin/usuarios/eliminar/{id}")
-    public String eliminar(@PathVariable Integer id) {
-        usuarioService.eliminar(id);
-        return "redirect:/admin/usuarios";
+    @GetMapping("/admin/usuarios/estado/{id}")
+    public String cambiarEstado(@PathVariable Integer id) {
+        usuarioService.cambiarEstado(id);
+        return "redirect:/admin/usuarios?estadoActualizado=true";
     }
 }

@@ -1,6 +1,8 @@
 package com.comic.hub.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,16 +20,25 @@ public class Suscripcion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_suscripcion")
-	private int id_suscripcion;
-	
-	@Column(name = "fecha_inicio")
-	private LocalDate fecha_inicio;
-	
-	@Column(name = "fecha_fin")
-	private LocalDate fecha_fin;
-	
+	private Integer idSuscripcion;
+
+	@Column(name = "fecha_inicio", nullable = false)
+	private LocalDate fechaInicio;
+
+	@Column(name = "fecha_fin", nullable = false)
+	private LocalDate fechaFin;
+
 	@Column(name = "estado")
 	private String estado;
+
+    @Column(name = "precio_aplicado", nullable = false, precision = 10, scale = 2)
+    private BigDecimal precioAplicado;
+
+    @Column(name = "observacion", length = 200)
+    private String observacion;
+
+    @Column(name = "fecha_registro", insertable = false, updatable = false)
+    private LocalDateTime fechaRegistro;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_usuario", nullable = false)
@@ -39,28 +50,28 @@ public class Suscripcion {
 
 	public Suscripcion() {}
 
-	public int getId_suscripcion() {
-		return id_suscripcion;
+	public Integer getIdSuscripcion() {
+		return idSuscripcion;
 	}
 
-	public void setId_suscripcion(int id_suscripcion) {
-		this.id_suscripcion = id_suscripcion;
+	public void setIdSuscripcion(Integer idSuscripcion) {
+		this.idSuscripcion = idSuscripcion;
 	}
 
-	public LocalDate getFecha_inicio() {
-		return fecha_inicio;
+	public LocalDate getFechaInicio() {
+		return fechaInicio;
 	}
 
-	public void setFecha_inicio(LocalDate fecha_inicio) {
-		this.fecha_inicio = fecha_inicio;
+	public void setFechaInicio(LocalDate fechaInicio) {
+		this.fechaInicio = fechaInicio;
 	}
 
-	public LocalDate getFecha_fin() {
-		return fecha_fin;
+	public LocalDate getFechaFin() {
+		return fechaFin;
 	}
 
-	public void setFecha_fin(LocalDate fecha_fin) {
-		this.fecha_fin = fecha_fin;
+	public void setFechaFin(LocalDate fechaFin) {
+		this.fechaFin = fechaFin;
 	}
 
 	public String getEstado() {
@@ -70,6 +81,30 @@ public class Suscripcion {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+    public BigDecimal getPrecioAplicado() {
+        return precioAplicado;
+    }
+
+    public void setPrecioAplicado(BigDecimal precioAplicado) {
+        this.precioAplicado = precioAplicado;
+    }
+
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
+
+    public LocalDateTime getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
 
 	public Usuario getUsuario() {
 		return usuario;

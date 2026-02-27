@@ -14,9 +14,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 	@EntityGraph(attributePaths = "rol")
 	List<Usuario> findAll();
 
+	@EntityGraph(attributePaths = "rol")
 	Optional<Usuario> findByCorreo(String correo);
 }
-
 
 
 

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{admin/components/layout :: layout('Formulario de Comic - Admin', ${comic.idComic == null ? 'Registrar Comic' : 'Editar Comic'}, 'Gestiona la informacion editorial del comic.', 'comics', ~{::section})}">
+<section>
+    <div class="mx-auto max-w-3xl rounded-2xl border border-white/10 bg-slate-900/60 p-6 shadow-2xl shadow-slate-950/40 sm:p-8">
+        <form th:action="@{/admin/comics/guardar}" th:object="${comic}" method="post" enctype="multipart/form-data" class="space-y-5">
+            <input type="hidden" th:field="*{idComic}">
+            <input type="hidden" th:field="*{rutaImagenPortada}">
+
+            <p th:if="${error}" th:text="${error}"
+               class="rounded-xl border border-rose-400/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-200"></p>
+
+            <div>
+                <label for="titulo" class="mb-2 block text-sm font-medium text-slate-200">Titulo</label>
+                <input id="titulo" type="text" th:field="*{titulo}"
+                       class="w-full rounded-xl border border-slate-700 bg-slate-900/70 px-4 py-2.5 text-slate-100 placeholder-slate-500 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring"
+                       placeholder="Ej. One Piece">
+                <p class="mt-1 text-sm text-rose-300" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></p>
+            </div>
+
+            <div>
+                <label for="sinopsis" class="mb-2 block text-sm font-medium text-slate-200">Sinopsis</label>
+                <textarea id="sinopsis" rows="4" th:field="*{sinopsis}"
+                          class="w-full rounded-xl border border-slate-700 bg-slate-900/70 px-4 py-2.5 text-slate-100 placeholder-slate-500 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring"
+                          placeholder="Resumen breve del comic"></textarea>
+            </div>
+
+            <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                    <label for="autorId" class="mb-2 block text-sm font-medium text-slate-200">Autor</label>
+                    <select id="autorId" th:field="*{autorId}"
+                            class="w-full rounded-xl border border-slate-700 bg-slate-900/70 px-4 py-2.5 text-slate-100 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring">
+                        <option value="">-- Seleccione --</option>
+                        <option th:each="a : ${autores}" th:value="${a.idAutor}" th:text="${a.nombre}"></option>
+                    </select>
+                    <p class="mt-1 text-sm text-rose-300" th:if="${#fields.hasErrors('autorId')}" th:errors="*{autorId}"></p>
+                </div>
+
+                <div>
+                    <label for="categoriaId" class="mb-2 block text-sm font-medium text-slate-200">Categoria</label>
+                    <select id="categoriaId" th:field="*{categoriaId}"
+                            class="w-full rounded-xl border border-slate-700 bg-slate-900/70 px-4 py-2.5 text-slate-100 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring">
+                        <option value="">-- Seleccione --</option>
+                        <option th:each="cat : ${categorias}" th:value="${cat.idCategoria}" th:text="${cat.descripcion}"></option>
+                    </select>
+                    <p class="mt-1 text-sm text-rose-300" th:if="${#fields.hasErrors('categoriaId')}" th:errors="*{categoriaId}"></p>
+                </div>
+            </div>
+
+            <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                    <label for="estado" class="mb-2 block text-sm font-medium text-slate-200">Estado</label>
+                    <select id="estado" th:field="*{estado}"
+                            class="w-full rounded-xl border border-slate-700 bg-slate-900/70 px-4 py-2.5 text-slate-100 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring">
+                        <option value="">-- Seleccione --</option>
+                        <option th:each="estado : ${estadosComic}"
+                                th:value="${estado}"
+                                th:text="${#strings.replace(estado.name(), '_', ' ')}"></option>
+                    </select>
+                    <p class="mt-1 text-sm text-rose-300" th:if="${#fields.hasErrors('estado')}" th:errors="*{estado}"></p>
+                </div>
+
+                <div>
+                    <label for="portada" class="mb-2 block text-sm font-medium text-slate-200">Portada (PNG, JPG, WEBP)</label>
+                    <input id="portada" type="file" name="portada" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp"
+                           class="w-full rounded-xl border border-slate-700 bg-slate-900/70 px-4 py-2.5 text-sm text-slate-100 file:mr-4 file:rounded-lg file:border-0 file:bg-cyan-500 file:px-3 file:py-1.5 file:font-semibold file:text-slate-950 hover:file:bg-cyan-400">
+                    <p class="mt-1 text-xs text-slate-400">Tamano maximo: 5MB</p>
+                </div>
+            </div>
+
+            <div th:if="${comic.rutaImagenPortada != null and !#strings.isEmpty(comic.rutaImagenPortada)}"
+                 class="rounded-xl border border-white/10 bg-slate-900/70 p-4">
+                <p class="mb-2 text-xs uppercase tracking-wider text-slate-400">Portada actual</p>
+                <img th:src="${comic.rutaImagenPortada}" alt="Portada actual" class="h-52 rounded-lg border border-white/10 object-cover">
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 pt-2">
+                <button type="submit"
+                        class="rounded-xl bg-cyan-500 px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400">
+                    Guardar
+                </button>
+                <a th:href="@{/admin/comics}"
+                   class="rounded-xl border border-slate-700 px-5 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-slate-500 hover:bg-slate-800">
+                    Volver al listado
+                </a>
+            </div>
+        </form>
+    </div>
+</section>
+</html>

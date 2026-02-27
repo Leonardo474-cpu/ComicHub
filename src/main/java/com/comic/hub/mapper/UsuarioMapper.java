@@ -15,18 +15,18 @@ public final class UsuarioMapper {
         Usuario usuario = new Usuario();
         usuario.setNombreCompleto(dto.getNombreCompleto());
         usuario.setCorreo(dto.getCorreo());
-        usuario.setPassword(dto.getPassword());
+        usuario.setPasswordHash(dto.getPassword());
         usuario.setActivo(true);
         usuario.setRol(rolCliente);
         return usuario;
     }
 
-    public static Usuario toEntityForAdmin(UsuarioAdminRequestDto dto, Rol rol, String passwordActual, boolean activoActual) {
+    public static Usuario toEntityForAdmin(UsuarioAdminRequestDto dto, Rol rol, String passwordHashActual, boolean activoActual) {
         Usuario usuario = new Usuario();
         usuario.setId(dto.getId());
         usuario.setNombreCompleto(dto.getNombreCompleto());
         usuario.setCorreo(dto.getCorreo());
-        usuario.setPassword(passwordActual);
+        usuario.setPasswordHash(passwordHashActual);
         usuario.setActivo(activoActual);
         usuario.setRol(rol);
         return usuario;

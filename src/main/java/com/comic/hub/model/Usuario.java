@@ -3,8 +3,10 @@ package com.comic.hub.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 import com.comic.hub.model.converter.BooleanToIntegerConverter;
+
 @Entity
 @Table(name = "tb_usuario")
 public class Usuario {
@@ -21,21 +23,24 @@ public class Usuario {
     @Email(message = "Correo inválido")
     @NotBlank(message = "El correo es obligatorio")
     @Column(name = "correo", unique = true)
-	private String correo;
+    private String correo;
 
-    @Column(name = "password")
-    private String password;
-    
+    @Column(name = "password_hash", nullable = false)
+    private String passwordHash;
+
     @Column(name = "activo", nullable = false)
     @Convert(converter = BooleanToIntegerConverter.class)
     private boolean activo = true;
 
     @ManyToOne
-    @JoinColumn(name = "id_rol")
+    @JoinColumn(name = "id_rol", nullable = false)
     private Rol rol;
-    
+
+    @Column(name = "fecha_registro", insertable = false, updatable = false)
+    private LocalDateTime fechaRegistro;
+
     public Usuario() {
-    	
+
     }
 
 	public Integer getId() {
@@ -51,8 +56,8 @@ public class Usuario {
 		return correo;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getPasswordHash() {
+		return passwordHash;
 	}
 
 	public Rol getRol() {
@@ -62,6 +67,10 @@ public class Usuario {
 	public boolean getActivo() {
 		return activo;
 	}
+
+    public LocalDateTime getFechaRegistro() {
+        return fechaRegistro;
+    }
 
 	public void setId(Integer id) {
 		this.id = id;
@@ -75,8 +84,8 @@ public class Usuario {
 		this.correo = correo;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPasswordHash(String passwordHash) {
+		this.passwordHash = passwordHash;
 	}
 
 	public void setRol(Rol rol) {
@@ -86,5 +95,9 @@ public class Usuario {
 	public void setActivo(boolean activo) {
 		this.activo = activo;
 	}
-    
+
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
 }

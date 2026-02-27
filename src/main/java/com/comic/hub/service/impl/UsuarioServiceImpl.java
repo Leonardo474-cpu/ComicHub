@@ -38,16 +38,24 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public void eliminar(Integer id) {
-        usuarioRepository.deleteById(id);
+    public void cambiarEstado(Integer id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        usuario.setActivo(!usuario.getActivo());
+        usuarioRepository.save(usuario);
     }
 
     @Override
     public Usuario login(String correo, String password) {
-        Usuario usuario = usuarioRepository.findByCorreo(correo)
+        String correoNormalizado = normalizarCorreo(correo);
+        Usuario usuario = usuarioRepository.findByCorreo(correoNormalizado)
                 .orElseThrow(() -> new RuntimeException("Correo incorrecto"));
 
-        if (!usuario.getPassword().equals(password)) {
+        if (!usuario.getActivo()) {
+            throw new RuntimeException("Usuario inactivo");
+        }
+
+        if (!usuario.getPasswordHash().equals(password)) {
             throw new RuntimeException("Contraseña incorrecta");
         }
 
@@ -56,8 +64,17 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void registrar(UsuarioRegistroRequestDto usuarioRegistroRequestDto) {
+        String correoNormalizado = normalizarCorreo(usuarioRegistroRequestDto.getCorreo());
+
+        if (usuarioRepository.findByCorreo(correoNormalizado).isPresent()) {
+            throw new RuntimeException("El correo ya está registrado");
+        }
+
+        usuarioRegistroRequestDto.setCorreo(correoNormalizado);
+        usuarioRegistroRequestDto.setNombreCompleto(normalizarTexto(usuarioRegistroRequestDto.getNombreCompleto()));
+
         Rol rolCliente = rolRepository.findByNombreRol("CLIENTE");
-        if (rolCliente == null) {
+        if (rolCliente == null || !rolCliente.getActivo()) {
             throw new RuntimeException("Rol CLIENTE no encontrado");
         }
         Usuario usuario = UsuarioMapper.toEntityForRegistro(usuarioRegistroRequestDto, rolCliente);
@@ -69,15 +86,37 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario existente = usuarioRepository.findById(usuarioAdminRequestDto.getId())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
+        String correoNormalizado = normalizarCorreo(usuarioAdminRequestDto.getCorreo());
+        usuarioAdminRequestDto.setCorreo(correoNormalizado);
+        usuarioAdminRequestDto.setNombreCompleto(normalizarTexto(usuarioAdminRequestDto.getNombreCompleto()));
+
+        usuarioRepository.findByCorreo(correoNormalizado)
+                .filter(u -> !u.getId().equals(usuarioAdminRequestDto.getId()))
+                .ifPresent(u -> {
+                    throw new RuntimeException("El correo ya está registrado por otro usuario");
+                });
+
         Rol rol = rolRepository.findById(usuarioAdminRequestDto.getRolId())
                 .orElseThrow(() -> new RuntimeException("Rol no encontrado"));
+
+        if (!rol.getActivo()) {
+            throw new RuntimeException("No se puede asignar un rol inactivo");
+        }
 
         Usuario usuarioActualizado = UsuarioMapper.toEntityForAdmin(
                 usuarioAdminRequestDto,
                 rol,
-                existente.getPassword(),
+                existente.getPasswordHash(),
                 existente.getActivo());
 
         usuarioRepository.save(usuarioActualizado);
+    }
+
+    private String normalizarCorreo(String correo) {
+        return correo == null ? "" : correo.trim().toLowerCase();
+    }
+
+    private String normalizarTexto(String valor) {
+        return valor == null ? "" : valor.trim();
     }
 }
