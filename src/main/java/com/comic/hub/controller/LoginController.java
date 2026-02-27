@@ -1,14 +1,15 @@
 package com.comic.hub.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.comic.hub.model.Usuario;
 import com.comic.hub.service.UsuarioService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -25,7 +26,7 @@ public class LoginController {
     // =========================
     @GetMapping("/login")
     public String mostrarLogin() {
-        return "login";
+        return "redirect:/home?auth=login";
     }
 
     // =========================
@@ -34,8 +35,8 @@ public class LoginController {
     @PostMapping("/login")
     public String procesarLogin(@RequestParam String correo,
                                 @RequestParam String password,
-                                Model model,
-                                HttpSession session) {
+                                HttpSession session,
+                                RedirectAttributes redirectAttributes) {
 
         try {
 
@@ -50,18 +51,19 @@ public class LoginController {
             }
 
         } catch (RuntimeException e) {
-
-            model.addAttribute("error", e.getMessage());
-            return "login";
+            redirectAttributes.addFlashAttribute("loginError", e.getMessage());
+            redirectAttributes.addFlashAttribute("authModalOpen", true);
+            redirectAttributes.addFlashAttribute("authTab", "login");
+            return "redirect:/home";
         }
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, HttpServletResponse response) {
         session.invalidate();
-        return "redirect:/login";
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+        return "redirect:/home";
     }
 }
-
-
-

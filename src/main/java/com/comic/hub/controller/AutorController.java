@@ -1,8 +1,10 @@
 package com.comic.hub.controller;
 
 import com.comic.hub.dto.request.AutorAdminRequestDto;
+import com.comic.hub.dto.response.AutorListResponseDto;
 import com.comic.hub.service.AutorService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -22,8 +25,13 @@ public class AutorController {
     }
 
     @GetMapping("/admin/autores")
-    public String listar(Model model) {
-        model.addAttribute("autores", autorService.listarTodos());
+    public String listar(@RequestParam(defaultValue = "TODOS") String estado,
+                         @RequestParam(defaultValue = "0") int page,
+                         Model model) {
+        Page<AutorListResponseDto> paginaAutores = autorService.listarTodos(estado, page, 10);
+        model.addAttribute("autores", paginaAutores.getContent());
+        model.addAttribute("pagina", paginaAutores);
+        model.addAttribute("estadoSeleccionado", estado.toUpperCase());
         return "admin/autores";
     }
 

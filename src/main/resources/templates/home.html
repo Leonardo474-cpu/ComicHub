@@ -1,198 +1,548 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ComicHub - Inicio</title>
-<link rel="icon" type="image/png" th:href="@{/img/icon.png}">
-
+<link rel="icon" type="image/png" href="/img/icon.png" th:href="@{/img/icon.png}">
+<link rel="shortcut icon" href="/favicon.ico" th:href="@{/favicon.ico}">
 <style>
 body {
-	margin: 0;
-	font-family: Arial, Helvetica, sans-serif;
-	background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-	color: white;
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #101b32 0%, #18253d 25%, #26344b 100%);
+    color: #e5e7eb;
 }
 
-/* NAVBAR */
 .navbar {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 12px 40px;
-	background: linear-gradient(90deg, #0f1f3a 0%, #121f39 55%, #101b32 100%);
-	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 40px;
+    background: linear-gradient(90deg, #0f1f3a 0%, #121f39 55%, #101b32 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .nav-left {
-	display: flex;
-	align-items: center;
-	gap: 24px;
+    display: flex;
+    align-items: center;
+    gap: 26px;
+}
+
+.logo-wrap {
+    display: flex;
+    align-items: center;
+    height: 56px;
 }
 
 .logo-img {
-	width: 62px;
-	height: 62px;
-	object-fit: contain;
-	filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+    height: 72px;
+    width: auto;
+    max-width: 220px;
+    object-fit: contain;
+    transform: scale(1.28);
+    transform-origin: left center;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
 }
 
 .menu {
-	display: flex;
-	align-items: center;
-	gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .menu a {
-	color: white;
-	text-decoration: none;
-	padding: 9px 14px;
-	border-radius: 10px;
-	font-size: 18px;
-	transition: 0.25s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #f1f5f9;
+    text-decoration: none;
+    padding: 9px 14px;
+    border-radius: 11px;
+    font-size: 14px;
+    transition: 0.2s;
 }
 
 .menu a:hover {
-	background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .menu a.active {
-	background: rgba(246, 157, 17, 0.22);
-	color: #ffb326;
-	font-weight: bold;
+    background: rgba(246, 157, 17, 0.25);
+    color: #ffb326;
+    font-weight: 700;
 }
 
-.menu-icon {
-	margin-right: 6px;
+.menu svg {
+    width: 17px;
+    height: 17px;
 }
 
 .nav-right {
-	display: flex;
-	align-items: center;
-	gap: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
-.nav-icon {
-	width: 34px;
-	height: 34px;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	color: #f8fafc;
-	border-radius: 999px;
-	transition: 0.2s;
+.icon-btn {
+    border: 0;
+    background: transparent;
+    color: #f8fafc;
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
 }
 
-.nav-icon:hover {
-	background: rgba(255, 255, 255, 0.12);
+.icon-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
 }
 
-/* BANNER PRINCIPAL */
+.icon-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
 .banner {
-	display: flex;
-	gap: 20px;
-	padding: 40px;
+    display: flex;
+    gap: 16px;
+    padding: 26px 24px 18px;
+    max-width: 1180px;
+    margin: 0 auto;
 }
 
 .banner img {
-	width: 100%;
-	border-radius: 10px;
+    width: 100%;
+    border-radius: 12px;
+    display: block;
 }
 
 .banner-left {
-	flex: 2;
+    flex: 2;
 }
 
 .banner-right {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
-/* SECCIÓN POPULAR */
 .section {
-	padding: 40px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 10px 24px 40px;
 }
 
 .section h2 {
-	margin-bottom: 20px;
+    margin-bottom: 6px;
+    font-size: 40px;
+}
+
+.section p {
+    margin-top: 0;
+    color: #9ca3af;
 }
 
 .cards {
-	display: flex;
-	gap: 20px;
+    display: flex;
+    gap: 14px;
 }
 
 .card {
-	width: 180px;
+    width: 180px;
 }
 
 .card img {
-	width: 100%;
-	border-radius: 10px;
-	transition: transform 0.3s;
+    width: 100%;
+    border-radius: 10px;
+    transition: transform 0.3s;
 }
 
 .card img:hover {
-	transform: scale(1.05);
+    transform: scale(1.04);
+}
+
+.auth-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 13, 24, 0.62);
+    backdrop-filter: blur(2px);
+    z-index: 60;
+    display: none;
+}
+
+.auth-overlay.open {
+    display: block;
+}
+
+.auth-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(96vw, 420px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: linear-gradient(180deg, #253752 0%, #1e2d46 100%);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    z-index: 70;
+    padding: 22px 22px 20px;
+    display: none;
+}
+
+.auth-modal.open {
+    display: block;
+}
+
+.auth-close {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    background: #1f2937;
+    color: #f3f4f6;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.auth-switch {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 2px solid rgba(16, 24, 40, 0.85);
+    border-radius: 999px;
+    background: #f4a209;
+    color: #101828;
+    padding: 7px 24px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.auth-logo {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    display: block;
+    margin: 8px auto 10px;
+}
+
+.auth-title {
+    text-align: center;
+    margin: 0;
+    font-size: 36px;
+    color: #f3f4f6;
+}
+
+.auth-subtitle {
+    text-align: center;
+    margin: 8px 0 18px;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.auth-input-row {
+    margin-bottom: 10px;
+}
+
+.auth-input, .auth-two .auth-input {
+    width: 100%;
+    box-sizing: border-box;
+    background: rgba(58, 75, 102, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+    border-radius: 12px;
+    padding: 11px 14px;
+    font-size: 16px;
+    outline: none;
+}
+
+.auth-input::placeholder {
+    color: #9fb1ca;
+}
+
+.auth-two {
+    display: flex;
+    gap: 8px;
+}
+
+.auth-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #9fb1ca;
+    margin: 8px 0 14px;
+}
+
+.auth-meta a {
+    color: #f4a209;
+    text-decoration: none;
+}
+
+.auth-btn {
+    width: 100%;
+    border: 0;
+    border-radius: 12px;
+    background: #f4a209;
+    color: #101828;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 12px;
+    cursor: pointer;
+}
+
+.auth-error {
+    margin: 0 0 12px;
+    border: 1px solid rgba(244, 63, 94, 0.45);
+    background: rgba(244, 63, 94, 0.14);
+    color: #fecdd3;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+}
+
+.auth-ok {
+    margin: 0 0 12px;
+    border: 1px solid rgba(16, 185, 129, 0.45);
+    background: rgba(16, 185, 129, 0.14);
+    color: #a7f3d0;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+}
+
+.auth-register {
+    display: none;
+}
+
+.auth-modal.mode-register .auth-login {
+    display: none;
+}
+
+.auth-modal.mode-register .auth-register {
+    display: block;
+}
+
+@media (max-width: 980px) {
+    .navbar {
+        padding: 12px 16px;
+    }
+    .menu {
+        gap: 4px;
+    }
+    .menu a {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+    .menu a .menu-text {
+        display: none;
+    }
+    .banner {
+        flex-direction: column;
+    }
 }
 </style>
 </head>
 
 <body>
+    <div class="navbar">
+        <div class="nav-left">
+            <div class="logo-wrap">
+                <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="ComicHub" class="logo-img">
+            </div>
 
-	<!-- NAVBAR -->
-	<div class="navbar">
-		<div class="nav-left">
-			<img th:src="@{/img/logo.png}" src="/img/logo.png" alt="ComicHub" class="logo-img">
-			<div class="menu">
-				<a href="#" class="active"><span class="menu-icon">⌂</span>Inicio</a>
-				<a href="#">Series</a>
-				<a href="#">Rankings</a>
-				<a href="#">Capítulos</a>
-			</div>
-		</div>
-		<div class="nav-right">
-			<span class="nav-icon" title="Buscar">⌕</span>
-			<span class="nav-icon" title="Perfil">◯</span>
-		</div>
-	</div>
+            <div class="menu">
+                <a href="#" class="active">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 12l9-9 9 9M5 10v10h14V10"/>
+                    </svg>
+                    <span class="menu-text">Inicio</span>
+                </a>
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                    <span class="menu-text">Series</span>
+                </a>
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 17l6-6 4 4 8-8"/>
+                    </svg>
+                    <span class="menu-text">Rankings</span>
+                </a>
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 7h7v13H3zM14 4h7v16h-7z"/>
+                    </svg>
+                    <span class="menu-text">Capítulos</span>
+                </a>
+            </div>
+        </div>
 
-	<!-- BANNERS -->
-	<div class="banner">
-		<div class="banner-left">
-			<img src="https://picsum.photos/800/350?random=1">
-		</div>
+        <div class="nav-right">
+            <button class="icon-btn" type="button" title="Buscar" aria-label="Buscar">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="M21 21l-4.35-4.35"></path>
+                </svg>
+            </button>
+            <button id="btnAuthOpen" class="icon-btn" type="button" title="Mi cuenta" aria-label="Mi cuenta">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21a8 8 0 0 0-16 0"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </button>
+        </div>
+    </div>
 
-		<div class="banner-right">
-			<img src="https://picsum.photos/400/160?random=2"> <img
-				src="https://picsum.photos/400/160?random=3">
-		</div>
-	</div>
+    <div class="banner">
+        <div class="banner-left">
+            <img src="https://picsum.photos/800/350?random=1" alt="Banner principal">
+        </div>
+        <div class="banner-right">
+            <img src="https://picsum.photos/400/160?random=2" alt="Banner secundario 1">
+            <img src="https://picsum.photos/400/160?random=3" alt="Banner secundario 2">
+        </div>
+    </div>
 
-	<!-- POPULAR DEL DÍA -->
-	<div class="section">
-		<h2>Popular del Día</h2>
+    <div class="section">
+        <h2>Popular Del Dia</h2>
+        <p>Las series más populares de la actualidad.</p>
+        <div class="cards">
+            <div class="card"><img src="https://picsum.photos/200/300?random=4" alt="Comic 1"></div>
+            <div class="card"><img src="https://picsum.photos/200/300?random=5" alt="Comic 2"></div>
+            <div class="card"><img src="https://picsum.photos/200/300?random=6" alt="Comic 3"></div>
+            <div class="card"><img src="https://picsum.photos/200/300?random=7" alt="Comic 4"></div>
+            <div class="card"><img src="https://picsum.photos/200/300?random=8" alt="Comic 5"></div>
+        </div>
+    </div>
 
-		<div class="cards">
-			<div class="card">
-				<img src="https://picsum.photos/200/300?random=4">
-			</div>
-			<div class="card">
-				<img src="https://picsum.photos/200/300?random=5">
-			</div>
-			<div class="card">
-				<img src="https://picsum.photos/200/300?random=6">
-			</div>
-			<div class="card">
-				<img src="https://picsum.photos/200/300?random=7">
-			</div>
-			<div class="card">
-				<img src="https://picsum.photos/200/300?random=8">
-			</div>
-		</div>
-	</div>
+    <div id="authOverlay" class="auth-overlay"></div>
+    <div id="authModal" class="auth-modal">
+        <button class="auth-close" type="button" id="btnAuthClose" aria-label="Cerrar modal">×</button>
+        <button class="auth-switch" type="button" id="btnAuthSwitch">Registrar</button>
 
+        <img th:src="@{/img/icon.png}" src="/img/icon.png" alt="Logo" class="auth-logo">
+        <h3 class="auth-title">Bienvenido de nuevo!</h3>
+        <p class="auth-subtitle">Ingresa tus credenciales para acceder a tu cuenta.</p>
+
+        <div class="auth-login">
+            <p th:if="${loginError}" th:text="${loginError}" class="auth-error"></p>
+            <p th:if="${registroOk}" th:text="${registroOk}" class="auth-ok"></p>
+            <form method="post" th:action="@{/login}">
+                <div class="auth-input-row">
+                    <input class="auth-input" type="email" name="correo" placeholder="Correo" required>
+                </div>
+                <div class="auth-input-row">
+                    <input class="auth-input" type="password" name="password" placeholder="Contraseña" required>
+                </div>
+                <div class="auth-meta">
+                    <span>Recordarme</span>
+                    <a href="#">Recuperar contraseña</a>
+                </div>
+                <button class="auth-btn" type="submit">Login</button>
+            </form>
+        </div>
+
+        <div class="auth-register">
+            <p th:if="${registroError}" th:text="${registroError}" class="auth-error"></p>
+            <form method="post" th:action="@{/registro}" id="formRegistro">
+                <div class="auth-input-row">
+                    <input class="auth-input" type="text" name="nombreCompleto" placeholder="Nombre completo" required>
+                </div>
+                <div class="auth-input-row">
+                    <input class="auth-input" type="email" name="correo" placeholder="Correo" required>
+                </div>
+                <div class="auth-two">
+                    <input class="auth-input" type="password" name="password" id="regPassword" placeholder="Contraseña" required>
+                    <input class="auth-input" type="password" id="regPasswordConfirm" placeholder="Confirmar contraseña" required>
+                </div>
+                <div class="auth-meta">
+                    <span></span>
+                    <span></span>
+                </div>
+                <button class="auth-btn" type="submit">Registrar</button>
+            </form>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        const authOverlay = document.getElementById('authOverlay');
+        const authModal = document.getElementById('authModal');
+        const btnAuthOpen = document.getElementById('btnAuthOpen');
+        const btnAuthClose = document.getElementById('btnAuthClose');
+        const btnAuthSwitch = document.getElementById('btnAuthSwitch');
+        const formRegistro = document.getElementById('formRegistro');
+        const regPassword = document.getElementById('regPassword');
+        const regPasswordConfirm = document.getElementById('regPasswordConfirm');
+
+        let currentMode = 'login';
+
+        function setMode(mode) {
+            currentMode = mode === 'register' ? 'register' : 'login';
+            authModal.classList.toggle('mode-register', currentMode === 'register');
+            btnAuthSwitch.textContent = currentMode === 'login' ? 'Registrar' : 'Login';
+        }
+
+        function openAuthModal(mode = 'login') {
+            setMode(mode);
+            authOverlay.classList.add('open');
+            authModal.classList.add('open');
+        }
+
+        function closeAuthModal() {
+            authOverlay.classList.remove('open');
+            authModal.classList.remove('open');
+        }
+
+        btnAuthOpen.addEventListener('click', () => openAuthModal('login'));
+        btnAuthClose.addEventListener('click', closeAuthModal);
+        authOverlay.addEventListener('click', closeAuthModal);
+
+        btnAuthSwitch.addEventListener('click', () => {
+            if (currentMode === 'login') {
+                setMode('register');
+            } else {
+                setMode('login');
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && authModal.classList.contains('open')) {
+                closeAuthModal();
+            }
+        });
+
+        formRegistro.addEventListener('submit', (event) => {
+            if (regPassword.value !== regPasswordConfirm.value) {
+                event.preventDefault();
+                alert('La confirmación de contraseña no coincide.');
+            }
+        });
+
+        const shouldOpenModal = /*[[${authModalOpen}]]*/ false;
+        const authTab = /*[[${authTab}]]*/ null;
+        const loginError = /*[[${loginError}]]*/ null;
+        const registroError = /*[[${registroError}]]*/ null;
+        const registroOk = /*[[${registroOk}]]*/ null;
+        const paramAuth = new URLSearchParams(window.location.search).get('auth');
+
+        if (shouldOpenModal || loginError || registroError || registroOk || paramAuth === 'login' || paramAuth === 'register') {
+            const initialTab = authTab || paramAuth || (registroError ? 'register' : 'login');
+            openAuthModal(initialTab);
+        }
+    </script>
 </body>
 </html>

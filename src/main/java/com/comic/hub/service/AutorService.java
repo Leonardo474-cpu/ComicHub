@@ -2,12 +2,11 @@ package com.comic.hub.service;
 
 import com.comic.hub.dto.request.AutorAdminRequestDto;
 import com.comic.hub.dto.response.AutorListResponseDto;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface AutorService {
 
-    List<AutorListResponseDto> listarTodos();
+    Page<AutorListResponseDto> listarTodos(String estado, int page, int size);
 
     AutorAdminRequestDto buscarPorIdParaEdicion(Integer idAutor);
 

@@ -7,13 +7,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.comic.hub.dto.request.UsuarioAdminRequestDto;
 import com.comic.hub.dto.request.UsuarioRegistroRequestDto;
+import com.comic.hub.dto.response.UsuarioListResponseDto;
 import com.comic.hub.repository.RolRepository;
 import com.comic.hub.service.UsuarioService;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 
 @Controller
 public class UsuarioController {
@@ -27,33 +31,52 @@ public class UsuarioController {
     }
 
     @GetMapping("/admin/usuarios")
-    public String listar(Model model) {
-        model.addAttribute("usuarios", usuarioService.listarTodos());
+    public String listar(@RequestParam(defaultValue = "TODOS") String estado,
+                         @RequestParam(defaultValue = "0") int page,
+                         Model model) {
+        Page<UsuarioListResponseDto> paginaUsuarios = usuarioService.listarTodos(estado, page, 10);
+        model.addAttribute("usuarios", paginaUsuarios.getContent());
+        model.addAttribute("pagina", paginaUsuarios);
+        model.addAttribute("estadoSeleccionado", estado.toUpperCase());
         return "admin/usuarios";
     }
 
+    @GetMapping("/admin/usuarios/nuevo")
+    public String nuevoAdmin(Model model) {
+        model.addAttribute("usuario", new UsuarioAdminRequestDto());
+        model.addAttribute("roles", rolRepo.findAll());
+        return "admin/usuarios-form";
+    }
+
     @GetMapping("/registro")
-    public String nuevo(Model model) {
-        model.addAttribute("usuario", new UsuarioRegistroRequestDto());
-        return "registro";
+    public String nuevo() {
+        return "redirect:/home?auth=register";
     }
     
     @PostMapping("/registro")
     public String registrar(@Valid @ModelAttribute("usuario") UsuarioRegistroRequestDto usuario,
                             BindingResult br,
-                            Model model) {
+                            RedirectAttributes redirectAttributes) {
 
         if (br.hasErrors()) {
-            return "registro";
+            redirectAttributes.addFlashAttribute("registroError", "Falta ingresar datos obligatorios correctamente");
+            redirectAttributes.addFlashAttribute("authModalOpen", true);
+            redirectAttributes.addFlashAttribute("authTab", "register");
+            return "redirect:/home";
         }
 
         try {
             usuarioService.registrar(usuario);
         } catch (RuntimeException ex) {
-            model.addAttribute("error", ex.getMessage());
-            return "registro";
+            redirectAttributes.addFlashAttribute("registroError", ex.getMessage());
+            redirectAttributes.addFlashAttribute("authModalOpen", true);
+            redirectAttributes.addFlashAttribute("authTab", "register");
+            return "redirect:/home";
         }
-        return "redirect:/login"; 
+        redirectAttributes.addFlashAttribute("registroOk", "Cuenta registrada correctamente. Ahora inicia sesión.");
+        redirectAttributes.addFlashAttribute("authModalOpen", true);
+        redirectAttributes.addFlashAttribute("authTab", "login");
+        return "redirect:/home";
     }
 
     @PostMapping("/admin/usuarios/guardar")

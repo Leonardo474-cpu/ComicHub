@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{admin/components/layout :: layout('Autores - Admin', 'Autores', 'Gestiona autores del catalogo.', 'autores', ~{::section})}">
+      th:replace="~{admin/components/layout :: layout('Autores - Admin', 'Autores', 'Gestiona autores del catalogo.', 'autores', 'autores', 'Agregar autor', '/admin/autores/nuevo', ~{::section})}">
 <section>
     <p th:if="${success}" th:text="${success}"
        class="mb-4 rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200"></p>
 
-    <div class="mb-5 flex items-center justify-end">
-        <a th:href="@{/admin/autores/nuevo}"
-           class="rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400">
-            Agregar nuevo autor
-        </a>
+    <div class="mb-4 rounded-2xl border border-white/10 bg-slate-900/50 p-4">
+        <form method="get" th:action="@{/admin/autores}" class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+                <label for="estado" class="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-400">Filtrar por estado</label>
+                <select id="estado" name="estado"
+                        class="rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring">
+                    <option value="TODOS" th:selected="${estadoSeleccionado == 'TODOS'}">Todos</option>
+                    <option value="ACTIVOS" th:selected="${estadoSeleccionado == 'ACTIVOS'}">Activos</option>
+                    <option value="INACTIVOS" th:selected="${estadoSeleccionado == 'INACTIVOS'}">Inactivos</option>
+                </select>
+            </div>
+            <input type="hidden" name="page" value="0">
+            <button type="submit"
+                    class="rounded-xl border border-cyan-400/40 bg-cyan-500/10 px-4 py-2 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-500/20">
+                Aplicar filtro
+            </button>
+        </form>
     </div>
 
     <div class="overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60 shadow-2xl shadow-slate-950/40">
@@ -66,10 +78,34 @@
                     </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(autores)}">
-                    <td colspan="5" class="px-5 py-10 text-center text-slate-400">No hay autores registrados.</td>
+                    <td colspan="5" class="px-5 py-10 text-center text-slate-400">Aun no hay autores para mostrar. Falta ingresar datos.</td>
                 </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div th:if="${pagina.totalPages > 0}" class="mt-5 flex flex-wrap items-center justify-between gap-3">
+        <p class="text-sm text-slate-400">
+            Pagina <span th:text="${pagina.number + 1}"></span> de <span th:text="${pagina.totalPages}"></span>
+        </p>
+        <div class="flex items-center gap-2">
+            <a th:if="${!pagina.first}"
+               th:href="@{/admin/autores(page=${pagina.number - 1},estado=${estadoSeleccionado})}"
+               class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-200 transition hover:border-slate-500 hover:bg-slate-800">
+                Anterior
+            </a>
+            <a th:each="i : ${#numbers.sequence(0, pagina.totalPages - 1)}"
+               th:href="@{/admin/autores(page=${i},estado=${estadoSeleccionado})}"
+               th:text="${i + 1}"
+               th:classappend="${i == pagina.number} ? ' bg-cyan-500 text-slate-950 border-cyan-500' : ' border-slate-700 text-slate-200 hover:border-slate-500 hover:bg-slate-800'"
+               class="rounded-lg border px-3 py-1.5 text-sm transition">
+            </a>
+            <a th:if="${!pagina.last}"
+               th:href="@{/admin/autores(page=${pagina.number + 1},estado=${estadoSeleccionado})}"
+               class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-200 transition hover:border-slate-500 hover:bg-slate-800">
+                Siguiente
+            </a>
         </div>
     </div>
 

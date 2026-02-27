@@ -15,6 +15,7 @@ public final class ComicMapper {
         ComicListResponseDto dto = new ComicListResponseDto();
         dto.setIdComic(comic.getIdComic());
         dto.setTitulo(comic.getTitulo());
+        dto.setRutaImagenPortada(comic.getRutaImagenPortada());
         dto.setEstado(comic.getEstado());
         dto.setActivo(comic.getActivo());
         if (comic.getAutor() != null) {

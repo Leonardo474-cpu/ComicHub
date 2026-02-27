@@ -11,6 +11,9 @@ import com.comic.hub.repository.AutorRepository;
 import com.comic.hub.repository.CategoriaRepository;
 import com.comic.hub.repository.ComicRepository;
 import com.comic.hub.service.ComicService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,8 +44,9 @@ public class ComicServiceImpl implements ComicService {
     }
 
     @Override
-    public List<ComicListResponseDto> listarTodos() {
-        return comicRepository.findAll().stream().map(ComicMapper::toListResponseDto).toList();
+    public Page<ComicListResponseDto> listarTodos(String estado, int page, int size) {
+        Pageable pageable = PageRequest.of(Math.max(page, 0), size);
+        return obtenerPaginaPorEstado(estado, pageable).map(ComicMapper::toListResponseDto);
     }
 
     @Override
@@ -155,5 +159,15 @@ public class ComicServiceImpl implements ComicService {
         if (contentType == null || !ALLOWED_CONTENT_TYPES.contains(contentType.toLowerCase(Locale.ROOT))) {
             throw new RuntimeException("Formato no permitido. Use PNG, JPEG o WEBP");
         }
+    }
+
+    private Page<Comic> obtenerPaginaPorEstado(String estado, Pageable pageable) {
+        if ("ACTIVOS".equalsIgnoreCase(estado)) {
+            return comicRepository.findByActivo(true, pageable);
+        }
+        if ("INACTIVOS".equalsIgnoreCase(estado)) {
+            return comicRepository.findByActivo(false, pageable);
+        }
+        return comicRepository.findAll(pageable);
     }
 }

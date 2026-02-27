@@ -1,9 +1,11 @@
 package com.comic.hub.controller;
 
 import com.comic.hub.dto.request.ComicAdminRequestDto;
+import com.comic.hub.dto.response.ComicListResponseDto;
 import com.comic.hub.model.ComicEstado;
 import com.comic.hub.service.ComicService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,8 +27,13 @@ public class ComicController {
     }
 
     @GetMapping("/admin/comics")
-    public String listar(Model model) {
-        model.addAttribute("comics", comicService.listarTodos());
+    public String listar(@RequestParam(defaultValue = "TODOS") String estado,
+                         @RequestParam(defaultValue = "0") int page,
+                         Model model) {
+        Page<ComicListResponseDto> paginaComics = comicService.listarTodos(estado, page, 10);
+        model.addAttribute("comics", paginaComics.getContent());
+        model.addAttribute("pagina", paginaComics);
+        model.addAttribute("estadoSeleccionado", estado.toUpperCase());
         return "admin/comics";
     }
 

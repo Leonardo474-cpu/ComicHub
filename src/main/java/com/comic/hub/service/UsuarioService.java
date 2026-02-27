@@ -1,6 +1,6 @@
 package com.comic.hub.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 import com.comic.hub.dto.request.UsuarioAdminRequestDto;
 import com.comic.hub.dto.request.UsuarioRegistroRequestDto;
@@ -9,7 +9,7 @@ import com.comic.hub.model.Usuario;
 
 public interface UsuarioService {
 
-    List<UsuarioListResponseDto> listarTodos();
+    Page<UsuarioListResponseDto> listarTodos(String estado, int page, int size);
 
     UsuarioAdminRequestDto buscarPorIdParaEdicion(Integer id);
 

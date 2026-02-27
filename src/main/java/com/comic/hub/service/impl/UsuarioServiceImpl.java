@@ -1,7 +1,8 @@
 package com.comic.hub.service.impl;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.comic.hub.dto.request.UsuarioAdminRequestDto;
@@ -26,8 +27,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List<UsuarioListResponseDto> listarTodos() {
-        return usuarioRepository.findAll().stream().map(UsuarioMapper::toListResponseDto).toList();
+    public Page<UsuarioListResponseDto> listarTodos(String estado, int page, int size) {
+        Pageable pageable = PageRequest.of(Math.max(page, 0), size);
+        return obtenerPaginaPorEstado(estado, pageable).map(UsuarioMapper::toListResponseDto);
     }
 
     @Override
@@ -118,5 +120,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private String normalizarTexto(String valor) {
         return valor == null ? "" : valor.trim();
+    }
+
+    private Page<Usuario> obtenerPaginaPorEstado(String estado, Pageable pageable) {
+        if ("ACTIVOS".equalsIgnoreCase(estado)) {
+            return usuarioRepository.findByActivo(true, pageable);
+        }
+        if ("INACTIVOS".equalsIgnoreCase(estado)) {
+            return usuarioRepository.findByActivo(false, pageable);
+        }
+        return usuarioRepository.findAll(pageable);
     }
 }

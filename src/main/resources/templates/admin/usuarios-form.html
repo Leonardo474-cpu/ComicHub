@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{admin/components/layout :: layout('Formulario de Usuario - Admin', ${usuario.id == null ? 'Registrar Usuario' : 'Editar Usuario'}, 'Gestiona información general y rol del usuario.', 'usuarios', ~{::section})}">
+      th:replace="~{admin/components/layout :: layout('Formulario de Usuario - Admin', ${usuario.id == null ? 'Registrar Usuario' : 'Editar Usuario'}, 'Gestiona información general y rol del usuario.', 'usuarios', 'usuarios', null, null, ~{::section})}">
 <section>
     <div class="mx-auto max-w-2xl rounded-2xl border border-white/10 bg-slate-900/60 p-6 shadow-2xl shadow-slate-950/40 sm:p-8">
         <form th:action="@{/admin/usuarios/guardar}" th:object="${usuario}" method="post" class="space-y-5">

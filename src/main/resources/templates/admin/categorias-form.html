@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{admin/components/layout :: layout('Formulario de Categoria - Admin', ${categoria.idCategoria == null ? 'Registrar Categoria' : 'Editar Categoria'}, 'Gestiona la descripcion de la categoria.', 'categorias', ~{::section})}">
+      th:replace="~{admin/components/layout :: layout('Formulario de Categoria - Admin', ${categoria.idCategoria == null ? 'Registrar Categoria' : 'Editar Categoria'}, 'Gestiona la descripcion de la categoria.', 'categorias', 'categorias', null, null, ~{::section})}">
 <section>
     <div class="mx-auto max-w-2xl rounded-2xl border border-white/10 bg-slate-900/60 p-6 shadow-2xl shadow-slate-950/40 sm:p-8">
         <form th:action="@{/admin/categorias/guardar}" th:object="${categoria}" method="post" class="space-y-5">

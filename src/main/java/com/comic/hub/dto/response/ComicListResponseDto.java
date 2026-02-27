@@ -6,6 +6,7 @@ public class ComicListResponseDto {
 
     private Integer idComic;
     private String titulo;
+    private String rutaImagenPortada;
     private String autor;
     private String categoria;
     private ComicEstado estado;
@@ -25,6 +26,14 @@ public class ComicListResponseDto {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public String getRutaImagenPortada() {
+        return rutaImagenPortada;
+    }
+
+    public void setRutaImagenPortada(String rutaImagenPortada) {
+        this.rutaImagenPortada = rutaImagenPortada;
     }
 
     public String getAutor() {

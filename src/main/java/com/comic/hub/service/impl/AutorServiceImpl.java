@@ -6,9 +6,10 @@ import com.comic.hub.mapper.AutorMapper;
 import com.comic.hub.model.Autor;
 import com.comic.hub.repository.AutorRepository;
 import com.comic.hub.service.AutorService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class AutorServiceImpl implements AutorService {
@@ -20,8 +21,9 @@ public class AutorServiceImpl implements AutorService {
     }
 
     @Override
-    public List<AutorListResponseDto> listarTodos() {
-        return autorRepository.findAll().stream().map(AutorMapper::toListResponseDto).toList();
+    public Page<AutorListResponseDto> listarTodos(String estado, int page, int size) {
+        Pageable pageable = PageRequest.of(Math.max(page, 0), size);
+        return obtenerPaginaPorEstado(estado, pageable).map(AutorMapper::toListResponseDto);
     }
 
     @Override
@@ -68,5 +70,15 @@ public class AutorServiceImpl implements AutorService {
 
     private String normalizarTexto(String valor) {
         return valor == null ? "" : valor.trim();
+    }
+
+    private Page<Autor> obtenerPaginaPorEstado(String estado, Pageable pageable) {
+        if ("ACTIVOS".equalsIgnoreCase(estado)) {
+            return autorRepository.findByActivo(true, pageable);
+        }
+        if ("INACTIVOS".equalsIgnoreCase(estado)) {
+            return autorRepository.findByActivo(false, pageable);
+        }
+        return autorRepository.findAll(pageable);
     }
 }
