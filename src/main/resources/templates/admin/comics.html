@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+th:replace="~{admin/components/layout :: layout(
+    'Comics',
+    'Gestión de Comics',
+    'Administra todos los comics del sistema',
+    'comics',
+    ~{::content}
+)}">
+
+<th:block th:fragment="content">
+
+<div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Lista de Comics</h5>
+        <a th:href="@{/admin/comics/nuevo}" class="btn btn-primary">
+            + Nuevo Comic
+        </a>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Estado</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="comic : ${comics}">
+                    <td th:text="${comic.id}"></td>
+                    <td th:text="${comic.titulo}"></td>
+                    <td th:text="${comic.autor}"></td>
+                    <td th:text="${comic.categoria}"></td>
+                    <td>S/ <span th:text="${comic.precio}"></span></td>
+                    <td th:text="${comic.stock}"></td>
+
+                    <td>
+                        <span class="badge bg-success" th:if="${comic.activo}">Activo</span>
+                        <span class="badge bg-secondary" th:unless="${comic.activo}">Inactivo</span>
+                    </td>
+
+                    <td class="text-center">
+                        <a th:href="@{/admin/comics/editar/{id}(id=${comic.id})}"
+                           class="btn btn-sm btn-warning">
+                           Editar
+                        </a>
+
+                        <a th:href="@{/admin/comics/eliminar/{id}(id=${comic.id})}"
+                           class="btn btn-sm btn-danger">
+                           Eliminar
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</th:block>
+</html>
