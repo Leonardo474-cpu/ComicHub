@@ -1,9 +1,5 @@
 package com.comic.hub.controller;
 
-import java.io.InputStream;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +16,6 @@ import com.comic.hub.dto.response.UsuarioListResponseDto;
 import com.comic.hub.repository.RolRepository;
 import com.comic.hub.service.UsuarioService;
 
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 
