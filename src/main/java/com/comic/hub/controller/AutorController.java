@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 @Controller
 public class AutorController {
 
@@ -26,12 +29,15 @@ public class AutorController {
 
     @GetMapping("/admin/autores")
     public String listar(@RequestParam(defaultValue = "TODOS") String estado,
+                         @RequestParam(defaultValue = "") String q,
                          @RequestParam(defaultValue = "0") int page,
                          Model model) {
-        Page<AutorListResponseDto> paginaAutores = autorService.listarTodos(estado, page, 10);
+        Page<AutorListResponseDto> paginaAutores = autorService.listarTodos(estado, q, page, 10);
         model.addAttribute("autores", paginaAutores.getContent());
         model.addAttribute("pagina", paginaAutores);
         model.addAttribute("estadoSeleccionado", estado.toUpperCase());
+        model.addAttribute("busqueda", q);
+        model.addAttribute("pageNumbers", construirVentanaPaginas(paginaAutores));
         return "admin/autores";
     }
 
@@ -71,5 +77,26 @@ public class AutorController {
     public String cambiarEstado(@PathVariable Integer id) {
         autorService.cambiarEstado(id);
         return "redirect:/admin/autores?estadoActualizado=true";
+    }
+
+    private List<Integer> construirVentanaPaginas(Page<?> pagina) {
+        int total = pagina.getTotalPages();
+        if (total <= 0) {
+            return List.of();
+        }
+
+        int actual = pagina.getNumber();
+        int inicio = Math.max(0, actual - 2);
+        int fin = Math.min(total - 1, actual + 2);
+
+        if (fin - inicio < 4) {
+            if (inicio == 0) {
+                fin = Math.min(total - 1, inicio + 4);
+            } else if (fin == total - 1) {
+                inicio = Math.max(0, fin - 4);
+            }
+        }
+
+        return IntStream.rangeClosed(inicio, fin).boxed().toList();
     }
 }

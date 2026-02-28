@@ -20,13 +20,89 @@ public class ReporteController {
     }
 
     @GetMapping("/usuarios")
-    public ResponseEntity<byte[]> descargarReporteUsuarios(@RequestParam(defaultValue = "TODOS") String estado) {
+    public ResponseEntity<byte[]> descargarReporteUsuarios(@RequestParam(defaultValue = "TODOS") String estado,
+                                                           @RequestParam(defaultValue = "") String q) {
         try {
-            byte[] reportePdf = reporteService.generarReporteUsuariosPdf(estado);
+            byte[] reportePdf = reporteService.generarReporteUsuariosPdf(estado, q);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
             headers.setContentDispositionFormData("attachment", "Reporte_Usuarios_ComicHub.pdf");
+
+            return ResponseEntity.ok().headers(headers).body(reportePdf);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/autores")
+    public ResponseEntity<byte[]> descargarReporteAutores(@RequestParam(defaultValue = "TODOS") String estado,
+                                                          @RequestParam(defaultValue = "") String q) {
+        try {
+            byte[] reportePdf = reporteService.generarReporteAutoresPdf(estado, q);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("attachment", "Reporte_Autores_ComicHub.pdf");
+
+            return ResponseEntity.ok().headers(headers).body(reportePdf);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/categorias")
+    public ResponseEntity<byte[]> descargarReporteCategorias(@RequestParam(defaultValue = "TODOS") String estado,
+                                                             @RequestParam(defaultValue = "") String q) {
+        try {
+            byte[] reportePdf = reporteService.generarReporteCategoriasPdf(estado, q);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("attachment", "Reporte_Categorias_ComicHub.pdf");
+
+            return ResponseEntity.ok().headers(headers).body(reportePdf);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/comics")
+    public ResponseEntity<byte[]> descargarReporteComics(@RequestParam(defaultValue = "TODOS") String estado,
+                                                         @RequestParam(defaultValue = "") String q,
+                                                         @RequestParam(required = false) String autorId,
+                                                         @RequestParam(required = false) String categoriaId) {
+        try {
+            byte[] reportePdf = reporteService.generarReporteComicsPdf(
+                    estado,
+                    q,
+                    parseNullableInteger(autorId),
+                    parseNullableInteger(categoriaId)
+            );
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("attachment", "Reporte_Comics_ComicHub.pdf");
+
+            return ResponseEntity.ok().headers(headers).body(reportePdf);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/suscripciones")
+    public ResponseEntity<byte[]> descargarReporteSuscripciones(@RequestParam(defaultValue = "TODOS") String estado,
+                                                                @RequestParam(defaultValue = "") String q) {
+        try {
+            byte[] reportePdf = reporteService.generarReporteSuscripcionesPdf(estado, q);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData("attachment", "Reporte_Suscripciones_ComicHub.pdf");
 
             return ResponseEntity.ok().headers(headers).body(reportePdf);
         } catch (Exception e) {
@@ -48,6 +124,17 @@ public class ReporteController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    private Integer parseNullableInteger(String valor) {
+        if (valor == null || valor.isBlank()) {
+            return null;
+        }
+        try {
+            return Integer.valueOf(valor);
+        } catch (NumberFormatException ex) {
+            return null;
         }
     }
 }

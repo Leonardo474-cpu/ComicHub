@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{admin/components/layout :: layout('Formulario de Comic - Admin', ${comic.idComic == null ? 'Registrar Comic' : 'Editar Comic'}, 'Gestiona la informacion editorial del comic.', 'comics', 'comics', null, null, ~{::section})}">
+      th:replace="~{admin/components/layout :: layout('Formulario de Comic - Admin', ${comic.idComic == null ? 'Registrar Comic' : 'Editar Comic'}, 'Gestiona la informacion editorial del comic.', 'comics', 'comics', null, null, null, null, ~{::section})}">
 <section>
     <div class="mx-auto max-w-3xl rounded-2xl border border-white/10 bg-slate-900/60 p-6 shadow-2xl shadow-slate-950/40 sm:p-8">
         <form th:action="@{/admin/comics/guardar}" th:object="${comic}" method="post" enctype="multipart/form-data" class="space-y-5">

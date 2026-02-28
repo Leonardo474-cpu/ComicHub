@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 @Controller
 public class ComicController {
 
@@ -27,13 +30,24 @@ public class ComicController {
     }
 
     @GetMapping("/admin/comics")
-    public String listar(@RequestParam(defaultValue = "TODOS") String estado,
+    public String listar(@RequestParam(defaultValue = "ACTIVOS") String estado,
+                         @RequestParam(defaultValue = "") String q,
+                         @RequestParam(required = false) String autorId,
+                         @RequestParam(required = false) String categoriaId,
                          @RequestParam(defaultValue = "0") int page,
                          Model model) {
-        Page<ComicListResponseDto> paginaComics = comicService.listarTodos(estado, page, 10);
+        Integer autorIdFiltro = parseNullableInteger(autorId);
+        Integer categoriaIdFiltro = parseNullableInteger(categoriaId);
+        Page<ComicListResponseDto> paginaComics = comicService.listarTodos(estado, q, autorIdFiltro, categoriaIdFiltro, page, 10);
         model.addAttribute("comics", paginaComics.getContent());
         model.addAttribute("pagina", paginaComics);
         model.addAttribute("estadoSeleccionado", estado.toUpperCase());
+        model.addAttribute("busqueda", q);
+        model.addAttribute("autorSeleccionado", autorIdFiltro);
+        model.addAttribute("categoriaSeleccionada", categoriaIdFiltro);
+        model.addAttribute("autoresFiltro", comicService.listarAutoresActivos());
+        model.addAttribute("categoriasFiltro", comicService.listarCategoriasActivas());
+        model.addAttribute("pageNumbers", construirVentanaPaginas(paginaComics));
         return "admin/comics";
     }
 
@@ -91,5 +105,37 @@ public class ComicController {
         model.addAttribute("autores", comicService.listarAutoresActivos());
         model.addAttribute("categorias", comicService.listarCategoriasActivas());
         model.addAttribute("estadosComic", ComicEstado.values());
+    }
+
+    private List<Integer> construirVentanaPaginas(Page<?> pagina) {
+        int total = pagina.getTotalPages();
+        if (total <= 0) {
+            return List.of();
+        }
+
+        int actual = pagina.getNumber();
+        int inicio = Math.max(0, actual - 2);
+        int fin = Math.min(total - 1, actual + 2);
+
+        if (fin - inicio < 4) {
+            if (inicio == 0) {
+                fin = Math.min(total - 1, inicio + 4);
+            } else if (fin == total - 1) {
+                inicio = Math.max(0, fin - 4);
+            }
+        }
+
+        return IntStream.rangeClosed(inicio, fin).boxed().toList();
+    }
+
+    private Integer parseNullableInteger(String valor) {
+        if (valor == null || valor.isBlank()) {
+            return null;
+        }
+        try {
+            return Integer.valueOf(valor);
+        } catch (NumberFormatException ex) {
+            return null;
+        }
     }
 }

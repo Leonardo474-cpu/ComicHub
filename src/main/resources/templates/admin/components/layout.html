@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:fragment="layout(pageTitle, pageHeading, pageDescription, activeSection, headerIcon, actionLabel, actionUrl, content)">
+      th:fragment="layout(pageTitle, pageHeading, pageDescription, activeSection, headerIcon, reportLabel, reportUrl, actionLabel, actionUrl, content)">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +10,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen bg-slate-950 text-slate-100">
-<div class="flex min-h-screen">
-    <aside class="flex w-72 flex-col border-r border-white/10 bg-slate-900/80 backdrop-blur">
+<body class="h-screen overflow-hidden bg-slate-950 text-slate-100">
+<div class="flex h-screen">
+    <aside class="sticky top-0 flex h-screen w-72 shrink-0 flex-col border-r border-white/10 bg-slate-900/80 backdrop-blur">
         <div class="px-6 py-6">
             <a th:href="@{/admin}" class="inline-flex items-center gap-2 text-xl font-bold tracking-wide text-cyan-300">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -24,7 +24,7 @@
             <p class="mt-1 text-xs text-slate-400">Panel de administracion</p>
         </div>
 
-        <nav class="flex-1 space-y-2 px-4 pb-6">
+        <nav class="flex-1 space-y-2 overflow-y-auto px-4 pb-6">
             <a th:href="@{/admin}"
                class="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-cyan-500/15 hover:text-cyan-200"
                th:classappend="${activeSection == 'dashboard'} ? ' bg-cyan-500/20 text-cyan-200'">
@@ -95,7 +95,7 @@
         </div>
     </aside>
 
-    <main class="flex-1 px-6 py-8 sm:px-10">
+    <main class="flex-1 overflow-y-auto px-6 py-8 sm:px-10">
         <header class="mb-8 rounded-2xl border border-white/10 bg-gradient-to-r from-slate-900/90 to-slate-800/70 p-5 shadow-xl shadow-slate-950/30">
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div class="flex items-start gap-3">
@@ -139,14 +139,29 @@
                     </div>
                 </div>
 
-                <a th:if="${actionLabel != null and actionUrl != null}"
-                   th:href="${actionUrl}"
-                   class="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/>
-                    </svg>
-                    <span th:text="${actionLabel}">Agregar</span>
-                </a>
+                <div class="flex flex-wrap items-center gap-2">
+                    <a th:if="${reportLabel != null and reportUrl != null}"
+                       th:href="${reportUrl}"
+                       target="_blank"
+                       class="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-2.5 text-sm font-semibold text-emerald-200 transition hover:bg-emerald-500/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14 2v6h6"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-6"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 15l3 3 3-3"/>
+                        </svg>
+                        <span th:text="${reportLabel}">Exportar PDF</span>
+                    </a>
+
+                    <a th:if="${actionLabel != null and actionUrl != null}"
+                       th:href="${actionUrl}"
+                       class="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/>
+                        </svg>
+                        <span th:text="${actionLabel}">Agregar</span>
+                    </a>
+                </div>
             </div>
         </header>
 

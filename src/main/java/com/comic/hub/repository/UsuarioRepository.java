@@ -24,8 +24,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
 	Page<Usuario> findByActivo(boolean activo, Pageable pageable);
 
 	@EntityGraph(attributePaths = "rol")
+	Page<Usuario> findByNombreCompletoContainingIgnoreCase(String nombreCompleto, Pageable pageable);
+
+	@EntityGraph(attributePaths = "rol")
+	Page<Usuario> findByActivoAndNombreCompletoContainingIgnoreCase(boolean activo, String nombreCompleto, Pageable pageable);
+
+	@EntityGraph(attributePaths = "rol")
 	Optional<Usuario> findByCorreo(String correo);
 }
-
 
 

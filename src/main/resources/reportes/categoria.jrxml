@@ -1,100 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Reporte Categorías con estilo unificado -->
-<jasperReport name="categoria"
-	pageWidth="595" pageHeight="842"
-	columnWidth="555"
-	leftMargin="20" rightMargin="20"
-	topMargin="20" bottomMargin="20"
-	uuid="d43e0125-26fa-404e-aa59-82b809d331a1">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+    name="categoria" pageWidth="595" pageHeight="842" columnWidth="555"
+    leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+    uuid="7ab07711-5a4e-4e08-9f5c-2d731f4c148d">
 
-	<!-- ===================== -->
-	<!-- ESTILOS -->
-	<!-- ===================== -->
-	<style name="Titulo" fontSize="26" bold="true" forecolor="#1e293b"/>
+    <style name="Title" fontName="SansSerif" fontSize="20" isBold="true" forecolor="#1E293B"/>
+    <style name="Header" mode="Opaque" backcolor="#334155" forecolor="#FFFFFF" fontName="SansSerif" fontSize="10" isBold="true"/>
+    <style name="Detail" fontName="SansSerif" fontSize="10" forecolor="#0F172A"/>
 
-	<style name="Encabezado"
-		mode="Opaque"
-		backcolor="#334155"
-		forecolor="#ffffff"
-		bold="true"
-		hTextAlign="Center"/>
+    <field name="idCategoria" class="java.lang.Integer"/>
+    <field name="descripcion" class="java.lang.String"/>
+    <field name="activo" class="java.lang.Boolean"/>
 
-	<style name="Detalle"
-		forecolor="#0f172a"/>
+    <title>
+        <band height="60">
+            <staticText>
+                <reportElement x="0" y="10" width="555" height="30" style="Title"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[Reporte de Categorias]]></text>
+            </staticText>
+            <line>
+                <reportElement x="0" y="48" width="555" height="1" forecolor="#94A3B8"/>
+            </line>
+        </band>
+    </title>
 
-	<query language="sql"><![CDATA[]]></query>
+    <columnHeader>
+        <band height="24">
+            <staticText>
+                <reportElement x="0" y="0" width="80" height="22" style="Header"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[ID]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="80" y="0" width="355" height="22" style="Header"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Descripcion]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="435" y="0" width="120" height="22" style="Header"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Estado]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
 
-	<!-- ===================== -->
-	<!-- CAMPOS -->
-	<!-- ===================== -->
-	<field name="idCategoria" class="java.lang.Integer"/>
-	<field name="descripcion" class="java.lang.String"/>
-	<field name="activo" class="java.lang.Boolean"/>
+    <detail>
+        <band height="22">
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="2" width="80" height="18" style="Detail"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{idCategoria}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="80" y="2" width="355" height="18" style="Detail"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="435" y="2" width="120" height="18" style="Detail"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{activo} != null && $F{activo} ? "Activa" : "Inactiva"]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
 
-	<!-- ===================== -->
-	<!-- TITULO -->
-	<!-- ===================== -->
-	<title height="80">
-		<element kind="staticText" style="Titulo" x="0" y="10" width="555" height="40">
-			<text><![CDATA[Reporte de Categorías]]></text>
-		</element>
-
-		<element kind="line" x="0" y="60" width="555" height="1" forecolor="#94a3b8"/>
-	</title>
-
-	<!-- ===================== -->
-	<!-- ENCABEZADOS -->
-	<!-- ===================== -->
-	<columnHeader height="35">
-
-		<element kind="staticText" style="Encabezado" x="0" y="0" width="80" height="30">
-			<text><![CDATA[ID]]></text>
-		</element>
-
-		<element kind="staticText" style="Encabezado" x="80" y="0" width="350" height="30">
-			<text><![CDATA[Descripción]]></text>
-		</element>
-
-		<element kind="staticText" style="Encabezado" x="430" y="0" width="125" height="30">
-			<text><![CDATA[Estado]]></text>
-		</element>
-
-	</columnHeader>
-
-	<!-- ===================== -->
-	<!-- DETALLE -->
-	<!-- ===================== -->
-	<detail>
-		<band height="30">
-
-			<element kind="textField" style="Detalle" x="0" y="5" width="80" height="20">
-				<expression><![CDATA[$F{idCategoria}]]></expression>
-			</element>
-
-			<element kind="textField" style="Detalle" x="80" y="5" width="350" height="20">
-				<expression><![CDATA[$F{descripcion}]]></expression>
-			</element>
-
-			<!-- Estado con color dinámico -->
-			<element kind="textField" x="430" y="5" width="125" height="20" hTextAlign="Center">
-				<expression><![CDATA[$F{activo} ? "Activa" : "Inactiva"]]></expression>
-				<property name="forecolor">
-					<![CDATA[$F{activo} ? "#16a34a" : "#dc2626"]]>
-				</property>
-			</element>
-
-		</band>
-	</detail>
-
-	<!-- ===================== -->
-	<!-- FOOTER -->
-	<!-- ===================== -->
-	<pageFooter height="25">
-		<element kind="line" x="0" y="0" width="555" height="1" forecolor="#cbd5f5"/>
-
-		<element kind="textField" x="450" y="5" width="100" height="20" hTextAlign="Right">
-			<expression><![CDATA["Página " + $V{PAGE_NUMBER}]]></expression>
-		</element>
-	</pageFooter>
+    <pageFooter>
+        <band height="24">
+            <line>
+                <reportElement x="0" y="0" width="555" height="1" forecolor="#CBD5E1"/>
+            </line>
+            <textField>
+                <reportElement x="455" y="4" width="100" height="16"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
 
 </jasperReport>

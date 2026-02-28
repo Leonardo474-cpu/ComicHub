@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface ComicService {
 
-    Page<ComicListResponseDto> listarTodos(String estado, int page, int size);
+    Page<ComicListResponseDto> listarTodos(String estado, String q, Integer autorId, Integer categoriaId, int page, int size);
 
     Comic obtenerDetalle(Integer idComic);
 
@@ -26,5 +26,5 @@ public interface ComicService {
 
     List<Categoria> listarCategoriasActivas();
 
-    List<Comic> listarActivosParaInicio(int limite);
+    List<Comic> listarActivosParaInicio(int page, int size);
 }

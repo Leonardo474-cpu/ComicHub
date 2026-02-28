@@ -1,118 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Reporte Autores con estilo unificado -->
-<jasperReport name="autores"
-	pageWidth="595" pageHeight="842"
-	columnWidth="555"
-	leftMargin="20" rightMargin="20"
-	topMargin="20" bottomMargin="20"
-	uuid="19b84368-f477-41d1-a49a-59208d5031d9">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+    name="autores" pageWidth="595" pageHeight="842" columnWidth="555"
+    leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+    uuid="a4d93c85-4822-4b64-bf34-d04ce55ea195">
 
-	<!-- ===================== -->
-	<!-- ESTILOS -->
-	<!-- ===================== -->
-	<style name="Titulo" fontSize="26" bold="true" forecolor="#1e293b"/>
+    <style name="Title" fontName="SansSerif" fontSize="20" isBold="true" forecolor="#1E293B"/>
+    <style name="Header" mode="Opaque" backcolor="#334155" forecolor="#FFFFFF" fontName="SansSerif" fontSize="10" isBold="true"/>
+    <style name="Detail" fontName="SansSerif" fontSize="10" forecolor="#0F172A"/>
 
-	<style name="Encabezado"
-		mode="Opaque"
-		backcolor="#334155"
-		forecolor="#ffffff"
-		bold="true"
-		hTextAlign="Center"/>
+    <field name="idAutor" class="java.lang.Integer"/>
+    <field name="nombre" class="java.lang.String"/>
+    <field name="seudonimo" class="java.lang.String"/>
+    <field name="activo" class="java.lang.Boolean"/>
 
-	<style name="Detalle"
-		forecolor="#0f172a"/>
+    <title>
+        <band height="60">
+            <staticText>
+                <reportElement x="0" y="10" width="555" height="30" style="Title"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[Reporte de Autores]]></text>
+            </staticText>
+            <line>
+                <reportElement x="0" y="48" width="555" height="1" forecolor="#94A3B8"/>
+            </line>
+        </band>
+    </title>
 
-	<query language="sql"><![CDATA[]]></query>
+    <columnHeader>
+        <band height="24">
+            <staticText>
+                <reportElement x="0" y="0" width="60" height="22" style="Header"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[ID]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="60" y="0" width="180" height="22" style="Header"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Nombre]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="240" y="0" width="185" height="22" style="Header"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Seudonimo]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="425" y="0" width="130" height="22" style="Header"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Estado]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
 
-	<!-- ===================== -->
-	<!-- CAMPOS -->
-	<!-- ===================== -->
-	<field name="idAutor" class="java.lang.Integer"/>
-	<field name="nombre" class="java.lang.String"/>
-	<field name="seudonimo" class="java.lang.String"/>
-	<field name="activo" class="java.lang.Boolean"/>
-	<field name="fechaRegistro" class="java.time.LocalDateTime"/>
+    <detail>
+        <band height="22">
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="2" width="60" height="18" style="Detail"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{idAutor}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="60" y="2" width="180" height="18" style="Detail"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="240" y="2" width="185" height="18" style="Detail"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{seudonimo}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="425" y="2" width="130" height="18" style="Detail"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{activo} != null && $F{activo} ? "Activo" : "Inactivo"]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
 
-	<!-- ===================== -->
-	<!-- TITULO -->
-	<!-- ===================== -->
-	<title height="80">
-		<element kind="staticText" style="Titulo" x="0" y="10" width="555" height="40">
-			<text><![CDATA[Reporte de Autores]]></text>
-		</element>
-
-		<element kind="line" x="0" y="60" width="555" height="1" forecolor="#94a3b8"/>
-	</title>
-
-	<!-- ===================== -->
-	<!-- ENCABEZADOS -->
-	<!-- ===================== -->
-	<columnHeader height="35">
-
-		<element kind="staticText" style="Encabezado" x="0" y="0" width="70" height="30">
-			<text><![CDATA[ID]]></text>
-		</element>
-
-		<element kind="staticText" style="Encabezado" x="70" y="0" width="180" height="30">
-			<text><![CDATA[Nombre]]></text>
-		</element>
-
-		<element kind="staticText" style="Encabezado" x="250" y="0" width="130" height="30">
-			<text><![CDATA[Seudónimo]]></text>
-		</element>
-
-		<element kind="staticText" style="Encabezado" x="380" y="0" width="85" height="30">
-			<text><![CDATA[Estado]]></text>
-		</element>
-
-		<element kind="staticText" style="Encabezado" x="465" y="0" width="90" height="30">
-			<text><![CDATA[Fecha Registro]]></text>
-		</element>
-
-	</columnHeader>
-
-	<!-- ===================== -->
-	<!-- DETALLE -->
-	<!-- ===================== -->
-	<detail>
-		<band height="30">
-
-			<element kind="textField" style="Detalle" x="0" y="5" width="70" height="20">
-				<expression><![CDATA[$F{idAutor}]]></expression>
-			</element>
-
-			<element kind="textField" style="Detalle" x="70" y="5" width="180" height="20">
-				<expression><![CDATA[$F{nombre}]]></expression>
-			</element>
-
-			<element kind="textField" style="Detalle" x="250" y="5" width="130" height="20">
-				<expression><![CDATA[$F{seudonimo}]]></expression>
-			</element>
-
-			<!-- Estado con color dinámico -->
-			<element kind="textField" x="380" y="5" width="85" height="20" hTextAlign="Center">
-				<expression><![CDATA[$F{activo} ? "Activo" : "Inactivo"]]></expression>
-				<property name="forecolor">
-					<![CDATA[$F{activo} ? "#16a34a" : "#dc2626"]]>
-				</property>
-			</element>
-
-			<element kind="textField" style="Detalle" x="465" y="5" width="90" height="20" pattern="dd/MM/yyyy HH:mm">
-				<expression><![CDATA[$F{fechaRegistro}]]></expression>
-			</element>
-
-		</band>
-	</detail>
-
-	<!-- ===================== -->
-	<!-- FOOTER -->
-	<!-- ===================== -->
-	<pageFooter height="25">
-		<element kind="line" x="0" y="0" width="555" height="1" forecolor="#cbd5f5"/>
-
-		<element kind="textField" x="450" y="5" width="100" height="20" hTextAlign="Right">
-			<expression><![CDATA["Página " + $V{PAGE_NUMBER}]]></expression>
-		</element>
-	</pageFooter>
+    <pageFooter>
+        <band height="24">
+            <line>
+                <reportElement x="0" y="0" width="555" height="1" forecolor="#CBD5E1"/>
+            </line>
+            <textField>
+                <reportElement x="455" y="4" width="100" height="16"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
 
 </jasperReport>

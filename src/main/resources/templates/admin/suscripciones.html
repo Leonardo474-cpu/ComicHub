@@ -1,7 +1,34 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{admin/components/layout :: layout('Suscripciones - Admin', 'Suscripciones', 'Control de usuarios suscritos.', 'suscripciones', 'suscripciones', null, null, ~{::section})}">
+      th:replace="~{admin/components/layout :: layout('Suscripciones - Admin', 'Suscripciones', 'Control de usuarios suscritos.', 'suscripciones', 'suscripciones', 'Exportar PDF', @{/api/reportes/suscripciones(estado=${estadoSeleccionado},q=${busqueda})}, null, null, ~{::section})}">
 <section>
+    <div class="mb-4 rounded-2xl border border-white/10 bg-slate-900/50 p-4">
+        <form method="get" th:action="@{/admin/suscripciones}" class="flex flex-col gap-3 xl:flex-row xl:items-end">
+            <div class="w-full xl:max-w-2xl">
+                <label for="q" class="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-400">Buscar por nombre</label>
+                <input id="q" name="q" type="text" th:value="${busqueda}"
+                       placeholder="Ej. Juan Perez"
+                       class="w-full rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring xl:min-w-[26rem]">
+            </div>
+            <div>
+                <label for="estado" class="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-400">Filtrar por estado</label>
+                <select id="estado" name="estado"
+                        class="rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring">
+                    <option value="TODOS" th:selected="${estadoSeleccionado == 'TODOS'}">Todos</option>
+                    <option value="ACTIVA" th:selected="${estadoSeleccionado == 'ACTIVA'}">Activa</option>
+                    <option value="FINALIZADA" th:selected="${estadoSeleccionado == 'FINALIZADA'}">Finalizada</option>
+                </select>
+            </div>
+            <input type="hidden" name="page" value="0">
+            <div class="xl:ml-auto">
+                <button type="submit"
+                        class="rounded-xl border border-cyan-400/40 bg-cyan-500/10 px-4 py-2 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-500/20">
+                    Aplicar filtro
+                </button>
+            </div>
+        </form>
+    </div>
+
     <div class="overflow-hidden rounded-2xl border border-white/10 bg-slate-900/60 shadow-2xl shadow-slate-950/40">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-slate-800 text-sm">
@@ -27,7 +54,7 @@
                     <td class="whitespace-nowrap px-5 py-4" th:text="${s.fechaFin}"></td>
                     <td class="whitespace-nowrap px-5 py-4">
                         <span class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold"
-                              th:classappend="${s.estado == 'ACTIVO'} ? ' border-emerald-400/40 bg-emerald-500/10 text-emerald-200' : ' border-rose-400/40 bg-rose-500/10 text-rose-200'">
+                              th:classappend="${s.estado == 'ACTIVA'} ? ' border-emerald-400/40 bg-emerald-500/10 text-emerald-200' : ' border-rose-400/40 bg-rose-500/10 text-rose-200'">
                             <span th:text="${s.estado}"></span>
                         </span>
                     </td>
@@ -37,6 +64,32 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div th:if="${pagina.totalPages > 0}" class="mt-5 rounded-2xl border border-white/10 bg-slate-900/60 p-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <p class="text-sm text-slate-400">
+                Pagina <span class="font-semibold text-slate-200" th:text="${pagina.number + 1}"></span> de <span class="font-semibold text-slate-200" th:text="${pagina.totalPages}"></span>
+            </p>
+            <div class="inline-flex items-center gap-1 rounded-xl border border-slate-700 bg-slate-950/50 p-1">
+                <a th:if="${!pagina.first}"
+                   th:href="@{/admin/suscripciones(page=${pagina.number - 1},estado=${estadoSeleccionado},q=${busqueda})}"
+                   class="rounded-lg px-3 py-1.5 text-sm text-slate-200 transition hover:bg-slate-800">
+                    Anterior
+                </a>
+                <a th:each="i : ${pageNumbers}"
+                   th:href="@{/admin/suscripciones(page=${i},estado=${estadoSeleccionado},q=${busqueda})}"
+                   th:text="${i + 1}"
+                   th:classappend="${i == pagina.number} ? ' bg-cyan-500 text-slate-950' : ' text-slate-200 hover:bg-slate-800'"
+                   class="rounded-lg px-3 py-1.5 text-sm transition">
+                </a>
+                <a th:if="${!pagina.last}"
+                   th:href="@{/admin/suscripciones(page=${pagina.number + 1},estado=${estadoSeleccionado},q=${busqueda})}"
+                   class="rounded-lg px-3 py-1.5 text-sm text-slate-200 transition hover:bg-slate-800">
+                    Siguiente
+                </a>
+            </div>
         </div>
     </div>
 </section>

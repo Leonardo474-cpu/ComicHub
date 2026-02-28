@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.comic.hub.model.Plan;
 import com.comic.hub.model.Suscripcion;
 import com.comic.hub.model.Usuario;
+import org.springframework.data.domain.Page;
 
 public interface SuscripcionService {
 
@@ -15,5 +16,5 @@ public interface SuscripcionService {
 
     void contratarPlan(Integer idPlan, Usuario usuarioSesion);
 
-    List<Suscripcion> listarSuscripciones();
+    Page<Suscripcion> listarSuscripciones(String estado, String q, int page, int size);
 }

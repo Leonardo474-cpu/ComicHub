@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 
 public interface AutorService {
 
-    Page<AutorListResponseDto> listarTodos(String estado, int page, int size);
+    Page<AutorListResponseDto> listarTodos(String estado, String q, int page, int size);
 
     AutorAdminRequestDto buscarPorIdParaEdicion(Integer idAutor);
 

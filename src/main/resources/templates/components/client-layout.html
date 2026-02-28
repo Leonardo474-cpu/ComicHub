@@ -15,24 +15,18 @@
                     </svg>
                     <span class="menu-text">Inicio</span>
                 </a>
-                <a href="#" th:classappend="${activeSection == 'series'} ? ' active'">
+                <a th:href="@{/home#seriesSection}" th:classappend="${activeSection == 'series'} ? ' active'">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
                         <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
                     </svg>
                     <span class="menu-text">Series</span>
                 </a>
-                <a href="#" th:classappend="${activeSection == 'rankings'} ? ' active'">
+                <a th:href="@{/home#rankingSection}" th:classappend="${activeSection == 'rankings'} ? ' active'">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 17l6-6 4 4 8-8"/>
                     </svg>
                     <span class="menu-text">Rankings</span>
-                </a>
-                <a href="#" th:classappend="${activeSection == 'capitulos'} ? ' active'">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 7h7v13H3zM14 4h7v16h-7z"/>
-                    </svg>
-                    <span class="menu-text">Capítulos</span>
                 </a>
                 <a th:if="${!(tieneSuscripcionActiva ?: false)}" th:href="@{/suscripciones}" th:classappend="${activeSection == 'suscripciones'} ? ' active'">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

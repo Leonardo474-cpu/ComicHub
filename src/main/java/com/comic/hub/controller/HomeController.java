@@ -1,10 +1,13 @@
 package com.comic.hub.controller;
 
+import com.comic.hub.dto.response.ComicInicioResponseDto;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.comic.hub.model.Comic;
 import com.comic.hub.model.Suscripcion;
@@ -16,6 +19,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -30,8 +34,10 @@ public class HomeController {
 
     @RequestMapping({"/", "/home"})
     public String mostrarHome(Model model, HttpSession session) {
-        List<Comic> comicsActivos = comicService.listarActivosParaInicio(12);
-        model.addAttribute("comicsActivos", comicsActivos);
+        List<ComicInicioResponseDto> comicsIniciales = comicService.listarActivosParaInicio(0, 15).stream()
+                .map(this::toComicInicioDto)
+                .collect(Collectors.toList());
+        model.addAttribute("comicsIniciales", comicsIniciales);
 
         Object usuarioSesion = session.getAttribute("usuarioLogueado");
         if (usuarioSesion instanceof Usuario usuario) {
@@ -43,6 +49,25 @@ public class HomeController {
                     suscripcionActiva.map(s -> s.getPlan().getNombrePlan()).orElse(null));
         }
         return "home";
+    }
+
+    @GetMapping("/api/comics/inicio")
+    @ResponseBody
+    public List<ComicInicioResponseDto> cargarComicsInicio(@RequestParam(defaultValue = "0") int page,
+                                                           @RequestParam(defaultValue = "15") int size) {
+        int pagina = Math.max(page, 0);
+        int tamanio = Math.max(1, Math.min(size, 15));
+        int offset = pagina * 15;
+        if (offset >= 100) {
+            return List.of();
+        }
+
+        int restante = 100 - offset;
+        int limiteReal = Math.min(tamanio, restante);
+
+        return comicService.listarActivosParaInicio(pagina, limiteReal).stream()
+                .map(this::toComicInicioDto)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/comics/{id}")
@@ -69,5 +94,15 @@ public class HomeController {
         }
 
         return "comic-detalle";
+    }
+
+    private ComicInicioResponseDto toComicInicioDto(Comic comic) {
+        String nombreAutor = comic.getAutor() != null ? comic.getAutor().getNombre() : "Autor no disponible";
+        return new ComicInicioResponseDto(
+                comic.getIdComic(),
+                comic.getTitulo(),
+                comic.getRutaImagenPortada(),
+                nombreAutor,
+                comic.getSinopsis());
     }
 }

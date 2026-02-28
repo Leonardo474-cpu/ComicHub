@@ -21,6 +21,9 @@ import com.comic.hub.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 @Controller
 public class UsuarioController {
 
@@ -34,12 +37,15 @@ public class UsuarioController {
 
     @GetMapping("/admin/usuarios")
     public String listar(@RequestParam(defaultValue = "TODOS") String estado,
+                         @RequestParam(defaultValue = "") String q,
                          @RequestParam(defaultValue = "0") int page,
                          Model model) {
-        Page<UsuarioListResponseDto> paginaUsuarios = usuarioService.listarTodos(estado, page, 10);
+        Page<UsuarioListResponseDto> paginaUsuarios = usuarioService.listarTodos(estado, q, page, 10);
         model.addAttribute("usuarios", paginaUsuarios.getContent());
         model.addAttribute("pagina", paginaUsuarios);
         model.addAttribute("estadoSeleccionado", estado.toUpperCase());
+        model.addAttribute("busqueda", q);
+        model.addAttribute("pageNumbers", construirVentanaPaginas(paginaUsuarios));
         return "admin/usuarios";
     }
 
@@ -156,5 +162,26 @@ public class UsuarioController {
             return null;
         }
         return valor;
+    }
+
+    private List<Integer> construirVentanaPaginas(Page<?> pagina) {
+        int total = pagina.getTotalPages();
+        if (total <= 0) {
+            return List.of();
+        }
+
+        int actual = pagina.getNumber();
+        int inicio = Math.max(0, actual - 2);
+        int fin = Math.min(total - 1, actual + 2);
+
+        if (fin - inicio < 4) {
+            if (inicio == 0) {
+                fin = Math.min(total - 1, inicio + 4);
+            } else if (fin == total - 1) {
+                inicio = Math.max(0, fin - 4);
+            }
+        }
+
+        return IntStream.rangeClosed(inicio, fin).boxed().toList();
     }
 }

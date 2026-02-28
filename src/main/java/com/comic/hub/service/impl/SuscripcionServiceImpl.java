@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -92,7 +95,23 @@ public class SuscripcionServiceImpl implements SuscripcionService {
     }
 
     @Override
-    public List<Suscripcion> listarSuscripciones() {
-        return suscripcionRepository.findAll();
+    public Page<Suscripcion> listarSuscripciones(String estado, String q, int page, int size) {
+        Pageable pageable = PageRequest.of(Math.max(page, 0), size);
+        String busqueda = q == null ? "" : q.trim();
+        boolean tieneBusqueda = !busqueda.isBlank();
+
+        if ("ACTIVA".equalsIgnoreCase(estado) || "FINALIZADA".equalsIgnoreCase(estado)) {
+            return tieneBusqueda
+                    ? suscripcionRepository.findByEstadoIgnoreCaseAndUsuario_NombreCompletoContainingIgnoreCase(
+                    estado,
+                    busqueda,
+                    pageable
+            )
+                    : suscripcionRepository.findByEstadoIgnoreCase(estado, pageable);
+        }
+
+        return tieneBusqueda
+                ? suscripcionRepository.findByUsuario_NombreCompletoContainingIgnoreCase(busqueda, pageable)
+                : suscripcionRepository.findAll(pageable);
     }
 }
