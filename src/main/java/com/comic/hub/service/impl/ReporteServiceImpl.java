@@ -1,8 +1,13 @@
 package com.comic.hub.service.impl;
 
 import com.comic.hub.dto.response.PlanGraficoResponse;
+import com.comic.hub.dto.response.UsuarioListResponseDto;
+import com.comic.hub.mapper.UsuarioMapper;
 import com.comic.hub.model.Suscripcion;
+import com.comic.hub.model.Usuario;
 import com.comic.hub.repository.SuscripcionRepository;
+import com.comic.hub.repository.UsuarioRepository;
+import com.comic.hub.service.ReporteService;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,44 +15,71 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class ReporteServiceImpl {
+public class ReporteServiceImpl implements ReporteService {
 
     @Autowired
     private SuscripcionRepository suscripcionRepository;
 
-    public byte[] generarReporteUsuariosPdf() throws Exception {
-    	// 1. Obtener todas las suscripciones
-    	List<Suscripcion> todasLasSuscripciones = suscripcionRepository.findAll();
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-    	// 2. Agruparlas en un Mapa (K: Nombre del Plan, V: Cantidad)
-    	Map<String, Long> conteoPorPlan = todasLasSuscripciones.stream()
-    	    .collect(Collectors.groupingBy(
-    	        // OJO: Si aquí te sale error, cambia getNombrePlan() por el getter exacto que tengas en tu clase Plan.java
-    	        suscripcion -> suscripcion.getPlan().getNombrePlan(), 
-    	        Collectors.counting()
-    	    ));
+    @Override
+    public byte[] generarReporteUsuariosPdf(String estado) throws Exception {
+        List<Usuario> usuarios = obtenerUsuariosPorEstado(estado);
+        List<UsuarioListResponseDto> datosReporte = usuarios.stream()
+                .map(UsuarioMapper::toListResponseDto)
+                .collect(Collectors.toList());
 
-    	// 3. Convertir el Mapa a tu lista de DTOs
-    	List<PlanGraficoResponse> datosGrafico = conteoPorPlan.entrySet().stream()
-    	    .map(entry -> new PlanGraficoResponse(entry.getKey(), entry.getValue()))
-    	    .collect(Collectors.toList()); // Usamos esto en vez de .toList() por mayor compatibilidad en STS
-
-        // 2. Cargar el archivo .jrxml desde la carpeta resources/reportes
         InputStream reporteStream = new ClassPathResource("reportes/usuarios.jrxml").getInputStream();
         JasperReport jasperReport = JasperCompileManager.compileReport(reporteStream);
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(datosReporte);
+        Map<String, Object> parametros = new HashMap<>();
 
-        // 3. Pasar la lista de DTOs al DataSource
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, dataSource);
+        return JasperExportManager.exportReportToPdf(jasperPrint);
+    }
+
+    @Override
+    public byte[] generarReporteUsuariosPorPlanPdf() throws Exception {
+        List<Suscripcion> todasLasSuscripciones = suscripcionRepository.findAll();
+
+        Map<String, Long> conteoPorPlan = todasLasSuscripciones.stream()
+                .filter(suscripcion -> suscripcion.getPlan() != null && suscripcion.getPlan().getNombrePlan() != null)
+                .collect(Collectors.groupingBy(
+                        suscripcion -> suscripcion.getPlan().getNombrePlan(),
+                        Collectors.counting()
+                ));
+
+        List<PlanGraficoResponse> datosGrafico = conteoPorPlan.entrySet().stream()
+                .map(entry -> new PlanGraficoResponse(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
+
+        InputStream reporteStream = new ClassPathResource("reportes/usuarios_plan.jrxml").getInputStream();
+        JasperReport jasperReport = JasperCompileManager.compileReport(reporteStream);
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(datosGrafico);
         Map<String, Object> parametros = new HashMap<>();
 
-        // 4. Llenar el reporte y exportarlo a PDF (arreglo de bytes)
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, dataSource);
         return JasperExportManager.exportReportToPdf(jasperPrint);
+    }
+
+    private List<Usuario> obtenerUsuariosPorEstado(String estado) {
+        if ("ACTIVOS".equalsIgnoreCase(estado)) {
+            return usuarioRepository.findByActivo(true, org.springframework.data.domain.Pageable.unpaged()).getContent();
+        }
+        if ("INACTIVOS".equalsIgnoreCase(estado)) {
+            return usuarioRepository.findByActivo(false, org.springframework.data.domain.Pageable.unpaged()).getContent();
+        }
+        if ("TODOS".equalsIgnoreCase(estado)) {
+            return usuarioRepository.findAll();
+        }
+        return Collections.emptyList();
     }
 }

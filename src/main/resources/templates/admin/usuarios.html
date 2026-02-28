@@ -14,10 +14,17 @@
                 </select>
             </div>
             <input type="hidden" name="page" value="0">
-            <button type="submit"
-                    class="rounded-xl border border-cyan-400/40 bg-cyan-500/10 px-4 py-2 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-500/20">
-                Aplicar filtro
-            </button>
+            <div class="flex items-center gap-2">
+                <button type="submit"
+                        class="rounded-xl border border-cyan-400/40 bg-cyan-500/10 px-4 py-2 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-500/20">
+                    Aplicar filtro
+                </button>
+                <a th:href="@{/api/reportes/usuarios(estado=${estadoSeleccionado})}"
+                   target="_blank"
+                   class="rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-2 text-sm font-semibold text-emerald-200 transition hover:bg-emerald-500/20">
+                    Exportar PDF
+                </a>
+            </div>
         </form>
     </div>
 
