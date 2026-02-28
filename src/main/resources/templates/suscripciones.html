@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ComicHub - Inicio</title>
+<title>ComicHub - Suscripciones</title>
 <link rel="icon" type="image/png" href="/img/icon.png" th:href="@{/img/icon.png}">
 <link rel="shortcut icon" href="/favicon.ico" th:href="@{/favicon.ico}">
 <style>
 body {
     margin: 0;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to bottom, #101b32 0%, #18253d 25%, #26344b 100%);
+    background: linear-gradient(to bottom, #101b32 0%, #18253d 45%, #25344b 100%);
     color: #e5e7eb;
 }
 
@@ -106,6 +106,7 @@ body {
     align-items: center;
     justify-content: center;
     transition: background 0.2s;
+    text-decoration: none;
 }
 
 .icon-btn:hover {
@@ -117,75 +118,188 @@ body {
     height: 22px;
 }
 
-.banner {
-    display: flex;
-    gap: 16px;
-    padding: 32px 24px 18px;
-    max-width: 1060px;
+.main {
+    max-width: 1300px;
     margin: 0 auto;
+    padding: 30px 34px 50px;
 }
 
-.banner img {
-    width: 100%;
+.page-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 18px 22px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    background: linear-gradient(130deg, rgba(37, 58, 89, 0.92), rgba(32, 45, 70, 0.88));
+}
+
+.page-head h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.page-head p {
+    margin: 6px 0 0;
+    color: #9fb1ca;
+}
+
+.current-plan {
+    margin-bottom: 20px;
+    padding: 14px 16px;
     border-radius: 12px;
+    border: 1px solid rgba(16, 185, 129, 0.45);
+    background: rgba(16, 185, 129, 0.15);
+    color: #d1fae5;
+}
+
+.alert {
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.alert.ok {
+    border: 1px solid rgba(16, 185, 129, 0.45);
+    background: rgba(16, 185, 129, 0.14);
+    color: #a7f3d0;
+}
+
+.alert.error {
+    border: 1px solid rgba(244, 63, 94, 0.45);
+    background: rgba(244, 63, 94, 0.14);
+    color: #fecdd3;
+}
+
+.plan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+}
+
+.plan-card {
+    position: relative;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.22);
+}
+
+.plan-card.popular {
+    border-color: rgba(244, 66, 54, 0.8);
+}
+
+.popular-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #dc2626;
+    color: #fff;
+    text-align: center;
+    padding: 7px 10px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.plan-header {
+    margin: 12px;
+    margin-top: 14px;
+    border-radius: 12px;
+    padding: 14px 16px;
+    background: linear-gradient(120deg, #203e8a 0%, #5b3ecf 65%, #aa2ba5 100%);
+}
+
+.plan-card.popular .plan-header {
+    margin-top: 46px;
+    background: linear-gradient(120deg, #2d4ea8 0%, #5c3a9d 50%, #bb1f54 100%);
+}
+
+.plan-header h3 {
+    margin: 0;
+    font-size: 34px;
+}
+
+.plan-header p {
+    margin: 3px 0 0;
+    color: #e2e8f0;
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.plan-body {
+    padding: 4px 16px 18px;
+}
+
+.row {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.row:last-child {
+    border-bottom: 0;
+}
+
+.row small {
+    color: #9fb1ca;
     display: block;
 }
 
-.banner-left {
-    flex: 2;
+.row strong {
+    margin-top: 2px;
+    display: block;
+    font-size: 26px;
 }
 
-.banner-right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+.row span {
+    display: block;
+    margin-top: 5px;
+    color: #e2e8f0;
 }
 
-.section {
-    max-width: 1060px;
-    margin: 0 auto;
-    padding: 10px 24px 62px;
+.plan-action {
+    padding: 0 16px 18px;
 }
 
-.section h2 {
-    margin-bottom: 6px;
-    font-size: 40px;
-}
-
-.section p {
-    margin-top: 0;
-    color: #9ca3af;
-}
-
-.cards {
-    display: flex;
-    gap: 14px;
-}
-
-.card {
-    width: 180px;
-}
-
-.card img {
+.btn-plan {
     width: 100%;
+    border: 0;
     border-radius: 10px;
-    transition: transform 0.3s;
+    background: #f4a209;
+    color: #101828;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 11px;
+    cursor: pointer;
 }
 
-.card img:hover {
-    transform: scale(1.04);
+.btn-plan:hover {
+    filter: brightness(1.06);
 }
 
+.empty {
+    border-radius: 12px;
+    border: 1px dashed rgba(255, 255, 255, 0.25);
+    padding: 20px;
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.confirm-overlay,
 .auth-overlay {
     position: fixed;
     inset: 0;
+    display: none;
+    z-index: 60;
     background: rgba(5, 10, 22, 0.78);
     backdrop-filter: blur(10px);
-    z-index: 60;
-    display: none;
 }
 
+.confirm-overlay.open,
 .auth-overlay.open {
     display: block;
 }
@@ -203,22 +317,22 @@ body {
     display: block;
 }
 
-.auth-modal {
+.confirm-modal {
     position: fixed;
-    top: 50%;
     left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
-    width: min(96vw, 490px);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: linear-gradient(180deg, #253752 0%, #1e2d46 100%);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
     z-index: 70;
-    padding: 22px 22px 20px;
+    width: min(94vw, 460px);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: linear-gradient(180deg, #263a57, #1d2c45);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.42);
+    padding: 20px;
     display: none;
 }
 
-.auth-modal.open {
+.confirm-modal.open {
     display: block;
 }
 
@@ -289,6 +403,61 @@ body {
 .logout-confirm {
     background: #f4a209;
     color: #101828;
+}
+
+.confirm-modal h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.confirm-modal p {
+    margin: 10px 0;
+    color: #cbd5e1;
+}
+
+.confirm-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.btn-secondary,
+.btn-primary {
+    border: 0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.14);
+    color: #f8fafc;
+}
+
+.btn-primary {
+    background: #f4a209;
+    color: #101828;
+}
+
+.auth-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(96vw, 490px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: linear-gradient(180deg, #253752 0%, #1e2d46 100%);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    z-index: 75;
+    padding: 22px 22px 20px;
+    display: none;
+}
+
+.auth-modal.open {
+    display: block;
 }
 
 .auth-close {
@@ -413,6 +582,38 @@ body {
     cursor: pointer;
 }
 
+.auth-register {
+    display: none;
+}
+
+.auth-modal.mode-register .auth-login {
+    display: none;
+}
+
+.auth-modal.mode-register .auth-register {
+    display: block;
+}
+
+.auth-error {
+    margin: 0 0 12px;
+    border: 1px solid rgba(244, 63, 94, 0.45);
+    background: rgba(244, 63, 94, 0.14);
+    color: #fecdd3;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+}
+
+.auth-ok {
+    margin: 0 0 12px;
+    border: 1px solid rgba(16, 185, 129, 0.45);
+    background: rgba(16, 185, 129, 0.14);
+    color: #a7f3d0;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+}
+
 .site-footer {
     border-top: 1px solid rgba(255, 255, 255, 0.07);
     background: #0f1d34;
@@ -498,60 +699,39 @@ body {
     color: #7c8cff;
 }
 
-.auth-error {
-    margin: 0 0 12px;
-    border: 1px solid rgba(244, 63, 94, 0.45);
-    background: rgba(244, 63, 94, 0.14);
-    color: #fecdd3;
-    border-radius: 10px;
-    padding: 10px 12px;
-    font-size: 13px;
-}
-
-.auth-ok {
-    margin: 0 0 12px;
-    border: 1px solid rgba(16, 185, 129, 0.45);
-    background: rgba(16, 185, 129, 0.14);
-    color: #a7f3d0;
-    border-radius: 10px;
-    padding: 10px 12px;
-    font-size: 13px;
-}
-
-.auth-register {
-    display: none;
-}
-
-.auth-modal.mode-register .auth-login {
-    display: none;
-}
-
-.auth-modal.mode-register .auth-register {
-    display: block;
-}
-
 @media (max-width: 980px) {
     .navbar-inner {
         padding: 12px 16px;
     }
+
     .logo-img {
         height: 46px;
         transform: scale(1.1);
     }
+
     .menu {
         gap: 4px;
         margin-left: 0;
     }
+
     .menu a {
         padding: 8px 10px;
         font-size: 14px;
     }
+
     .menu a .menu-text {
         display: none;
     }
-    .banner {
-        flex-direction: column;
+
+    .main {
+        padding: 20px 16px 40px;
     }
+
+    .page-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
     .footer-inner {
         flex-direction: column;
         padding: 24px 16px 30px;
@@ -559,29 +739,74 @@ body {
 }
 </style>
 </head>
-
 <body id="top">
-    <div th:replace="~{components/client-layout :: navbar('home', ${tieneSuscripcionActiva}, ${nombreUsuarioMenu}, ${nombrePlanMenu})}"></div>
+    <div th:replace="~{components/client-layout :: navbar('suscripciones', ${tieneSuscripcionActiva}, ${nombreUsuarioMenu}, ${nombrePlanMenu})}"></div>
 
-    <div class="banner">
-        <div class="banner-left">
-            <img src="https://picsum.photos/800/350?random=1" alt="Banner principal">
+    <main class="main">
+        <div class="page-head">
+            <div>
+                <h1>Elige tu Suscripción</h1>
+                <p>Activa tu plan de lectura y disfruta del contenido de ComicHub.</p>
+            </div>
         </div>
-        <div class="banner-right">
-            <img src="https://picsum.photos/400/160?random=2" alt="Banner secundario 1">
-            <img src="https://picsum.photos/400/160?random=3" alt="Banner secundario 2">
-        </div>
-    </div>
 
-    <div class="section">
-        <h2>Popular Del Dia</h2>
-        <p>Las series más populares de la actualidad.</p>
-        <div class="cards">
-            <div class="card"><img src="https://picsum.photos/200/300?random=4" alt="Comic 1"></div>
-            <div class="card"><img src="https://picsum.photos/200/300?random=5" alt="Comic 2"></div>
-            <div class="card"><img src="https://picsum.photos/200/300?random=6" alt="Comic 3"></div>
-            <div class="card"><img src="https://picsum.photos/200/300?random=7" alt="Comic 4"></div>
-            <div class="card"><img src="https://picsum.photos/200/300?random=8" alt="Comic 5"></div>
+        <div th:if="${suscripcionActiva != null}" class="current-plan">
+            Tu plan actual es <strong th:text="${suscripcionActiva.plan.nombrePlan}">Plan</strong> y vence el
+            <strong th:text="${#temporals.format(suscripcionActiva.fechaFin, 'dd/MM/yyyy')}">00/00/0000</strong>.
+        </div>
+
+        <div th:if="${suscripcionOk}" class="alert ok" th:text="${suscripcionOk}"></div>
+        <div th:if="${suscripcionError}" class="alert error" th:text="${suscripcionError}"></div>
+
+        <div th:if="${planes == null || #lists.isEmpty(planes)}" class="empty">
+            Aún no hay planes disponibles. Intenta más tarde.
+        </div>
+
+        <div th:if="${planes != null && !#lists.isEmpty(planes)}" class="plan-grid">
+            <article class="plan-card"
+                     th:classappend="${planPopularId != null and plan.idPlan == planPopularId} ? ' popular' : ''"
+                     th:each="plan : ${planes}">
+
+                <div class="popular-badge" th:if="${planPopularId != null and plan.idPlan == planPopularId}">Más popular</div>
+
+                <div class="plan-header">
+                    <h3 th:text="${plan.nombrePlan}">Básico</h3>
+                    <p th:text="${plan.diasDuracion} + ' días'">30 días</p>
+                </div>
+
+                <div class="plan-body">
+                    <div class="row">
+                        <small>Precio mensual</small>
+                        <strong th:text="'PEN ' + ${#numbers.formatDecimal(plan.precio != null ? plan.precio : 0, 1, 'COMMA', 2, 'POINT')}">PEN 0.00</strong>
+                    </div>
+                    <div class="row">
+                        <small>Descripción del plan</small>
+                        <span th:text="${plan.descripcion != null and !#strings.isEmpty(plan.descripcion) ? plan.descripcion : 'Sin descripción disponible.'}">Descripción</span>
+                    </div>
+                </div>
+
+                <div class="plan-action">
+                    <button type="button" class="btn-plan btn-open-confirm"
+                            th:attr="data-plan-id=${plan.idPlan},data-plan-nombre=${plan.nombrePlan},data-plan-precio=${#numbers.formatDecimal(plan.precio != null ? plan.precio : 0, 1, 'COMMA', 2, 'POINT')}">
+                        Elegir plan
+                    </button>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer th:replace="~{components/client-layout :: footer}"></footer>
+
+    <div id="confirmOverlay" class="confirm-overlay"></div>
+    <div id="confirmModal" class="confirm-modal" aria-modal="true" role="dialog">
+        <h3>Confirmar suscripción</h3>
+        <p id="confirmText">¿Estás seguro de elegir este plan?</p>
+        <form method="post" th:action="@{/suscripciones/seleccionar}" id="formSeleccionPlan">
+            <input type="hidden" name="idPlan" id="confirmPlanId">
+        </form>
+        <div class="confirm-actions">
+            <button type="button" class="btn-secondary" id="btnCancelConfirm">Cancelar</button>
+            <button type="button" class="btn-primary" id="btnAcceptConfirm">Confirmar</button>
         </div>
     </div>
 
@@ -598,6 +823,7 @@ body {
             <p th:if="${loginError}" th:text="${loginError}" class="auth-error"></p>
             <p th:if="${registroOk}" th:text="${registroOk}" class="auth-ok"></p>
             <form method="post" th:action="@{/login}">
+                <input type="hidden" name="redirectTo" value="/suscripciones">
                 <div class="auth-input-row">
                     <div class="auth-input-wrap">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -627,6 +853,7 @@ body {
         <div class="auth-register">
             <p th:if="${registroError}" th:text="${registroError}" class="auth-error"></p>
             <form method="post" th:action="@{/registro}" id="formRegistro">
+                <input type="hidden" name="redirectTo" value="/suscripciones">
                 <div class="auth-input-row">
                     <div class="auth-input-wrap">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -687,9 +914,38 @@ body {
         </div>
     </div>
 
-    <footer th:replace="~{components/client-layout :: footer}"></footer>
-
     <script th:inline="javascript">
+        const confirmOverlay = document.getElementById('confirmOverlay');
+        const confirmModal = document.getElementById('confirmModal');
+        const confirmText = document.getElementById('confirmText');
+        const confirmPlanId = document.getElementById('confirmPlanId');
+        const formSeleccionPlan = document.getElementById('formSeleccionPlan');
+        const btnCancelConfirm = document.getElementById('btnCancelConfirm');
+        const btnAcceptConfirm = document.getElementById('btnAcceptConfirm');
+        const openConfirmButtons = document.querySelectorAll('.btn-open-confirm');
+
+        function openConfirmModal(idPlan, nombrePlan, precioPlan) {
+            confirmPlanId.value = idPlan;
+            confirmText.textContent = `¿Estás seguro de activar el plan ${nombrePlan} por PEN ${precioPlan}?`;
+            confirmOverlay.classList.add('open');
+            confirmModal.classList.add('open');
+        }
+
+        function closeConfirmModal() {
+            confirmOverlay.classList.remove('open');
+            confirmModal.classList.remove('open');
+        }
+
+        openConfirmButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                openConfirmModal(btn.dataset.planId, btn.dataset.planNombre, btn.dataset.planPrecio);
+            });
+        });
+
+        confirmOverlay.addEventListener('click', closeConfirmModal);
+        btnCancelConfirm.addEventListener('click', closeConfirmModal);
+        btnAcceptConfirm.addEventListener('click', () => formSeleccionPlan.submit());
+
         const authOverlay = document.getElementById('authOverlay');
         const authModal = document.getElementById('authModal');
         const btnAuthOpen = document.getElementById('btnAuthOpen');
@@ -744,7 +1000,6 @@ body {
         if (btnLogoutCancel) {
             btnLogoutCancel.addEventListener('click', closeLogoutModal);
         }
-
         btnAuthClose.addEventListener('click', closeAuthModal);
         authOverlay.addEventListener('click', closeAuthModal);
         logoutOverlay.addEventListener('click', closeLogoutModal);
@@ -760,6 +1015,9 @@ body {
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && authModal.classList.contains('open')) {
                 closeAuthModal();
+            }
+            if (event.key === 'Escape' && confirmModal.classList.contains('open')) {
+                closeConfirmModal();
             }
             if (event.key === 'Escape' && logoutModal.classList.contains('open')) {
                 closeLogoutModal();

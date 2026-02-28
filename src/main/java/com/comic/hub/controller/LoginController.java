@@ -35,18 +35,29 @@ public class LoginController {
     @PostMapping("/login")
     public String procesarLogin(@RequestParam String correo,
                                 @RequestParam String password,
+                                @RequestParam(name = "redirectTo", required = false) String redirectTo,
                                 HttpSession session,
                                 RedirectAttributes redirectAttributes) {
 
         try {
+            String redirectSeguro = limpiarRedirect(redirectTo);
+            if (redirectSeguro != null) {
+                session.setAttribute("postAuthRedirect", redirectSeguro);
+            }
 
             Usuario usuario = usuarioService.login(correo, password);
             session.setAttribute("usuarioLogueado", usuario);
 
             //  Redirección por rol
             if (usuario.getRol().getNombreRol().equals("ADMIN")) {
+                session.removeAttribute("postAuthRedirect");
                 return "redirect:/admin";
             } else {
+                String postAuthRedirect = (String) session.getAttribute("postAuthRedirect");
+                if (postAuthRedirect != null && !postAuthRedirect.isBlank()) {
+                    session.removeAttribute("postAuthRedirect");
+                    return "redirect:" + postAuthRedirect;
+                }
                 return "redirect:/home";
             }
 
@@ -54,8 +65,23 @@ public class LoginController {
             redirectAttributes.addFlashAttribute("loginError", e.getMessage());
             redirectAttributes.addFlashAttribute("authModalOpen", true);
             redirectAttributes.addFlashAttribute("authTab", "login");
+            String postAuthRedirect = (String) session.getAttribute("postAuthRedirect");
+            if (postAuthRedirect != null && !postAuthRedirect.isBlank()) {
+                return "redirect:" + postAuthRedirect;
+            }
             return "redirect:/home";
         }
+    }
+
+    private String limpiarRedirect(String redirectTo) {
+        if (redirectTo == null) {
+            return null;
+        }
+        String valor = redirectTo.trim();
+        if (valor.isBlank() || !valor.startsWith("/") || valor.startsWith("//")) {
+            return null;
+        }
+        return valor;
     }
 
     @GetMapping("/logout")

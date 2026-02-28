@@ -14,9 +14,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.comic.hub.dto.request.UsuarioAdminRequestDto;
 import com.comic.hub.dto.request.UsuarioRegistroRequestDto;
 import com.comic.hub.dto.response.UsuarioListResponseDto;
+import com.comic.hub.model.Usuario;
 import com.comic.hub.repository.RolRepository;
 import com.comic.hub.service.UsuarioService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -55,14 +57,21 @@ public class UsuarioController {
 
     @PostMapping("/registro")
     public String registrar(@Valid @ModelAttribute("usuario") UsuarioRegistroRequestDto usuario,
+                            @RequestParam(name = "redirectTo", required = false) String redirectTo,
                             BindingResult br,
+                            HttpSession session,
                             RedirectAttributes redirectAttributes) {
+
+        String redirectSeguro = limpiarRedirect(redirectTo);
+        if (redirectSeguro != null) {
+            session.setAttribute("postAuthRedirect", redirectSeguro);
+        }
 
         if (br.hasErrors()) {
             redirectAttributes.addFlashAttribute("registroError", "Falta ingresar datos obligatorios correctamente");
             redirectAttributes.addFlashAttribute("authModalOpen", true);
             redirectAttributes.addFlashAttribute("authTab", "register");
-            return "redirect:/home";
+            return redireccionConContexto(session);
         }
 
         try {
@@ -71,8 +80,26 @@ public class UsuarioController {
             redirectAttributes.addFlashAttribute("registroError", ex.getMessage());
             redirectAttributes.addFlashAttribute("authModalOpen", true);
             redirectAttributes.addFlashAttribute("authTab", "register");
-            return "redirect:/home";
+            return redireccionConContexto(session);
         }
+
+        String postAuthRedirect = (String) session.getAttribute("postAuthRedirect");
+        if (postAuthRedirect != null && !postAuthRedirect.isBlank()) {
+            try {
+                Usuario usuarioLogueado = usuarioService.login(usuario.getCorreo(), usuario.getPassword());
+                session.setAttribute("usuarioLogueado", usuarioLogueado);
+                session.removeAttribute("postAuthRedirect");
+                redirectAttributes.addFlashAttribute("suscripcionOk", "Registro completado. Ya puedes elegir tu plan.");
+                return "redirect:" + postAuthRedirect;
+            } catch (RuntimeException ex) {
+                redirectAttributes.addFlashAttribute("registroOk", "Cuenta registrada correctamente. Ahora inicia sesion.");
+                redirectAttributes.addFlashAttribute("loginError", "Tu cuenta fue creada, pero debes iniciar sesion para continuar.");
+                redirectAttributes.addFlashAttribute("authModalOpen", true);
+                redirectAttributes.addFlashAttribute("authTab", "login");
+                return "redirect:" + postAuthRedirect;
+            }
+        }
+
         redirectAttributes.addFlashAttribute("registroOk", "Cuenta registrada correctamente. Ahora inicia sesion.");
         redirectAttributes.addFlashAttribute("authModalOpen", true);
         redirectAttributes.addFlashAttribute("authTab", "login");
@@ -110,5 +137,24 @@ public class UsuarioController {
     public String cambiarEstado(@PathVariable Integer id) {
         usuarioService.cambiarEstado(id);
         return "redirect:/admin/usuarios?estadoActualizado=true";
+    }
+
+    private String redireccionConContexto(HttpSession session) {
+        String postAuthRedirect = (String) session.getAttribute("postAuthRedirect");
+        if (postAuthRedirect != null && !postAuthRedirect.isBlank()) {
+            return "redirect:" + postAuthRedirect;
+        }
+        return "redirect:/home";
+    }
+
+    private String limpiarRedirect(String redirectTo) {
+        if (redirectTo == null) {
+            return null;
+        }
+        String valor = redirectTo.trim();
+        if (valor.isBlank() || !valor.startsWith("/") || valor.startsWith("//")) {
+            return null;
+        }
+        return valor;
     }
 }
