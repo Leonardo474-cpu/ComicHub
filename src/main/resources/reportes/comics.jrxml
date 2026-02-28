@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Reporte Comics con estilo unificado -->
+<jasperReport name="comics"
+	pageWidth="595" pageHeight="842"
+	columnWidth="555"
+	leftMargin="20" rightMargin="20"
+	topMargin="20" bottomMargin="20"
+	uuid="9c8ce6e3-b6a8-414c-b72b-5729f7c1aeb6">
+
+	<!-- ===================== -->
+	<!-- ESTILOS -->
+	<!-- ===================== -->
+	<style name="Titulo" fontSize="26" bold="true" forecolor="#1e293b"/>
+
+	<style name="Encabezado"
+		mode="Opaque"
+		backcolor="#334155"
+		forecolor="#ffffff"
+		bold="true"
+		hTextAlign="Center"/>
+
+	<style name="Detalle"
+		forecolor="#0f172a"/>
+
+	<query language="sql"><![CDATA[]]></query>
+
+	<!-- ===================== -->
+	<!-- CAMPOS -->
+	<!-- ===================== -->
+	<field name="idComic" class="java.lang.String"/>
+	<field name="titulo" class="java.lang.String"/>
+	<field name="autor" class="java.lang.String"/>
+	<field name="categoria" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="fechaPublicacion" class="java.time.LocalDate"/>
+
+	<!-- ===================== -->
+	<!-- TITULO -->
+	<!-- ===================== -->
+	<title height="80">
+		<element kind="staticText" style="Titulo" x="0" y="10" width="555" height="40">
+			<text><![CDATA[Reporte de Comics]]></text>
+		</element>
+
+		<element kind="line" x="0" y="60" width="555" height="1" forecolor="#94a3b8"/>
+	</title>
+
+	<!-- ===================== -->
+	<!-- ENCABEZADOS -->
+	<!-- ===================== -->
+	<columnHeader height="35">
+
+		<element kind="staticText" style="Encabezado" x="0" y="0" width="70" height="30">
+			<text><![CDATA[ID]]></text>
+		</element>
+
+		<element kind="staticText" style="Encabezado" x="70" y="0" width="170" height="30">
+			<text><![CDATA[Título]]></text>
+		</element>
+
+		<element kind="staticText" style="Encabezado" x="240" y="0" width="120" height="30">
+			<text><![CDATA[Autor]]></text>
+		</element>
+
+		<element kind="staticText" style="Encabezado" x="360" y="0" width="90" height="30">
+			<text><![CDATA[Categoría]]></text>
+		</element>
+
+		<element kind="staticText" style="Encabezado" x="450" y="0" width="60" height="30">
+			<text><![CDATA[Estado]]></text>
+		</element>
+
+		<element kind="staticText" style="Encabezado" x="510" y="0" width="45" height="30">
+			<text><![CDATA[Fecha]]></text>
+		</element>
+
+	</columnHeader>
+
+	<!-- ===================== -->
+	<!-- DETALLE -->
+	<!-- ===================== -->
+	<detail>
+		<band height="30">
+
+			<element kind="textField" style="Detalle" x="0" y="5" width="70" height="20">
+				<expression><![CDATA[$F{idComic}]]></expression>
+			</element>
+
+			<element kind="textField" style="Detalle" x="70" y="5" width="170" height="20">
+				<expression><![CDATA[$F{titulo}]]></expression>
+			</element>
+
+			<element kind="textField" style="Detalle" x="240" y="5" width="120" height="20">
+				<expression><![CDATA[$F{autor}]]></expression>
+			</element>
+
+			<element kind="textField" style="Detalle" x="360" y="5" width="90" height="20">
+				<expression><![CDATA[$F{categoria}]]></expression>
+			</element>
+
+			<!-- Estado con color dinámico -->
+			<element kind="textField" x="450" y="5" width="60" height="20">
+				<expression><![CDATA[$F{estado}]]></expression>
+				<property name="forecolor">
+					<![CDATA[
+						$F{estado}.equalsIgnoreCase("Activo") ? "#16a34a" :
+						$F{estado}.equalsIgnoreCase("Inactivo") ? "#dc2626" :
+						"#f59e0b"
+					]]>
+				</property>
+			</element>
+
+			<element kind="textField" style="Detalle" x="510" y="5" width="45" height="20" pattern="dd/MM/yyyy">
+				<expression><![CDATA[$F{fechaPublicacion}]]></expression>
+			</element>
+
+		</band>
+	</detail>
+
+	<!-- ===================== -->
+	<!-- FOOTER -->
+	<!-- ===================== -->
+	<pageFooter height="25">
+		<element kind="line" x="0" y="0" width="555" height="1" forecolor="#cbd5f5"/>
+
+		<element kind="textField" x="450" y="5" width="100" height="20" hTextAlign="Right">
+			<expression><![CDATA["Página " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+	</pageFooter>
+
+</jasperReport>
