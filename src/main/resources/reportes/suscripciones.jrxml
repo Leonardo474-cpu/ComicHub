@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Reporte Suscripciones con estilo unificado -->
+<jasperReport name="suscripciones"
+	pageWidth="595" pageHeight="842"
+	columnWidth="555"
+	leftMargin="20" rightMargin="20"
+	topMargin="20" bottomMargin="20"
+	uuid="65543cd1-7b7e-45f9-974a-29927dd85bd2">
+
+	<!-- ===================== -->
+	<!-- ESTILOS -->
+	<!-- ===================== -->
+	<style name="Titulo" fontSize="26" bold="true" forecolor="#1e293b"/>
+	
+	<style name="Encabezado"
+		mode="Opaque"
+		backcolor="#334155"
+		forecolor="#ffffff"
+		bold="true"
+		hTextAlign="Center"/>
+
+	<style name="Detalle"
+		forecolor="#0f172a"/>
+
+	<query language="sql"><![CDATA[]]></query>
+
+	<!-- ===================== -->
+	<!-- CAMPOS -->
+	<!-- ===================== -->
+	<field name="idSuscripcion" class="java.lang.Integer"/>
+	<field name="fechaInicio" class="java.time.LocalDate"/>
+	<field name="fechaFin" class="java.time.LocalDate"/>
+	<field name="estado" class="java.lang.String"/>
+	<field name="precioAplicado" class="java.math.BigDecimal"/>
+	<field name="fechaRegistro" class="java.time.LocalDateTime"/>
+	<field name="usuario" class="java.lang.String"/>
+	<field name="plan" class="java.lang.String"/>
+
+	<!-- ===================== -->
+	<!-- TITULO -->
+	<!-- ===================== -->
+	<title height="80">
+		<element kind="staticText" style="Titulo" x="0" y="10" width="555" height="40">
+			<text><![CDATA[Reporte de Suscripciones]]></text>
+		</element>
+
+		<element kind="line" x="0" y="60" width="555" height="1" forecolor="#94a3b8"/>
+	</title>
+
+	<!-- ===================== -->
+	<!-- ENCABEZADOS -->
+	<!-- ===================== -->
+	<columnHeader height="35">
+
+		<element kind="staticText" style="Encabezado" x="0" y="0" width="60" height="30">
+			<text><![CDATA[ID]]></text>
+		</element>
+
+		<element kind="staticText" style="Encabezado" x="60" y="0" width="90" height="30">
+			<text><![CDATA[Usuario]]></text>
+		</element>
+
+		<element kind="staticText" style="Encabezado" x="150" y="0" width="90" height="30">
+			<text><![CDATA[Plan]]></text>
+		</element>
+
+		<element kind="staticText" style="Encabezado" x="240" y="0" width="80" height="30">
+			<text><![CDATA[Inicio]]></text>
+		</element>
+
+		<element kind="staticText" style="Encabezado" x="320" y="0" width="80" height="30">
+			<text><![CDATA[Fin]]></text>
+		</element>
+
+		<element kind="staticText" style="Encabezado" x="400" y="0" width="70" height="30">
+			<text><![CDATA[Precio]]></text>
+		</element>
+
+		<element kind="staticText" style="Encabezado" x="470" y="0" width="85" height="30">
+			<text><![CDATA[Estado]]></text>
+		</element>
+
+	</columnHeader>
+
+	<!-- ===================== -->
+	<!-- DETALLE -->
+	<!-- ===================== -->
+	<detail>
+		<band height="30">
+
+			<element kind="textField" style="Detalle" x="0" y="5" width="60" height="20">
+				<expression><![CDATA[$F{idSuscripcion}]]></expression>
+			</element>
+
+			<element kind="textField" style="Detalle" x="60" y="5" width="90" height="20">
+				<expression><![CDATA[$F{usuario}]]></expression>
+			</element>
+
+			<element kind="textField" style="Detalle" x="150" y="5" width="90" height="20">
+				<expression><![CDATA[$F{plan}]]></expression>
+			</element>
+
+			<element kind="textField" style="Detalle" x="240" y="5" width="80" height="20">
+				<expression><![CDATA[$F{fechaInicio}]]></expression>
+			</element>
+
+			<element kind="textField" style="Detalle" x="320" y="5" width="80" height="20">
+				<expression><![CDATA[$F{fechaFin}]]></expression>
+			</element>
+
+			<element kind="textField" style="Detalle" x="400" y="5" width="70" height="20" pattern="#,##0.00">
+				<expression><![CDATA[$F{precioAplicado}]]></expression>
+			</element>
+
+			<!-- Estado con color dinámico -->
+			<element kind="textField" x="470" y="5" width="85" height="20">
+				<expression><![CDATA[$F{estado}]]></expression>
+				<property name="forecolor">
+					<![CDATA[
+						$F{estado}.equalsIgnoreCase("Activa") ? "#16a34a" :
+						$F{estado}.equalsIgnoreCase("Vencida") ? "#dc2626" :
+						"#f59e0b"
+					]]>
+				</property>
+			</element>
+
+		</band>
+	</detail>
+
+	<!-- ===================== -->
+	<!-- FOOTER -->
+	<!-- ===================== -->
+	<pageFooter height="25">
+		<element kind="line" x="0" y="0" width="555" height="1" forecolor="#cbd5f5"/>
+
+		<element kind="textField" x="450" y="5" width="100" height="20" hTextAlign="Right">
+			<expression><![CDATA["Página " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+	</pageFooter>
+
+</jasperReport>
