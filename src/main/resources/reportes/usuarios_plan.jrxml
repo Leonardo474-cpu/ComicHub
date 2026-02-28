@@ -1,0 +1,27 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="Blank_A4" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="491740a1-e1a6-4e57-b776-24f688d04b5a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<query language="sql"><![CDATA[]]></query>
+	<field name="nombrePlan" class="java.lang.String"/>
+	<field name="cantidadUsuarios" class="java.lang.String"/>
+	<background splitType="Stretch"/>
+	<title height="79" splitType="Stretch">
+		<element kind="staticText" uuid="31635b80-b16b-4a0e-bf40-43c83cad763b" x="142" y="30" width="270" height="30" fontSize="19.0">
+			<text><![CDATA[Cantidad de Usuarios por Plan]]></text>
+		</element>
+	</title>
+	<summary height="325" splitType="Stretch">
+		<element kind="chart" chartType="stackedBar" uuid="3907ba8b-c2e5-4758-b126-dcc575eff6d4" x="2" y="50" width="550" height="200" evaluationTime="Report">
+			<dataset kind="category">
+				<series>
+					<seriesExpression><![CDATA["SERIES 1"]]></seriesExpression>
+					<categoryExpression><![CDATA[$F{nombrePlan}]]></categoryExpression>
+					<valueExpression><![CDATA[$F{cantidadUsuarios}]]></valueExpression>
+				</series>
+			</dataset>
+			<plot categoryAxisLabelColor="#000000" categoryAxisTickLabelColor="#000000" categoryAxisLineColor="#000000" valueAxisLabelColor="#000000" valueAxisTickLabelColor="#000000" valueAxisLineColor="#000000">
+				<itemLabel/>
+			</plot>
+		</element>
+	</summary>
+</jasperReport>
