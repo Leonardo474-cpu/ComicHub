@@ -82,4 +82,24 @@ public class ReporteServiceImpl implements ReporteService {
         }
         return Collections.emptyList();
     }
+
+	@Override
+	public byte[] generarReporteSuscripcionesPdf() {
+	    return new byte[0];
+	}
+	
+	@Override
+	public byte[] generarReporteComicsPdf() {
+	    return new byte[0];
+	}
+	
+	@Override
+	public byte[] generarReporteCategoriasPdf() {
+	    return new byte[0];
+	}
+	
+	@Override
+	public byte[] generarReporteAutoresPdf() {
+	    return new byte[0];
+	}
 }
