@@ -14,6 +14,7 @@ import com.comic.hub.service.ComicService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -140,6 +141,13 @@ public class ComicServiceImpl implements ComicService {
     @Override
     public List<Categoria> listarCategoriasActivas() {
         return categoriaRepository.findAll().stream().filter(Categoria::getActivo).toList();
+    }
+
+    @Override
+    public List<Comic> listarActivosParaInicio(int limite) {
+        int tamanio = Math.max(limite, 1);
+        Pageable pageable = PageRequest.of(0, tamanio, Sort.by(Sort.Direction.DESC, "idComic"));
+        return comicRepository.findByActivo(true, pageable).getContent();
     }
 
     private String normalizarTexto(String valor) {

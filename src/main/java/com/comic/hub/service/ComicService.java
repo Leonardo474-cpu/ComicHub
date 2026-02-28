@@ -25,4 +25,6 @@ public interface ComicService {
     List<Autor> listarAutoresActivos();
 
     List<Categoria> listarCategoriasActivas();
+
+    List<Comic> listarActivosParaInicio(int limite);
 }
