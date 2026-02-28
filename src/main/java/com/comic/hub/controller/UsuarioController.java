@@ -1,5 +1,6 @@
 package com.comic.hub.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +18,6 @@ import com.comic.hub.repository.RolRepository;
 import com.comic.hub.service.UsuarioService;
 
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
 
 @Controller
 public class UsuarioController {
@@ -52,7 +52,7 @@ public class UsuarioController {
     public String nuevo() {
         return "redirect:/home?auth=register";
     }
-    
+
     @PostMapping("/registro")
     public String registrar(@Valid @ModelAttribute("usuario") UsuarioRegistroRequestDto usuario,
                             BindingResult br,
@@ -73,7 +73,7 @@ public class UsuarioController {
             redirectAttributes.addFlashAttribute("authTab", "register");
             return "redirect:/home";
         }
-        redirectAttributes.addFlashAttribute("registroOk", "Cuenta registrada correctamente. Ahora inicia sesión.");
+        redirectAttributes.addFlashAttribute("registroOk", "Cuenta registrada correctamente. Ahora inicia sesion.");
         redirectAttributes.addFlashAttribute("authModalOpen", true);
         redirectAttributes.addFlashAttribute("authTab", "login");
         return "redirect:/home";
@@ -98,7 +98,6 @@ public class UsuarioController {
         }
         return "redirect:/admin/usuarios";
     }
-    
 
     @GetMapping("/admin/usuarios/editar/{id}")
     public String editar(@PathVariable Integer id, Model model) {
@@ -106,32 +105,6 @@ public class UsuarioController {
         model.addAttribute("roles", rolRepo.findAll());
         return "admin/usuarios-form";
     }
-    
-//    @GetMapping("/usuarios/pdf")
-//    public void exportPDF(HttpServletResponse response) throws Exception{
-//    	//Tipo de archivo
-//    	response.setContentType("application/pdf");
-//    	response.setHeader("Content-Disposition","inline;filename=usuarios.pdf");
-//    	
-//    	//Obtener la lista desde JPA de Spring
-//    	List<Usuario> lista = usuarioService.listar();
-//    	
-//    	//Cargar JRXML desde Resources
-//    	InputStream inputStream = getClass().getResourceAsStream("/reportes/usuarios.jrxml");
-//    	
-//    	//Compilar el .JRXML a .JASPER
-//    	JasperReport jasperreport = JasperCompileManager.compileReport(inputStream);
-//    	
-//    	//Convertir la lista a Datasource
-//    	JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lista);
-//    	
-//    	//Llenar pdf
-//    	JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport,null, dataSource);
-//    	
-//    	//Exportar pdf
-//    	JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
-//    	
-//    }
 
     @GetMapping("/admin/usuarios/estado/{id}")
     public String cambiarEstado(@PathVariable Integer id) {
