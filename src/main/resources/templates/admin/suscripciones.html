@@ -1,7 +1,19 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{admin/components/layout :: layout('Suscripciones - Admin', 'Suscripciones', 'Control de usuarios suscritos.', 'suscripciones', 'suscripciones', 'Exportar PDF', @{/api/reportes/suscripciones(estado=${estadoSeleccionado},q=${busqueda})}, null, null, ~{::section})}">
+      th:replace="~{admin/components/layout :: layout('Suscripciones - Admin', 'Suscripciones', 'Control de usuarios suscritos.', 'suscripciones', 'suscripciones', 'Exportar PDF', @{/admin/reportes/suscripciones(estado=${estadoSeleccionado},q=${busqueda})}, null, null, ~{::section})}">
 <section>
+
+    <div class="mb-4 flex justify-end">
+        <a th:href="@{/admin/reportes/usuarios-plan}" target="_blank"
+           class="inline-flex items-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-500/10 px-4 py-2 text-sm font-semibold text-emerald-200 shadow-lg shadow-slate-950/40 transition hover:bg-emerald-500/20">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            Ver Gráfico de Planes
+        </a>
+    </div>
     <div class="mb-4 rounded-2xl border border-white/10 bg-slate-900/50 p-4">
         <form method="get" th:action="@{/admin/suscripciones}" class="flex flex-col gap-3 xl:flex-row xl:items-end">
             <div class="w-full xl:max-w-2xl">
