@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/reportes")
+@RequestMapping("/admin/reportes") // <-- CAMBIO AQUÍ PARA PROTEGER LA RUTA
 public class ReporteController {
 
     @Autowired
@@ -20,10 +20,10 @@ public class ReporteController {
     public ResponseEntity<byte[]> descargarReporteUsuarios() {
         try {
             byte[] reportePdf = reporteService.generarReporteUsuariosPdf();
-
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_PDF);
-            // Para que se abra en el navegador en vez de forzar la descarga, usa "inline"
+            
+            // "attachment" fuerza la descarga, "inline" lo abre en el navegador
             headers.setContentDispositionFormData("inline", "Reporte_Usuarios_ComicHub.pdf");
 
             return ResponseEntity.ok().headers(headers).body(reportePdf);

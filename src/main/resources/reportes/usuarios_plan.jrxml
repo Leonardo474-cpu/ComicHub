@@ -3,7 +3,7 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<query language="sql"><![CDATA[]]></query>
 	<field name="nombrePlan" class="java.lang.String"/>
-	<field name="cantidadUsuarios" class="java.lang.String"/>
+	<field name="cantidadUsuarios" class="java.lang.Long"/>
 	<background splitType="Stretch"/>
 	<title height="79" splitType="Stretch">
 		<element kind="staticText" uuid="31635b80-b16b-4a0e-bf40-43c83cad763b" x="142" y="30" width="270" height="30" fontSize="19.0">
