@@ -15,4 +15,8 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
     Optional<Categoria> findByDescripcionIgnoreCase(String descripcion);
 
     Page<Categoria> findByActivo(boolean activo, Pageable pageable);
+
+    Page<Categoria> findByDescripcionContainingIgnoreCase(String descripcion, Pageable pageable);
+
+    Page<Categoria> findByActivoAndDescripcionContainingIgnoreCase(boolean activo, String descripcion, Pageable pageable);
 }

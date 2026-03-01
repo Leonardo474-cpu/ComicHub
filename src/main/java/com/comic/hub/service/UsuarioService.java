@@ -9,7 +9,7 @@ import com.comic.hub.model.Usuario;
 
 public interface UsuarioService {
 
-    Page<UsuarioListResponseDto> listarTodos(String estado, int page, int size);
+    Page<UsuarioListResponseDto> listarTodos(String estado, String q, int page, int size);
 
     UsuarioAdminRequestDto buscarPorIdParaEdicion(Integer id);
 

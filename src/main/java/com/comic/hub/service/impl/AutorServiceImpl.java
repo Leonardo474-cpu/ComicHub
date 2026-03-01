@@ -21,9 +21,10 @@ public class AutorServiceImpl implements AutorService {
     }
 
     @Override
-    public Page<AutorListResponseDto> listarTodos(String estado, int page, int size) {
+    public Page<AutorListResponseDto> listarTodos(String estado, String q, int page, int size) {
         Pageable pageable = PageRequest.of(Math.max(page, 0), size);
-        return obtenerPaginaPorEstado(estado, pageable).map(AutorMapper::toListResponseDto);
+        String terminoBusqueda = normalizarTexto(q);
+        return obtenerPaginaPorEstadoYBusqueda(estado, terminoBusqueda, pageable).map(AutorMapper::toListResponseDto);
     }
 
     @Override
@@ -72,13 +73,21 @@ public class AutorServiceImpl implements AutorService {
         return valor == null ? "" : valor.trim();
     }
 
-    private Page<Autor> obtenerPaginaPorEstado(String estado, Pageable pageable) {
+    private Page<Autor> obtenerPaginaPorEstadoYBusqueda(String estado, String busqueda, Pageable pageable) {
+        boolean tieneBusqueda = busqueda != null && !busqueda.isBlank();
+
         if ("ACTIVOS".equalsIgnoreCase(estado)) {
-            return autorRepository.findByActivo(true, pageable);
+            return tieneBusqueda
+                    ? autorRepository.findByActivoAndNombreContainingIgnoreCase(true, busqueda, pageable)
+                    : autorRepository.findByActivo(true, pageable);
         }
         if ("INACTIVOS".equalsIgnoreCase(estado)) {
-            return autorRepository.findByActivo(false, pageable);
+            return tieneBusqueda
+                    ? autorRepository.findByActivoAndNombreContainingIgnoreCase(false, busqueda, pageable)
+                    : autorRepository.findByActivo(false, pageable);
         }
-        return autorRepository.findAll(pageable);
+        return tieneBusqueda
+                ? autorRepository.findByNombreContainingIgnoreCase(busqueda, pageable)
+                : autorRepository.findAll(pageable);
     }
 }

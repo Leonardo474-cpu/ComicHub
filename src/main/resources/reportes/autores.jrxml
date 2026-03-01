@@ -2,18 +2,17 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-    name="usuarios" pageWidth="595" pageHeight="842" columnWidth="555"
+    name="autores" pageWidth="595" pageHeight="842" columnWidth="555"
     leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
-    uuid="fa1284f3-3268-478e-aeea-a804e082dd77">
+    uuid="a4d93c85-4822-4b64-bf34-d04ce55ea195">
 
     <style name="Title" fontName="SansSerif" fontSize="20" isBold="true" forecolor="#1E293B"/>
     <style name="Header" mode="Opaque" backcolor="#334155" forecolor="#FFFFFF" fontName="SansSerif" fontSize="10" isBold="true"/>
     <style name="Detail" fontName="SansSerif" fontSize="10" forecolor="#0F172A"/>
 
-    <field name="id" class="java.lang.Integer"/>
-    <field name="nombreCompleto" class="java.lang.String"/>
-    <field name="correo" class="java.lang.String"/>
-    <field name="nombreRol" class="java.lang.String"/>
+    <field name="idAutor" class="java.lang.Integer"/>
+    <field name="nombre" class="java.lang.String"/>
+    <field name="seudonimo" class="java.lang.String"/>
     <field name="activo" class="java.lang.Boolean"/>
 
     <title>
@@ -21,7 +20,7 @@
             <staticText>
                 <reportElement x="0" y="10" width="555" height="30" style="Title"/>
                 <textElement textAlignment="Left" verticalAlignment="Middle"/>
-                <text><![CDATA[Reporte de Usuarios]]></text>
+                <text><![CDATA[Reporte de Autores]]></text>
             </staticText>
             <line>
                 <reportElement x="0" y="48" width="555" height="1" forecolor="#94A3B8"/>
@@ -32,27 +31,22 @@
     <columnHeader>
         <band height="24">
             <staticText>
-                <reportElement x="0" y="0" width="50" height="22" style="Header"/>
+                <reportElement x="0" y="0" width="60" height="22" style="Header"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle"/>
                 <text><![CDATA[ID]]></text>
             </staticText>
             <staticText>
-                <reportElement x="50" y="0" width="165" height="22" style="Header"/>
+                <reportElement x="60" y="0" width="180" height="22" style="Header"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle"/>
                 <text><![CDATA[Nombre]]></text>
             </staticText>
             <staticText>
-                <reportElement x="215" y="0" width="175" height="22" style="Header"/>
+                <reportElement x="240" y="0" width="185" height="22" style="Header"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle"/>
-                <text><![CDATA[Correo]]></text>
+                <text><![CDATA[Seudonimo]]></text>
             </staticText>
             <staticText>
-                <reportElement x="390" y="0" width="85" height="22" style="Header"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle"/>
-                <text><![CDATA[Rol]]></text>
-            </staticText>
-            <staticText>
-                <reportElement x="475" y="0" width="80" height="22" style="Header"/>
+                <reportElement x="425" y="0" width="130" height="22" style="Header"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle"/>
                 <text><![CDATA[Estado]]></text>
             </staticText>
@@ -62,27 +56,22 @@
     <detail>
         <band height="22">
             <textField isBlankWhenNull="true">
-                <reportElement x="0" y="2" width="50" height="18" style="Detail"/>
+                <reportElement x="0" y="2" width="60" height="18" style="Detail"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle"/>
-                <textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{idAutor}]]></textFieldExpression>
             </textField>
             <textField isBlankWhenNull="true">
-                <reportElement x="50" y="2" width="165" height="18" style="Detail"/>
+                <reportElement x="60" y="2" width="180" height="18" style="Detail"/>
                 <textElement verticalAlignment="Middle"/>
-                <textFieldExpression><![CDATA[$F{nombreCompleto}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
             </textField>
             <textField isBlankWhenNull="true">
-                <reportElement x="215" y="2" width="175" height="18" style="Detail"/>
+                <reportElement x="240" y="2" width="185" height="18" style="Detail"/>
                 <textElement verticalAlignment="Middle"/>
-                <textFieldExpression><![CDATA[$F{correo}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{seudonimo}]]></textFieldExpression>
             </textField>
             <textField isBlankWhenNull="true">
-                <reportElement x="390" y="2" width="85" height="18" style="Detail"/>
-                <textElement textAlignment="Center" verticalAlignment="Middle"/>
-                <textFieldExpression><![CDATA[$F{nombreRol}]]></textFieldExpression>
-            </textField>
-            <textField isBlankWhenNull="true">
-                <reportElement x="475" y="2" width="80" height="18" style="Detail"/>
+                <reportElement x="425" y="2" width="130" height="18" style="Detail"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle"/>
                 <textFieldExpression><![CDATA[$F{activo} != null && $F{activo} ? "Activo" : "Inactivo"]]></textFieldExpression>
             </textField>

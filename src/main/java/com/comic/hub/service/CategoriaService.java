@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 
 public interface CategoriaService {
 
-    Page<CategoriaListResponseDto> listarTodos(String estado, int page, int size);
+    Page<CategoriaListResponseDto> listarTodos(String estado, String q, int page, int size);
 
     CategoriaAdminRequestDto buscarPorIdParaEdicion(Integer idCategoria);
 

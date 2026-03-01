@@ -15,4 +15,8 @@ public interface AutorRepository extends JpaRepository<Autor, Integer> {
     Optional<Autor> findByNombreIgnoreCase(String nombre);
 
     Page<Autor> findByActivo(boolean activo, Pageable pageable);
+
+    Page<Autor> findByNombreContainingIgnoreCase(String nombre, Pageable pageable);
+
+    Page<Autor> findByActivoAndNombreContainingIgnoreCase(boolean activo, String nombre, Pageable pageable);
 }

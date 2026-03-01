@@ -1,23 +1,33 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{admin/components/layout :: layout('Usuarios - Admin', 'Usuarios', 'Gestiona cuentas del sistema.', 'usuarios', 'usuarios', 'Agregar usuario', '/admin/usuarios/nuevo', ~{::section})}">
+      th:replace="~{admin/components/layout :: layout('Usuarios - Admin', 'Usuarios', 'Gestiona cuentas del sistema.', 'usuarios', 'usuarios', 'Exportar PDF', @{/api/reportes/usuarios(estado=${estadoSeleccionado},q=${busqueda})}, 'Agregar usuario', '/admin/usuarios/nuevo', ~{::section})}">
 <section>
     <div class="mb-4 rounded-2xl border border-white/10 bg-slate-900/50 p-4">
-        <form method="get" th:action="@{/admin/usuarios}" class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-                <label for="estado" class="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-400">Filtrar por estado</label>
-                <select id="estado" name="estado"
-                        class="rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring">
-                    <option value="TODOS" th:selected="${estadoSeleccionado == 'TODOS'}">Todos</option>
-                    <option value="ACTIVOS" th:selected="${estadoSeleccionado == 'ACTIVOS'}">Activos</option>
-                    <option value="INACTIVOS" th:selected="${estadoSeleccionado == 'INACTIVOS'}">Inactivos</option>
-                </select>
+        <form method="get" th:action="@{/admin/usuarios}" class="flex flex-col gap-3 xl:flex-row xl:items-end">
+            <div class="w-full xl:max-w-2xl">
+                <label for="q" class="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-400">Buscar por nombre</label>
+                <input id="q" name="q" type="text" th:value="${busqueda}"
+                       placeholder="Ej. Juan Perez"
+                       class="w-full rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring xl:min-w-[26rem]">
+            </div>
+            <div class="grid gap-3 sm:grid-cols-2">
+                <div>
+                    <label for="estado" class="mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-400">Filtrar por estado</label>
+                    <select id="estado" name="estado"
+                            class="rounded-xl border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100 outline-none ring-cyan-400/40 transition focus:border-cyan-400 focus:ring">
+                        <option value="TODOS" th:selected="${estadoSeleccionado == 'TODOS'}">Todos</option>
+                        <option value="ACTIVOS" th:selected="${estadoSeleccionado == 'ACTIVOS'}">Activos</option>
+                        <option value="INACTIVOS" th:selected="${estadoSeleccionado == 'INACTIVOS'}">Inactivos</option>
+                    </select>
+                </div>
             </div>
             <input type="hidden" name="page" value="0">
-            <button type="submit"
-                    class="rounded-xl border border-cyan-400/40 bg-cyan-500/10 px-4 py-2 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-500/20">
-                Aplicar filtro
-            </button>
+            <div class="flex items-center gap-2 xl:ml-auto">
+                <button type="submit"
+                        class="rounded-xl border border-cyan-400/40 bg-cyan-500/10 px-4 py-2 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-500/20">
+                    Aplicar filtro
+                </button>
+            </div>
         </form>
     </div>
 
@@ -98,27 +108,29 @@
         </div>
     </div>
 
-    <div th:if="${pagina.totalPages > 0}" class="mt-5 flex flex-wrap items-center justify-between gap-3">
-        <p class="text-sm text-slate-400">
-            Pagina <span th:text="${pagina.number + 1}"></span> de <span th:text="${pagina.totalPages}"></span>
-        </p>
-        <div class="flex items-center gap-2">
+    <div th:if="${pagina.totalPages > 0}" class="mt-5 rounded-2xl border border-white/10 bg-slate-900/60 p-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <p class="text-sm text-slate-400">
+                Pagina <span class="font-semibold text-slate-200" th:text="${pagina.number + 1}"></span> de <span class="font-semibold text-slate-200" th:text="${pagina.totalPages}"></span>
+            </p>
+            <div class="inline-flex items-center gap-1 rounded-xl border border-slate-700 bg-slate-950/50 p-1">
             <a th:if="${!pagina.first}"
-               th:href="@{/admin/usuarios(page=${pagina.number - 1},estado=${estadoSeleccionado})}"
-               class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-200 transition hover:border-slate-500 hover:bg-slate-800">
+               th:href="@{/admin/usuarios(page=${pagina.number - 1},estado=${estadoSeleccionado},q=${busqueda})}"
+               class="rounded-lg px-3 py-1.5 text-sm text-slate-200 transition hover:bg-slate-800">
                 Anterior
             </a>
-            <a th:each="i : ${#numbers.sequence(0, pagina.totalPages - 1)}"
-               th:href="@{/admin/usuarios(page=${i},estado=${estadoSeleccionado})}"
+            <a th:each="i : ${pageNumbers}"
+               th:href="@{/admin/usuarios(page=${i},estado=${estadoSeleccionado},q=${busqueda})}"
                th:text="${i + 1}"
-               th:classappend="${i == pagina.number} ? ' bg-cyan-500 text-slate-950 border-cyan-500' : ' border-slate-700 text-slate-200 hover:border-slate-500 hover:bg-slate-800'"
-               class="rounded-lg border px-3 py-1.5 text-sm transition">
+               th:classappend="${i == pagina.number} ? ' bg-cyan-500 text-slate-950' : ' text-slate-200 hover:bg-slate-800'"
+               class="rounded-lg px-3 py-1.5 text-sm transition">
             </a>
             <a th:if="${!pagina.last}"
-               th:href="@{/admin/usuarios(page=${pagina.number + 1},estado=${estadoSeleccionado})}"
-               class="rounded-lg border border-slate-700 px-3 py-1.5 text-sm text-slate-200 transition hover:border-slate-500 hover:bg-slate-800">
+               th:href="@{/admin/usuarios(page=${pagina.number + 1},estado=${estadoSeleccionado},q=${busqueda})}"
+               class="rounded-lg px-3 py-1.5 text-sm text-slate-200 transition hover:bg-slate-800">
                 Siguiente
             </a>
+            </div>
         </div>
     </div>
 

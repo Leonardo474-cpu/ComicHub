@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ComicHub - Inicio</title>
+<title>ComicHub - Suscripciones</title>
 <link rel="icon" type="image/png" href="/img/icon.png" th:href="@{/img/icon.png}">
 <link rel="shortcut icon" href="/favicon.ico" th:href="@{/favicon.ico}">
 <style>
 body {
     margin: 0;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to bottom, #101b32 0%, #18253d 25%, #26344b 100%);
+    background: linear-gradient(to bottom, #101b32 0%, #18253d 45%, #25344b 100%);
     color: #e5e7eb;
 }
 
@@ -106,6 +106,7 @@ body {
     align-items: center;
     justify-content: center;
     transition: background 0.2s;
+    text-decoration: none;
 }
 
 .icon-btn:hover {
@@ -117,309 +118,188 @@ body {
     height: 22px;
 }
 
-.hero {
-    max-width: 1060px;
+.main {
+    max-width: 1300px;
     margin: 0 auto;
-    padding: 30px 24px 14px;
+    padding: 30px 34px 50px;
 }
 
-.hero-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 12px;
-}
-
-.hero-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 12px;
-    border: 1px solid rgba(148, 163, 184, 0.22);
-    background: rgba(15, 23, 42, 0.65);
-    text-decoration: none;
-    color: inherit;
-    min-height: 160px;
-}
-
-.hero-card-main {
-    min-height: 300px;
-}
-
-.hero-side {
-    display: grid;
-    gap: 12px;
-}
-
-.hero-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.hero-empty {
-    min-height: 160px;
+.page-head {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    color: #94a3b8;
-    font-weight: 700;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 18px 22px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    background: linear-gradient(130deg, rgba(37, 58, 89, 0.92), rgba(32, 45, 70, 0.88));
 }
 
-.hero-overlay {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 14px;
-    background: linear-gradient(180deg, rgba(2, 6, 23, 0.05) 0%, rgba(2, 6, 23, 0.88) 100%);
-}
-
-.hero-title {
+.page-head h1 {
     margin: 0;
-    font-size: 18px;
-    font-weight: 700;
-    color: #f8fafc;
+    font-size: 28px;
 }
 
-.hero-sub {
+.page-head p {
     margin: 6px 0 0;
-    font-size: 13px;
-    color: #94a3b8;
+    color: #9fb1ca;
 }
 
-.section {
-    max-width: 1060px;
-    margin: 0 auto;
-    padding: 6px 24px 62px;
-}
-
-.section-title {
-    margin: 0 0 4px;
-    font-size: 40px;
-    color: #f8fafc;
-}
-
-.section-subtitle {
-    margin: 0 0 14px;
-    color: #9ca3af;
-}
-
-.recom-grid {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 12px;
-    overflow-x: auto;
-    padding-bottom: 6px;
-}
-
-.recom-card {
-    position: relative;
-    min-height: 220px;
+.current-plan {
+    margin-bottom: 20px;
+    padding: 14px 16px;
     border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    background: rgba(15, 23, 42, 0.78);
+    border: 1px solid rgba(16, 185, 129, 0.45);
+    background: rgba(16, 185, 129, 0.15);
+    color: #d1fae5;
 }
 
-.recom-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+.alert {
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 14px;
 }
 
-.recom-overlay {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 10px;
-    background: linear-gradient(180deg, rgba(2, 6, 23, 0.05) 0%, rgba(2, 6, 23, 0.9) 100%);
-}
-
-.recom-title {
-    margin: 0;
-    color: #f1f5f9;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1.25;
-}
-
-.recom-status {
-    margin-top: 7px;
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 700;
-    background: rgba(16, 185, 129, 0.26);
+.alert.ok {
+    border: 1px solid rgba(16, 185, 129, 0.45);
+    background: rgba(16, 185, 129, 0.14);
     color: #a7f3d0;
 }
 
-.section-head {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 10px;
+.alert.error {
+    border: 1px solid rgba(244, 63, 94, 0.45);
+    background: rgba(244, 63, 94, 0.14);
+    color: #fecdd3;
 }
 
-.section-actions {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-    color: #cbd5e1;
-}
-
-.section-actions svg {
-    width: 22px;
-    height: 22px;
-}
-
-.series-grid {
+.plan-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(188px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
 }
 
-.series-card {
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid rgba(148, 163, 184, 0.24);
-    background: rgba(15, 23, 42, 0.8);
-    min-height: 315px;
+.plan-card {
     position: relative;
-    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.22);
 }
 
-.series-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.28);
-    border-color: rgba(56, 189, 248, 0.45);
+.plan-card.popular {
+    border-color: rgba(244, 66, 54, 0.8);
 }
 
-.series-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    height: 100%;
-}
-
-.series-cover {
-    width: 100%;
-    height: 315px;
-    object-fit: cover;
-    display: block;
-}
-
-.series-cover-empty {
-    height: 315px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #94a3b8;
-    font-weight: 700;
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.85), rgba(15, 23, 42, 0.95));
-}
-
-.series-overlay {
+.popular-badge {
     position: absolute;
+    top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    padding: 10px;
-    background: linear-gradient(180deg, rgba(2, 6, 23, 0.05) 0%, rgba(2, 6, 23, 0.9) 100%);
-}
-
-.series-title {
-    margin: 0;
-    color: #f1f5f9;
-    font-size: 18px;
+    background: #dc2626;
+    color: #fff;
+    text-align: center;
+    padding: 7px 10px;
+    font-size: 13px;
     font-weight: 700;
-    line-height: 1.25;
-    min-height: 46px;
 }
 
-.series-author {
-    margin-top: 4px;
-    font-size: 12px;
-    color: #cbd5e1;
-}
-
-.empty-comics {
-    border: 1px dashed rgba(148, 163, 184, 0.45);
+.plan-header {
+    margin: 12px;
+    margin-top: 14px;
     border-radius: 12px;
+    padding: 14px 16px;
+    background: linear-gradient(120deg, #203e8a 0%, #5b3ecf 65%, #aa2ba5 100%);
+}
+
+.plan-card.popular .plan-header {
+    margin-top: 46px;
+    background: linear-gradient(120deg, #2d4ea8 0%, #5c3a9d 50%, #bb1f54 100%);
+}
+
+.plan-header h3 {
+    margin: 0;
+    font-size: 34px;
+}
+
+.plan-header p {
+    margin: 3px 0 0;
+    color: #e2e8f0;
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.plan-body {
+    padding: 4px 16px 18px;
+}
+
+.row {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.row:last-child {
+    border-bottom: 0;
+}
+
+.row small {
+    color: #9fb1ca;
+    display: block;
+}
+
+.row strong {
+    margin-top: 2px;
+    display: block;
+    font-size: 26px;
+}
+
+.row span {
+    display: block;
+    margin-top: 5px;
+    color: #e2e8f0;
+}
+
+.plan-action {
+    padding: 0 16px 18px;
+}
+
+.btn-plan {
+    width: 100%;
+    border: 0;
+    border-radius: 10px;
+    background: #f4a209;
+    color: #101828;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 11px;
+    cursor: pointer;
+}
+
+.btn-plan:hover {
+    filter: brightness(1.06);
+}
+
+.empty {
+    border-radius: 12px;
+    border: 1px dashed rgba(255, 255, 255, 0.25);
     padding: 20px;
     color: #cbd5e1;
-    background: rgba(15, 23, 42, 0.35);
-    margin-top: 10px;
+    background: rgba(255, 255, 255, 0.03);
 }
 
-.scroll-sentinel {
-    width: 100%;
-    height: 1px;
-}
-
-.load-state {
-    margin-top: 16px;
-    text-align: center;
-    color: #94a3b8;
-    font-size: 13px;
-}
-
-.ranking-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 12px;
-}
-
-.ranking-item {
-    border: 1px solid rgba(148, 163, 184, 0.22);
-    border-radius: 12px;
-    background: rgba(15, 23, 42, 0.76);
-    padding: 12px;
-}
-
-.ranking-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 8px;
-}
-
-.ranking-pos {
-    color: #facc15;
-    font-weight: 800;
-    font-size: 13px;
-}
-
-.ranking-score {
-    color: #93c5fd;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.ranking-name {
-    margin: 0;
-    color: #f8fafc;
-    font-size: 15px;
-    line-height: 1.3;
-}
-
-.ranking-meta {
-    margin-top: 6px;
-    color: #94a3b8;
-    font-size: 12px;
-}
-
+.confirm-overlay,
 .auth-overlay {
     position: fixed;
     inset: 0;
+    display: none;
+    z-index: 60;
     background: rgba(5, 10, 22, 0.78);
     backdrop-filter: blur(10px);
-    z-index: 60;
-    display: none;
 }
 
+.confirm-overlay.open,
 .auth-overlay.open {
     display: block;
 }
@@ -437,22 +317,22 @@ body {
     display: block;
 }
 
-.auth-modal {
+.confirm-modal {
     position: fixed;
-    top: 50%;
     left: 50%;
+    top: 50%;
     transform: translate(-50%, -50%);
-    width: min(96vw, 490px);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: linear-gradient(180deg, #253752 0%, #1e2d46 100%);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
     z-index: 70;
-    padding: 22px 22px 20px;
+    width: min(94vw, 460px);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: linear-gradient(180deg, #263a57, #1d2c45);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.42);
+    padding: 20px;
     display: none;
 }
 
-.auth-modal.open {
+.confirm-modal.open {
     display: block;
 }
 
@@ -523,6 +403,61 @@ body {
 .logout-confirm {
     background: #f4a209;
     color: #101828;
+}
+
+.confirm-modal h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.confirm-modal p {
+    margin: 10px 0;
+    color: #cbd5e1;
+}
+
+.confirm-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.btn-secondary,
+.btn-primary {
+    border: 0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.14);
+    color: #f8fafc;
+}
+
+.btn-primary {
+    background: #f4a209;
+    color: #101828;
+}
+
+.auth-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(96vw, 490px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: linear-gradient(180deg, #253752 0%, #1e2d46 100%);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+    z-index: 75;
+    padding: 22px 22px 20px;
+    display: none;
+}
+
+.auth-modal.open {
+    display: block;
 }
 
 .auth-close {
@@ -647,6 +582,38 @@ body {
     cursor: pointer;
 }
 
+.auth-register {
+    display: none;
+}
+
+.auth-modal.mode-register .auth-login {
+    display: none;
+}
+
+.auth-modal.mode-register .auth-register {
+    display: block;
+}
+
+.auth-error {
+    margin: 0 0 12px;
+    border: 1px solid rgba(244, 63, 94, 0.45);
+    background: rgba(244, 63, 94, 0.14);
+    color: #fecdd3;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+}
+
+.auth-ok {
+    margin: 0 0 12px;
+    border: 1px solid rgba(16, 185, 129, 0.45);
+    background: rgba(16, 185, 129, 0.14);
+    color: #a7f3d0;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+}
+
 .site-footer {
     border-top: 1px solid rgba(255, 255, 255, 0.07);
     background: #0f1d34;
@@ -732,63 +699,39 @@ body {
     color: #7c8cff;
 }
 
-.auth-error {
-    margin: 0 0 12px;
-    border: 1px solid rgba(244, 63, 94, 0.45);
-    background: rgba(244, 63, 94, 0.14);
-    color: #fecdd3;
-    border-radius: 10px;
-    padding: 10px 12px;
-    font-size: 13px;
-}
-
-.auth-ok {
-    margin: 0 0 12px;
-    border: 1px solid rgba(16, 185, 129, 0.45);
-    background: rgba(16, 185, 129, 0.14);
-    color: #a7f3d0;
-    border-radius: 10px;
-    padding: 10px 12px;
-    font-size: 13px;
-}
-
-.auth-register {
-    display: none;
-}
-
-.auth-modal.mode-register .auth-login {
-    display: none;
-}
-
-.auth-modal.mode-register .auth-register {
-    display: block;
-}
-
 @media (max-width: 980px) {
     .navbar-inner {
         padding: 12px 16px;
     }
+
     .logo-img {
         height: 46px;
         transform: scale(1.1);
     }
+
     .menu {
         gap: 4px;
         margin-left: 0;
     }
+
     .menu a {
         padding: 8px 10px;
         font-size: 14px;
     }
+
     .menu a .menu-text {
         display: none;
     }
-    .hero-grid {
-        grid-template-columns: 1fr;
+
+    .main {
+        padding: 20px 16px 40px;
     }
-    .recom-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    .page-head {
+        flex-direction: column;
+        align-items: flex-start;
     }
+
     .footer-inner {
         flex-direction: column;
         padding: 24px 16px 30px;
@@ -796,136 +739,76 @@ body {
 }
 </style>
 </head>
-
 <body id="top">
-    <div th:replace="~{components/client-layout :: navbar('home', ${tieneSuscripcionActiva}, ${nombreUsuarioMenu}, ${nombrePlanMenu})}"></div>
+    <div th:replace="~{components/client-layout :: navbar('suscripciones', ${tieneSuscripcionActiva}, ${nombreUsuarioMenu}, ${nombrePlanMenu})}"></div>
 
-    <section class="hero">
-        <div class="hero-grid">
-            <a class="hero-card hero-card-main"
-               th:if="${#lists.size(comicsIniciales) > 0}"
-               th:with="comic=${comicsIniciales[0]}"
-               th:href="@{/comics/{id}(id=${comic.idComic})}">
-                <img class="hero-image"
-                     th:if="${comic.rutaImagenPortada != null and !#strings.isEmpty(comic.rutaImagenPortada)}"
-                     th:src="${comic.rutaImagenPortada}"
-                     th:alt="${comic.titulo}">
-                <div class="hero-empty" th:if="${comic.rutaImagenPortada == null or #strings.isEmpty(comic.rutaImagenPortada)}">
-                    Sin portada
-                </div>
-                <div class="hero-overlay">
-                    <h3 class="hero-title" th:text="${comic.titulo}">Comic destacado</h3>
-                    <p class="hero-sub" th:text="${comic.autor}">Autor</p>
-                </div>
-            </a>
-
-            <div class="hero-side">
-                <a class="hero-card"
-                   th:if="${#lists.size(comicsIniciales) > 1}"
-                   th:with="comic=${comicsIniciales[1]}"
-                   th:href="@{/comics/{id}(id=${comic.idComic})}">
-                    <img class="hero-image"
-                         th:if="${comic.rutaImagenPortada != null and !#strings.isEmpty(comic.rutaImagenPortada)}"
-                         th:src="${comic.rutaImagenPortada}"
-                         th:alt="${comic.titulo}">
-                    <div class="hero-empty" th:if="${comic.rutaImagenPortada == null or #strings.isEmpty(comic.rutaImagenPortada)}">
-                        Sin portada
-                    </div>
-                    <div class="hero-overlay">
-                        <h3 class="hero-title" th:text="${comic.titulo}">Comic destacado</h3>
-                    </div>
-                </a>
-                <a class="hero-card"
-                   th:if="${#lists.size(comicsIniciales) > 2}"
-                   th:with="comic=${comicsIniciales[2]}"
-                   th:href="@{/comics/{id}(id=${comic.idComic})}">
-                    <img class="hero-image"
-                         th:if="${comic.rutaImagenPortada != null and !#strings.isEmpty(comic.rutaImagenPortada)}"
-                         th:src="${comic.rutaImagenPortada}"
-                         th:alt="${comic.titulo}">
-                    <div class="hero-empty" th:if="${comic.rutaImagenPortada == null or #strings.isEmpty(comic.rutaImagenPortada)}">
-                        Sin portada
-                    </div>
-                    <div class="hero-overlay">
-                        <h3 class="hero-title" th:text="${comic.titulo}">Comic destacado</h3>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <h2 class="section-title">Recomendadas</h2>
-        <p class="section-subtitle">Las series favoritas del staff.</p>
-        <div class="recom-grid">
-            <a class="recom-card"
-               th:each="comic,iter : ${comicsIniciales}"
-               th:if="${iter.index < 5}"
-               th:href="@{/comics/{id}(id=${comic.idComic})}">
-                <img th:if="${comic.rutaImagenPortada != null and !#strings.isEmpty(comic.rutaImagenPortada)}"
-                     th:src="${comic.rutaImagenPortada}"
-                     th:alt="${comic.titulo}">
-                <div class="series-cover-empty" th:if="${comic.rutaImagenPortada == null or #strings.isEmpty(comic.rutaImagenPortada)}">
-                    Sin portada
-                </div>
-                <div class="recom-overlay">
-                    <h3 class="recom-title" th:text="${comic.titulo}">Serie recomendada</h3>
-                    <span class="recom-status" th:text="${comic.activo} ? 'Activo' : 'Finalizado'">Activo</span>
-                </div>
-            </a>
-        </div>
-    </section>
-
-    <section class="section" id="rankingSection">
-        <h2 class="section-title">Ranking</h2>
-        <p class="section-subtitle">Ranking del mes (data mock).</p>
-        <div id="rankingGrid" class="ranking-grid"></div>
-    </section>
-
-    <section class="section" id="seriesSection">
-        <div class="section-head">
+    <main class="main">
+        <div class="page-head">
             <div>
-                <h2 class="section-title">Series</h2>
-                <p class="section-subtitle">Comics con carga progresiva de 15 en 15.</p>
-            </div>
-            <div class="section-actions" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 6h18M7 12h14M11 18h10"/>
-                    <path d="M3 18l3 3 3-3"/>
-                </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 6h18M6 12h12M10 18h4"/>
-                    <circle cx="9" cy="12" r="1"/>
-                    <circle cx="15" cy="6" r="1"/>
-                    <circle cx="13" cy="18" r="1"/>
-                </svg>
+                <h1>Elige tu Suscripción</h1>
+                <p>Activa tu plan de lectura y disfruta del contenido de ComicHub.</p>
             </div>
         </div>
 
-        <div class="series-grid" id="comicsGrid">
-            <article class="series-card" th:each="comic : ${comicsIniciales}">
-                <a class="series-link" th:href="@{/comics/{id}(id=${comic.idComic})}">
-                    <img class="series-cover"
-                         th:if="${comic.rutaImagenPortada != null and !#strings.isEmpty(comic.rutaImagenPortada)}"
-                         th:src="${comic.rutaImagenPortada}"
-                         th:alt="${comic.titulo}">
-                    <div class="series-cover-empty" th:if="${comic.rutaImagenPortada == null or #strings.isEmpty(comic.rutaImagenPortada)}">
-                        Sin portada
-                    </div>
-                    <div class="series-overlay">
-                        <h3 class="series-title" th:text="${comic.titulo}">Titulo del comic</h3>
-                        <p class="series-author" th:text="${comic.autor}">Autor</p>
-                        <span class="recom-status" th:text="${comic.activo} ? 'Activo' : 'Finalizado'">Activo</span>
-                    </div>
-                </a>
-            </article>
-            <div class="empty-comics" th:if="${#lists.isEmpty(comicsIniciales)}">
-                Todavia no hay comics activos para mostrar.
-            </div>
+        <div th:if="${suscripcionActiva != null}" class="current-plan">
+            Tu plan actual es <strong th:text="${suscripcionActiva.plan.nombrePlan}">Plan</strong> y vence el
+            <strong th:text="${#temporals.format(suscripcionActiva.fechaFin, 'dd/MM/yyyy')}">00/00/0000</strong>.
         </div>
-        <div id="scrollSentinel" class="scroll-sentinel"></div>
-        <p id="loadState" class="load-state">Desliza para cargar mas comics...</p>
-    </section>
+
+        <div th:if="${suscripcionOk}" class="alert ok" th:text="${suscripcionOk}"></div>
+        <div th:if="${suscripcionError}" class="alert error" th:text="${suscripcionError}"></div>
+
+        <div th:if="${planes == null || #lists.isEmpty(planes)}" class="empty">
+            Aún no hay planes disponibles. Intenta más tarde.
+        </div>
+
+        <div th:if="${planes != null && !#lists.isEmpty(planes)}" class="plan-grid">
+            <article class="plan-card"
+                     th:classappend="${planPopularId != null and plan.idPlan == planPopularId} ? ' popular' : ''"
+                     th:each="plan : ${planes}">
+
+                <div class="popular-badge" th:if="${planPopularId != null and plan.idPlan == planPopularId}">Más popular</div>
+
+                <div class="plan-header">
+                    <h3 th:text="${plan.nombrePlan}">Básico</h3>
+                    <p th:text="${plan.diasDuracion} + ' días'">30 días</p>
+                </div>
+
+                <div class="plan-body">
+                    <div class="row">
+                        <small>Precio mensual</small>
+                        <strong th:text="'PEN ' + ${#numbers.formatDecimal(plan.precio != null ? plan.precio : 0, 1, 'COMMA', 2, 'POINT')}">PEN 0.00</strong>
+                    </div>
+                    <div class="row">
+                        <small>Descripción del plan</small>
+                        <span th:text="${plan.descripcion != null and !#strings.isEmpty(plan.descripcion) ? plan.descripcion : 'Sin descripción disponible.'}">Descripción</span>
+                    </div>
+                </div>
+
+                <div class="plan-action">
+                    <button type="button" class="btn-plan btn-open-confirm"
+                            th:attr="data-plan-id=${plan.idPlan},data-plan-nombre=${plan.nombrePlan},data-plan-precio=${#numbers.formatDecimal(plan.precio != null ? plan.precio : 0, 1, 'COMMA', 2, 'POINT')}">
+                        Elegir plan
+                    </button>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer th:replace="~{components/client-layout :: footer}"></footer>
+
+    <div id="confirmOverlay" class="confirm-overlay"></div>
+    <div id="confirmModal" class="confirm-modal" aria-modal="true" role="dialog">
+        <h3>Confirmar suscripción</h3>
+        <p id="confirmText">¿Estás seguro de elegir este plan?</p>
+        <form method="post" th:action="@{/suscripciones/seleccionar}" id="formSeleccionPlan">
+            <input type="hidden" name="idPlan" id="confirmPlanId">
+        </form>
+        <div class="confirm-actions">
+            <button type="button" class="btn-secondary" id="btnCancelConfirm">Cancelar</button>
+            <button type="button" class="btn-primary" id="btnAcceptConfirm">Confirmar</button>
+        </div>
+    </div>
 
     <div id="authOverlay" class="auth-overlay"></div>
     <div id="authModal" class="auth-modal">
@@ -940,6 +823,7 @@ body {
             <p th:if="${loginError}" th:text="${loginError}" class="auth-error"></p>
             <p th:if="${registroOk}" th:text="${registroOk}" class="auth-ok"></p>
             <form method="post" th:action="@{/login}">
+                <input type="hidden" name="redirectTo" value="/suscripciones">
                 <div class="auth-input-row">
                     <div class="auth-input-wrap">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -969,6 +853,7 @@ body {
         <div class="auth-register">
             <p th:if="${registroError}" th:text="${registroError}" class="auth-error"></p>
             <form method="post" th:action="@{/registro}" id="formRegistro">
+                <input type="hidden" name="redirectTo" value="/suscripciones">
                 <div class="auth-input-row">
                     <div class="auth-input-wrap">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1029,9 +914,38 @@ body {
         </div>
     </div>
 
-    <footer th:replace="~{components/client-layout :: footer}"></footer>
-
     <script th:inline="javascript">
+        const confirmOverlay = document.getElementById('confirmOverlay');
+        const confirmModal = document.getElementById('confirmModal');
+        const confirmText = document.getElementById('confirmText');
+        const confirmPlanId = document.getElementById('confirmPlanId');
+        const formSeleccionPlan = document.getElementById('formSeleccionPlan');
+        const btnCancelConfirm = document.getElementById('btnCancelConfirm');
+        const btnAcceptConfirm = document.getElementById('btnAcceptConfirm');
+        const openConfirmButtons = document.querySelectorAll('.btn-open-confirm');
+
+        function openConfirmModal(idPlan, nombrePlan, precioPlan) {
+            confirmPlanId.value = idPlan;
+            confirmText.textContent = `¿Estás seguro de activar el plan ${nombrePlan} por PEN ${precioPlan}?`;
+            confirmOverlay.classList.add('open');
+            confirmModal.classList.add('open');
+        }
+
+        function closeConfirmModal() {
+            confirmOverlay.classList.remove('open');
+            confirmModal.classList.remove('open');
+        }
+
+        openConfirmButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                openConfirmModal(btn.dataset.planId, btn.dataset.planNombre, btn.dataset.planPrecio);
+            });
+        });
+
+        confirmOverlay.addEventListener('click', closeConfirmModal);
+        btnCancelConfirm.addEventListener('click', closeConfirmModal);
+        btnAcceptConfirm.addEventListener('click', () => formSeleccionPlan.submit());
+
         const authOverlay = document.getElementById('authOverlay');
         const authModal = document.getElementById('authModal');
         const btnAuthOpen = document.getElementById('btnAuthOpen');
@@ -1086,7 +1000,6 @@ body {
         if (btnLogoutCancel) {
             btnLogoutCancel.addEventListener('click', closeLogoutModal);
         }
-
         if (btnAuthClose) {
             btnAuthClose.addEventListener('click', closeAuthModal);
         }
@@ -1110,6 +1023,9 @@ body {
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && authModal.classList.contains('open')) {
                 closeAuthModal();
+            }
+            if (event.key === 'Escape' && confirmModal.classList.contains('open')) {
+                closeConfirmModal();
             }
             if (event.key === 'Escape' && logoutModal.classList.contains('open')) {
                 closeLogoutModal();
@@ -1136,144 +1052,6 @@ body {
             const initialTab = authTab || paramAuth || (registroError ? 'register' : 'login');
             openAuthModal(initialTab);
         }
-
-        const comicsGrid = document.getElementById('comicsGrid');
-        const rankingGrid = document.getElementById('rankingGrid');
-        const scrollSentinel = document.getElementById('scrollSentinel');
-        const loadState = document.getElementById('loadState');
-        let paginaComics = 1;
-        let cargandoComics = false;
-        let finComics = false;
-
-        function crearCardComic(comic) {
-            const article = document.createElement('article');
-            article.className = 'series-card';
-
-            const link = document.createElement('a');
-            link.className = 'series-link';
-            link.href = '/comics/' + comic.idComic;
-
-            if (comic.rutaImagenPortada && comic.rutaImagenPortada.trim() !== '') {
-                const img = document.createElement('img');
-                img.className = 'series-cover';
-                img.src = comic.rutaImagenPortada;
-                img.alt = comic.titulo || 'Comic';
-                link.appendChild(img);
-            } else {
-                const empty = document.createElement('div');
-                empty.className = 'series-cover-empty';
-                empty.textContent = 'Sin portada';
-                link.appendChild(empty);
-            }
-
-            const body = document.createElement('div');
-            body.className = 'series-overlay';
-
-            const title = document.createElement('h3');
-            title.className = 'series-title';
-            title.textContent = comic.titulo || 'Sin titulo';
-            body.appendChild(title);
-
-            const author = document.createElement('p');
-            author.className = 'series-author';
-            author.textContent = comic.autor || 'Autor no disponible';
-            body.appendChild(author);
-
-            const estado = document.createElement('span');
-            estado.className = 'recom-status';
-            estado.textContent = comic.activo ? 'Activo' : 'Finalizado';
-            body.appendChild(estado);
-
-            link.appendChild(body);
-            article.appendChild(link);
-            return article;
-        }
-
-        function renderRankingMock() {
-            if (!rankingGrid) {
-                return;
-            }
-            const rankingMock = [
-                { posicion: 1, titulo: 'La Venganza del Sabueso de Sangre de Hierro', score: '9.9', vistas: '2.4M' },
-                { posicion: 2, titulo: 'El Hijo Menor del Maestro de la Espada', score: '9.8', vistas: '2.1M' },
-                { posicion: 3, titulo: 'El Asesino Yu Jin', score: '9.7', vistas: '1.9M' },
-                { posicion: 4, titulo: 'Loco Frontera', score: '9.6', vistas: '1.7M' },
-                { posicion: 5, titulo: 'Iniciando Sesion en 10,000 Años', score: '9.5', vistas: '1.6M' },
-                { posicion: 6, titulo: 'Pick Me Up, Gacha Infinito', score: '9.4', vistas: '1.5M' },
-                { posicion: 7, titulo: 'Guia de Supervivencia del Cazador', score: '9.3', vistas: '1.4M' },
-                { posicion: 8, titulo: 'Actue Como el Villano Final', score: '9.2', vistas: '1.3M' }
-            ];
-
-            rankingMock.forEach((item) => {
-                const card = document.createElement('article');
-                card.className = 'ranking-item';
-                card.innerHTML = `
-                    <div class="ranking-top">
-                        <span class="ranking-pos">Puesto ${item.posicion}</span>
-                        <span class="ranking-score">Score ${item.score}</span>
-                    </div>
-                    <h3 class="ranking-name">${item.titulo}</h3>
-                    <p class="ranking-meta">${item.vistas} vistas</p>
-                `;
-                rankingGrid.appendChild(card);
-            });
-        }
-
-        async function cargarMasComics() {
-            if (cargandoComics || finComics || !comicsGrid) {
-                return;
-            }
-
-            cargandoComics = true;
-            if (loadState) {
-                loadState.textContent = 'Cargando comics...';
-            }
-
-            try {
-                const response = await fetch('/api/comics/inicio?page=' + paginaComics + '&size=15', {
-                    headers: { 'Accept': 'application/json' }
-                });
-
-                if (!response.ok) {
-                    throw new Error('No se pudo cargar la siguiente tanda');
-                }
-
-                const comics = await response.json();
-                if (!Array.isArray(comics) || comics.length === 0) {
-                    finComics = true;
-                    if (loadState) {
-                        loadState.textContent = 'Ya se cargaron todos los comics disponibles.';
-                    }
-                    return;
-                }
-
-                comics.forEach((comic) => comicsGrid.appendChild(crearCardComic(comic)));
-                paginaComics += 1;
-
-                if (loadState) {
-                    loadState.textContent = 'Desliza para cargar mas comics...';
-                }
-            } catch (error) {
-                if (loadState) {
-                    loadState.textContent = 'Error al cargar mas comics. Reintenta desplazandote.';
-                }
-            } finally {
-                cargandoComics = false;
-            }
-        }
-
-        if (scrollSentinel) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        cargarMasComics();
-                    }
-                });
-            }, { rootMargin: '280px 0px 280px 0px' });
-            observer.observe(scrollSentinel);
-        }
-
-        renderRankingMock();
     </script>
 </body>
 </html>

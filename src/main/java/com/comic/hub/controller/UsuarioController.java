@@ -1,5 +1,6 @@
 package com.comic.hub.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,11 +14,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.comic.hub.dto.request.UsuarioAdminRequestDto;
 import com.comic.hub.dto.request.UsuarioRegistroRequestDto;
 import com.comic.hub.dto.response.UsuarioListResponseDto;
+import com.comic.hub.model.Usuario;
 import com.comic.hub.repository.RolRepository;
 import com.comic.hub.service.UsuarioService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
+
+import java.util.List;
+import java.util.stream.IntStream;
 
 @Controller
 public class UsuarioController {
@@ -32,12 +37,15 @@ public class UsuarioController {
 
     @GetMapping("/admin/usuarios")
     public String listar(@RequestParam(defaultValue = "TODOS") String estado,
+                         @RequestParam(defaultValue = "") String q,
                          @RequestParam(defaultValue = "0") int page,
                          Model model) {
-        Page<UsuarioListResponseDto> paginaUsuarios = usuarioService.listarTodos(estado, page, 10);
+        Page<UsuarioListResponseDto> paginaUsuarios = usuarioService.listarTodos(estado, q, page, 10);
         model.addAttribute("usuarios", paginaUsuarios.getContent());
         model.addAttribute("pagina", paginaUsuarios);
         model.addAttribute("estadoSeleccionado", estado.toUpperCase());
+        model.addAttribute("busqueda", q);
+        model.addAttribute("pageNumbers", construirVentanaPaginas(paginaUsuarios));
         return "admin/usuarios";
     }
 
@@ -52,17 +60,24 @@ public class UsuarioController {
     public String nuevo() {
         return "redirect:/home?auth=register";
     }
-    
+
     @PostMapping("/registro")
     public String registrar(@Valid @ModelAttribute("usuario") UsuarioRegistroRequestDto usuario,
+                            @RequestParam(name = "redirectTo", required = false) String redirectTo,
                             BindingResult br,
+                            HttpSession session,
                             RedirectAttributes redirectAttributes) {
+
+        String redirectSeguro = limpiarRedirect(redirectTo);
+        if (redirectSeguro != null) {
+            session.setAttribute("postAuthRedirect", redirectSeguro);
+        }
 
         if (br.hasErrors()) {
             redirectAttributes.addFlashAttribute("registroError", "Falta ingresar datos obligatorios correctamente");
             redirectAttributes.addFlashAttribute("authModalOpen", true);
             redirectAttributes.addFlashAttribute("authTab", "register");
-            return "redirect:/home";
+            return redireccionConContexto(session);
         }
 
         try {
@@ -71,9 +86,27 @@ public class UsuarioController {
             redirectAttributes.addFlashAttribute("registroError", ex.getMessage());
             redirectAttributes.addFlashAttribute("authModalOpen", true);
             redirectAttributes.addFlashAttribute("authTab", "register");
-            return "redirect:/home";
+            return redireccionConContexto(session);
         }
-        redirectAttributes.addFlashAttribute("registroOk", "Cuenta registrada correctamente. Ahora inicia sesión.");
+
+        String postAuthRedirect = (String) session.getAttribute("postAuthRedirect");
+        if (postAuthRedirect != null && !postAuthRedirect.isBlank()) {
+            try {
+                Usuario usuarioLogueado = usuarioService.login(usuario.getCorreo(), usuario.getPassword());
+                session.setAttribute("usuarioLogueado", usuarioLogueado);
+                session.removeAttribute("postAuthRedirect");
+                redirectAttributes.addFlashAttribute("suscripcionOk", "Registro completado. Ya puedes elegir tu plan.");
+                return "redirect:" + postAuthRedirect;
+            } catch (RuntimeException ex) {
+                redirectAttributes.addFlashAttribute("registroOk", "Cuenta registrada correctamente. Ahora inicia sesion.");
+                redirectAttributes.addFlashAttribute("loginError", "Tu cuenta fue creada, pero debes iniciar sesion para continuar.");
+                redirectAttributes.addFlashAttribute("authModalOpen", true);
+                redirectAttributes.addFlashAttribute("authTab", "login");
+                return "redirect:" + postAuthRedirect;
+            }
+        }
+
+        redirectAttributes.addFlashAttribute("registroOk", "Cuenta registrada correctamente. Ahora inicia sesion.");
         redirectAttributes.addFlashAttribute("authModalOpen", true);
         redirectAttributes.addFlashAttribute("authTab", "login");
         return "redirect:/home";
@@ -98,7 +131,6 @@ public class UsuarioController {
         }
         return "redirect:/admin/usuarios";
     }
-    
 
     @GetMapping("/admin/usuarios/editar/{id}")
     public String editar(@PathVariable Integer id, Model model) {
@@ -106,36 +138,50 @@ public class UsuarioController {
         model.addAttribute("roles", rolRepo.findAll());
         return "admin/usuarios-form";
     }
-    
-//    @GetMapping("/usuarios/pdf")
-//    public void exportPDF(HttpServletResponse response) throws Exception{
-//    	//Tipo de archivo
-//    	response.setContentType("application/pdf");
-//    	response.setHeader("Content-Disposition","inline;filename=usuarios.pdf");
-//    	
-//    	//Obtener la lista desde JPA de Spring
-//    	List<Usuario> lista = usuarioService.listar();
-//    	
-//    	//Cargar JRXML desde Resources
-//    	InputStream inputStream = getClass().getResourceAsStream("/reportes/usuarios.jrxml");
-//    	
-//    	//Compilar el .JRXML a .JASPER
-//    	JasperReport jasperreport = JasperCompileManager.compileReport(inputStream);
-//    	
-//    	//Convertir la lista a Datasource
-//    	JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lista);
-//    	
-//    	//Llenar pdf
-//    	JasperPrint jasperPrint = JasperFillManager.fillReport(jasperreport,null, dataSource);
-//    	
-//    	//Exportar pdf
-//    	JasperExportManager.exportReportToPdfStream(jasperPrint, response.getOutputStream());
-//    	
-//    }
 
     @GetMapping("/admin/usuarios/estado/{id}")
     public String cambiarEstado(@PathVariable Integer id) {
         usuarioService.cambiarEstado(id);
         return "redirect:/admin/usuarios?estadoActualizado=true";
+    }
+
+    private String redireccionConContexto(HttpSession session) {
+        String postAuthRedirect = (String) session.getAttribute("postAuthRedirect");
+        if (postAuthRedirect != null && !postAuthRedirect.isBlank()) {
+            return "redirect:" + postAuthRedirect;
+        }
+        return "redirect:/home";
+    }
+
+    private String limpiarRedirect(String redirectTo) {
+        if (redirectTo == null) {
+            return null;
+        }
+        String valor = redirectTo.trim();
+        if (valor.isBlank() || !valor.startsWith("/") || valor.startsWith("//")) {
+            return null;
+        }
+        return valor;
+    }
+
+    private List<Integer> construirVentanaPaginas(Page<?> pagina) {
+        int total = pagina.getTotalPages();
+        if (total <= 0) {
+            return List.of();
+        }
+
+        int actual = pagina.getNumber();
+        int inicio = Math.max(0, actual - 2);
+        int fin = Math.min(total - 1, actual + 2);
+
+        if (fin - inicio < 4) {
+            if (inicio == 0) {
+                fin = Math.min(total - 1, inicio + 4);
+            } else if (fin == total - 1) {
+                inicio = Math.max(0, fin - 4);
+            }
+        }
+
+        return IntStream.rangeClosed(inicio, fin).boxed().toList();
     }
 }

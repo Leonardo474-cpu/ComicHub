@@ -21,9 +21,10 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     @Override
-    public Page<CategoriaListResponseDto> listarTodos(String estado, int page, int size) {
+    public Page<CategoriaListResponseDto> listarTodos(String estado, String q, int page, int size) {
         Pageable pageable = PageRequest.of(Math.max(page, 0), size);
-        return obtenerPaginaPorEstado(estado, pageable).map(CategoriaMapper::toListResponseDto);
+        String terminoBusqueda = normalizarTexto(q);
+        return obtenerPaginaPorEstadoYBusqueda(estado, terminoBusqueda, pageable).map(CategoriaMapper::toListResponseDto);
     }
 
     @Override
@@ -71,13 +72,21 @@ public class CategoriaServiceImpl implements CategoriaService {
         return valor == null ? "" : valor.trim();
     }
 
-    private Page<Categoria> obtenerPaginaPorEstado(String estado, Pageable pageable) {
+    private Page<Categoria> obtenerPaginaPorEstadoYBusqueda(String estado, String busqueda, Pageable pageable) {
+        boolean tieneBusqueda = busqueda != null && !busqueda.isBlank();
+
         if ("ACTIVOS".equalsIgnoreCase(estado)) {
-            return categoriaRepository.findByActivo(true, pageable);
+            return tieneBusqueda
+                    ? categoriaRepository.findByActivoAndDescripcionContainingIgnoreCase(true, busqueda, pageable)
+                    : categoriaRepository.findByActivo(true, pageable);
         }
         if ("INACTIVOS".equalsIgnoreCase(estado)) {
-            return categoriaRepository.findByActivo(false, pageable);
+            return tieneBusqueda
+                    ? categoriaRepository.findByActivoAndDescripcionContainingIgnoreCase(false, busqueda, pageable)
+                    : categoriaRepository.findByActivo(false, pageable);
         }
-        return categoriaRepository.findAll(pageable);
+        return tieneBusqueda
+                ? categoriaRepository.findByDescripcionContainingIgnoreCase(busqueda, pageable)
+                : categoriaRepository.findAll(pageable);
     }
 }

@@ -14,6 +14,7 @@ import com.comic.hub.service.ComicService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,9 +45,33 @@ public class ComicServiceImpl implements ComicService {
     }
 
     @Override
-    public Page<ComicListResponseDto> listarTodos(String estado, int page, int size) {
+    public Page<ComicListResponseDto> listarTodos(String estado,
+                                                  String q,
+                                                  Integer autorId,
+                                                  Integer categoriaId,
+                                                  int page,
+                                                  int size) {
         Pageable pageable = PageRequest.of(Math.max(page, 0), size);
-        return obtenerPaginaPorEstado(estado, pageable).map(ComicMapper::toListResponseDto);
+        String terminoBusqueda = normalizarTexto(q);
+        Boolean activo = mapearEstadoAActivo(estado);
+        boolean tieneBusqueda = !terminoBusqueda.isBlank();
+        boolean tieneAutor = autorId != null;
+        boolean tieneCategoria = categoriaId != null;
+
+        if (!tieneBusqueda && !tieneAutor && !tieneCategoria) {
+            Page<Comic> paginaBase = (activo == null)
+                    ? comicRepository.findAll(pageable)
+                    : comicRepository.findByActivo(activo, pageable);
+            return paginaBase.map(ComicMapper::toListResponseDto);
+        }
+
+        return comicRepository.buscarConFiltros(
+                activo,
+                terminoBusqueda,
+                autorId,
+                categoriaId,
+                pageable
+        ).map(ComicMapper::toListResponseDto);
     }
 
     @Override
@@ -142,6 +167,19 @@ public class ComicServiceImpl implements ComicService {
         return categoriaRepository.findAll().stream().filter(Categoria::getActivo).toList();
     }
 
+    @Override
+    public List<Comic> listarActivosParaInicio(int page, int size) {
+        int pagina = Math.max(page, 0);
+        int tamanio = Math.max(size, 1);
+        Pageable pageable = PageRequest.of(pagina, tamanio, Sort.by(Sort.Direction.DESC, "idComic"));
+        List<Comic> activos = comicRepository.findByActivo(true, pageable).getContent();
+        if (!activos.isEmpty()) {
+            return activos;
+        }
+        // Respaldo para bases con registros legacy marcados como inactivos.
+        return comicRepository.findAll(pageable).getContent();
+    }
+
     private String normalizarTexto(String valor) {
         return valor == null ? "" : valor.trim();
     }
@@ -161,13 +199,13 @@ public class ComicServiceImpl implements ComicService {
         }
     }
 
-    private Page<Comic> obtenerPaginaPorEstado(String estado, Pageable pageable) {
+    private Boolean mapearEstadoAActivo(String estado) {
         if ("ACTIVOS".equalsIgnoreCase(estado)) {
-            return comicRepository.findByActivo(true, pageable);
+            return true;
         }
         if ("INACTIVOS".equalsIgnoreCase(estado)) {
-            return comicRepository.findByActivo(false, pageable);
+            return false;
         }
-        return comicRepository.findAll(pageable);
+        return null;
     }
 }

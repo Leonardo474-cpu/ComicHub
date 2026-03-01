@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{admin/components/layout :: layout('Formulario de Autor - Admin', ${autor.idAutor == null ? 'Registrar Autor' : 'Editar Autor'}, 'Gestiona la informacion de autores.', 'autores', 'autores', null, null, ~{::section})}">
+      th:replace="~{admin/components/layout :: layout('Formulario de Autor - Admin', ${autor.idAutor == null ? 'Registrar Autor' : 'Editar Autor'}, 'Gestiona la informacion de autores.', 'autores', 'autores', null, null, null, null, ~{::section})}">
 <section>
     <div class="mx-auto max-w-2xl rounded-2xl border border-white/10 bg-slate-900/60 p-6 shadow-2xl shadow-slate-950/40 sm:p-8">
         <form th:action="@{/admin/autores/guardar}" th:object="${autor}" method="post" class="space-y-5">

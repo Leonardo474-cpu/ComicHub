@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+    name="suscripciones" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802"
+    leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+    uuid="d54f18e4-79ba-4f32-9389-1837f7b4fe58">
+
+    <style name="Title" fontName="SansSerif" fontSize="20" isBold="true" forecolor="#1E293B"/>
+    <style name="Header" mode="Opaque" backcolor="#334155" forecolor="#FFFFFF" fontName="SansSerif" fontSize="10" isBold="true"/>
+    <style name="Detail" fontName="SansSerif" fontSize="10" forecolor="#0F172A"/>
+
+    <field name="idSuscripcion" class="java.lang.Integer"/>
+    <field name="usuario" class="java.lang.String"/>
+    <field name="plan" class="java.lang.String"/>
+    <field name="fechaInicio" class="java.time.LocalDate"/>
+    <field name="fechaFin" class="java.time.LocalDate"/>
+    <field name="precioAplicado" class="java.math.BigDecimal"/>
+    <field name="estado" class="java.lang.String"/>
+
+    <title>
+        <band height="60">
+            <staticText>
+                <reportElement x="0" y="10" width="802" height="30" style="Title"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle"/>
+                <text><![CDATA[Reporte de Suscripciones]]></text>
+            </staticText>
+            <line>
+                <reportElement x="0" y="48" width="802" height="1" forecolor="#94A3B8"/>
+            </line>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="24">
+            <staticText>
+                <reportElement x="0" y="0" width="56" height="22" style="Header"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[ID]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="56" y="0" width="210" height="22" style="Header"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Usuario]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="266" y="0" width="160" height="22" style="Header"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Plan]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="426" y="0" width="100" height="22" style="Header"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Inicio]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="526" y="0" width="100" height="22" style="Header"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Fin]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="626" y="0" width="86" height="22" style="Header"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Precio]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="712" y="0" width="90" height="22" style="Header"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Estado]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="22">
+            <textField isBlankWhenNull="true">
+                <reportElement x="0" y="2" width="56" height="18" style="Detail"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{idSuscripcion}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="56" y="2" width="210" height="18" style="Detail"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="266" y="2" width="160" height="18" style="Detail"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{plan}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true" pattern="dd/MM/yyyy">
+                <reportElement x="426" y="2" width="100" height="18" style="Detail"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{fechaInicio}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true" pattern="dd/MM/yyyy">
+                <reportElement x="526" y="2" width="100" height="18" style="Detail"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{fechaFin}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true" pattern="#,##0.00">
+                <reportElement x="626" y="2" width="86" height="18" style="Detail"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{precioAplicado}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="712" y="2" width="90" height="18" style="Detail"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <pageFooter>
+        <band height="24">
+            <line>
+                <reportElement x="0" y="0" width="802" height="1" forecolor="#CBD5E1"/>
+            </line>
+            <textField>
+                <reportElement x="702" y="4" width="100" height="16"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+
+</jasperReport>
