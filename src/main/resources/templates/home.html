@@ -886,7 +886,7 @@ body {
         <div class="section-head">
             <div>
                 <h2 class="section-title">Series</h2>
-                <p class="section-subtitle">Top 100 comics con carga progresiva de 15 en 15.</p>
+                <p class="section-subtitle">Comics con carga progresiva de 15 en 15.</p>
             </div>
             <div class="section-actions" aria-hidden="true">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1087,17 +1087,25 @@ body {
             btnLogoutCancel.addEventListener('click', closeLogoutModal);
         }
 
-        btnAuthClose.addEventListener('click', closeAuthModal);
-        authOverlay.addEventListener('click', closeAuthModal);
-        logoutOverlay.addEventListener('click', closeLogoutModal);
+        if (btnAuthClose) {
+            btnAuthClose.addEventListener('click', closeAuthModal);
+        }
+        if (authOverlay) {
+            authOverlay.addEventListener('click', closeAuthModal);
+        }
+        if (logoutOverlay) {
+            logoutOverlay.addEventListener('click', closeLogoutModal);
+        }
 
-        btnAuthSwitch.addEventListener('click', () => {
-            if (currentMode === 'login') {
-                setMode('register');
-            } else {
-                setMode('login');
-            }
-        });
+        if (btnAuthSwitch) {
+            btnAuthSwitch.addEventListener('click', () => {
+                if (currentMode === 'login') {
+                    setMode('register');
+                } else {
+                    setMode('login');
+                }
+            });
+        }
 
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && authModal.classList.contains('open')) {
@@ -1108,12 +1116,14 @@ body {
             }
         });
 
-        formRegistro.addEventListener('submit', (event) => {
-            if (regPassword.value !== regPasswordConfirm.value) {
-                event.preventDefault();
-                alert('La confirmación de contraseña no coincide.');
-            }
-        });
+        if (formRegistro && regPassword && regPasswordConfirm) {
+            formRegistro.addEventListener('submit', (event) => {
+                if (regPassword.value !== regPasswordConfirm.value) {
+                    event.preventDefault();
+                    alert('La confirmación de contraseña no coincide.');
+                }
+            });
+        }
 
         const shouldOpenModal = /*[[${authModalOpen}]]*/ false;
         const authTab = /*[[${authTab}]]*/ null;

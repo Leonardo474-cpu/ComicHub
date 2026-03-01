@@ -1000,17 +1000,25 @@ body {
         if (btnLogoutCancel) {
             btnLogoutCancel.addEventListener('click', closeLogoutModal);
         }
-        btnAuthClose.addEventListener('click', closeAuthModal);
-        authOverlay.addEventListener('click', closeAuthModal);
-        logoutOverlay.addEventListener('click', closeLogoutModal);
+        if (btnAuthClose) {
+            btnAuthClose.addEventListener('click', closeAuthModal);
+        }
+        if (authOverlay) {
+            authOverlay.addEventListener('click', closeAuthModal);
+        }
+        if (logoutOverlay) {
+            logoutOverlay.addEventListener('click', closeLogoutModal);
+        }
 
-        btnAuthSwitch.addEventListener('click', () => {
-            if (currentMode === 'login') {
-                setMode('register');
-            } else {
-                setMode('login');
-            }
-        });
+        if (btnAuthSwitch) {
+            btnAuthSwitch.addEventListener('click', () => {
+                if (currentMode === 'login') {
+                    setMode('register');
+                } else {
+                    setMode('login');
+                }
+            });
+        }
 
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && authModal.classList.contains('open')) {
@@ -1024,12 +1032,14 @@ body {
             }
         });
 
-        formRegistro.addEventListener('submit', (event) => {
-            if (regPassword.value !== regPasswordConfirm.value) {
-                event.preventDefault();
-                alert('La confirmación de contraseña no coincide.');
-            }
-        });
+        if (formRegistro && regPassword && regPasswordConfirm) {
+            formRegistro.addEventListener('submit', (event) => {
+                if (regPassword.value !== regPasswordConfirm.value) {
+                    event.preventDefault();
+                    alert('La confirmación de contraseña no coincide.');
+                }
+            });
+        }
 
         const shouldOpenModal = /*[[${authModalOpen}]]*/ false;
         const authTab = /*[[${authTab}]]*/ null;

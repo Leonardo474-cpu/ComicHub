@@ -57,15 +57,7 @@ public class HomeController {
                                                            @RequestParam(defaultValue = "15") int size) {
         int pagina = Math.max(page, 0);
         int tamanio = Math.max(1, Math.min(size, 15));
-        int offset = pagina * 15;
-        if (offset >= 100) {
-            return List.of();
-        }
-
-        int restante = 100 - offset;
-        int limiteReal = Math.min(tamanio, restante);
-
-        return comicService.listarActivosParaInicio(pagina, limiteReal).stream()
+        return comicService.listarActivosParaInicio(pagina, tamanio).stream()
                 .map(this::toComicInicioDto)
                 .collect(Collectors.toList());
     }
@@ -103,6 +95,7 @@ public class HomeController {
                 comic.getTitulo(),
                 comic.getRutaImagenPortada(),
                 nombreAutor,
-                comic.getSinopsis());
+                comic.getSinopsis(),
+                Boolean.TRUE.equals(comic.getActivo()));
     }
 }
